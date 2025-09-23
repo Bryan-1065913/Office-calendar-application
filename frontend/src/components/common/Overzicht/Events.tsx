@@ -7,7 +7,6 @@ interface Evenement {
   description?: string;
   date: string;
   place: string;
-
 }
 
 const evenementen: Evenement[] = [
@@ -27,9 +26,13 @@ const Events = () => {
           window.scrollTo(700, 700);
       });
   const navigate = useNavigate();
-  const makePage = (id: number) => {
-    console.log("Make page for event", id);
-  };
+
+  const parsedDate = (dateStr:string) => {
+    const [day, month, year] = dateStr.split("/").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  const now = new Date();
 
   return (
     <div>
@@ -38,14 +41,16 @@ const Events = () => {
       </header>
 
       <div className="table-wrapper">
-        {evenementen.map(({ id, name }) => (
+        {evenementen.map(({ id, name, date}) => (
+          parsedDate(date) > now && (
           <div key={id} className="event-card">
             <h1 className="event-id">{id}</h1>
             <h2 className="event-name">{name}</h2>
             <div className="event-details">
-              <button onClick={() => {navigate(`/events/${id}`); makePage(id);}}>Details</button>
+              <button onClick={() => {navigate(`/events/${id}`)}}>Details</button>
             </div>
           </div>
+          )
         ))}
       </div>
     </div>
