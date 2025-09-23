@@ -1,32 +1,45 @@
+// src/components/common/Header/Header-Dashboard.tsx
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import {NavLink} from "react-router";
-import {useState} from "react";
 
-const HeaderDashboard = () => {
-    const [open, setOpen] = useState(false);
+type Props = { open: boolean; onToggle: () => void };
+
+const HeaderDashboard = ({ open, onToggle }: Props) => {
     return (
-        <div className={`dashboard-layout ${open ? "is-sidebar-open" : ""}`}>
-            <Navbar expand="lg" className="dashboard-header" data-bs-theme="dark">
-                <Container fluid>
-                    <Navbar.Brand><img src="/src/assets/images/logo.jpeg" alt="Logo" width="75" height="75" /></Navbar.Brand>
-                    <div className="d-flex align-items-center gap-2">
-                        <Nav className="d-none d-lg-flex">
-                            <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
-                            <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
-                        </Nav>
-                        <Button
-                            size="sm"
-                            variant="outline-light"
-                            className="d-lg-none"
-                            onClick={() => setOpen(v => !v)}
-                            aria-label="Toggle sidebar"
-                        >
-                            Menu
-                        </Button>
-                    </div>
-                </Container>
-            </Navbar>
-        </div>
+        <Navbar expand="lg" className="dashboard-header" data-bs-theme="dark">
+            <Container fluid>
+                <Navbar.Brand>
+                    <img src="/src/assets/images/logo.png" alt="Logo" width="105" height="50" />
+                </Navbar.Brand>
+                <div className="d-flex align-items-center gap-2">
+                    <Nav className="d-none d-lg-flex">
+                        <div className="dropdown text-end">
+                            <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="/src/assets/images/default-user.svg" alt="mdo" width="32" height="32" className="rounded-circle"/>
+                            </a>
+                            <ul className="dropdown-menu text-small">
+                                <li><a className="dropdown-item" href="#">New project...</a></li>
+                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                <li><a className="dropdown-item" href="#">Profile</a></li>
+                                <li>
+                                    <hr className="dropdown-divider"/>
+                                </li>
+                                <li><a className="dropdown-item" href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </Nav>
+                    <Button
+                        size="sm"
+                        variant="outline-light"
+                        className="d-lg-none"
+                        onClick={onToggle}
+                        aria-pressed={open}
+                        aria-label="Toggle sidebar"
+                    >
+                        Menu
+                    </Button>
+                </div>
+            </Container>
+        </Navbar>
     );
 };
 
