@@ -1,11 +1,108 @@
 // src/components/common/Dashboard/Overview.tsx
 import "/src/styles/Dashboard/overview.css";
 
+type Day = { wd: string; d: number; chips?: string[] };
+
+const days: Day[] = [
+    {wd: "Ma", d: 1, chips: ["Kantoor"]},
+    {wd: "Di", d: 2, chips: ["Vrij"]},
+    {wd: "Wo", d: 3, chips: ["Thuiswerken"]},
+    {wd: "Do", d: 4, chips: ["Kantoor"]},
+    {wd: "Vr", d: 5, chips: ["Thuiswerken"]},
+];
+
 const Overview = () => {
     return (
         <div>
-            <h1>Welkom, <span className="NameGreeting">[Voornaam]</span>!</h1>
-            <p>Vandaag: [hoeveelheid] meetings, [hoeveelheid] events, [hoeveelheid] taken</p>
+            <div>
+                <h1>Welkom, <span className="NameGreeting">[Voornaam]</span>!</h1>
+                <p>Vandaag: [hoeveelheid] meetings, [hoeveelheid] events, [hoeveelheid] taken</p>
+            </div>
+
+            <div className="container m-0 p-0">
+                <div className="row g-3">
+                    <div className="col-md-7">
+                        <div className="d-flex flex-column gap-3">
+                            <div className="card p-3 shadow-sm">
+                                {/* Header */}
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <button className="btn btn-link p-0" aria-label="Terug">
+                                        <img src="/src/assets/images/angle-left.svg" width="24" height="24" alt=""/>
+                                    </button>
+                                    <h5 className="mb-0 fw-bold">[maand] [jaar]</h5>
+                                    <span className="text-muted">week</span>
+                                </div>
+
+                                <div className="row row-cols-2 row-cols-md-5 text-center g-3 align-items-start mb-3">
+                                    {days.map(({wd, d, chips}) => (
+                                        <div className="col" key={`${wd}${d}`}>
+                                            <div className="fw-medium">{wd}</div>
+                                            <div className="fs-4 lh-1">{d}</div>
+                                            <div className="d-flex gap-2 justify-content-center flex-wrap mt-2">
+                                                {(chips ?? []).map((c) => (
+                                                    <span
+                                                        key={c}
+                                                        className={`badge rounded-pill px-3 py-2 text-white ${c === "Kantoor" ?
+                                                            "bg-teal" : c === "Thuiswerken" ? "bg-lilac" : c === "Vrij" ? "bg-platinum" : "bg-secondary"}`}
+                                                    >{c}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="d-flex gap-2 flex-wrap">
+                                    <button className="btn btn-calendar fw-bold flex-fill">Nieuwe afspraak toevoegen
+                                    </button>
+                                    <button className="btn btn-calendar fw-bold flex-fill">Activiteit toevoegen</button>
+                                </div>
+                            </div>
+
+                            <div className="card p-3 shadow-sm">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 className="mb-0 fw-bold">Teamleden</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-5">
+                        <div className="row g-3">
+                            <div className="col-12">
+                                <div className="card p-3 shadow-sm">
+                                    <h5 className="fw-bold mb-3">Vandaag</h5>
+                                    <ul className="custom-bullets mb-0">
+                                        <li>Kick-off meeting</li>
+                                        <li>Project update</li>
+                                        <li>Bedrijfstraining</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="col-12">
+                                <div className="card p-3 shadow-sm">
+                                    <h6 className="fw-bold">Mijn taken</h6>
+                                    <div>
+                                        <input type="checkbox" id="scales" name="scales" className="me-2"/>
+                                        <label htmlFor="scales">Verslag afmaken</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="col-12">
+                                <div className="card p-3 shadow-sm">
+                                    <h6 className="fw-bold mb-2">Snelle notitie</h6>
+                                    <textarea
+                                        className="form-control border-0 bg-light"
+                                        rows={3}
+                                        placeholder="Typ hier een snelle notitie..."
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
