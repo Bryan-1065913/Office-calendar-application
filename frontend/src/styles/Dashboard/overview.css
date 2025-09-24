@@ -1,3 +1,52 @@
 .NameGreeting {
     color: var(--tiffany);
 }
+
+.bg-teal {
+    background-color: var(--tiffany);
+}
+
+.bg-lilac {
+    background-color: var(--violet);
+}
+
+.bg-platinum {
+    background-color: var(--platinum);
+}
+
+.btn-calendar {
+    background: var(--tiffany);
+    color: #FFFFFF;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-calendar:hover {
+    background: #FFFFFF;
+    color: var(--tiffany);
+    border: 1px solid var(--tiffany);
+}
+
+.custom-bullets {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.custom-bullets li {
+    position: relative;
+    padding-left: 1.4rem; /* ruimte voor eigen bullet */
+    margin-bottom: 0.5rem;
+    line-height: 1.5; /* consistente hoogte */
+}
+
+.custom-bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* precies verticaal centreren */
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    background-color: #63C7B2; /* Tiffany Blue uit je palet */
+}
