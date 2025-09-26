@@ -13,7 +13,7 @@ const Header = () => {
                     <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
                     <li><a href="#" className="nav-link px-2">Dashboard</a></li>
                     <li><a href="#" className="nav-link px-2">Calendar</a></li>
-                    <li><a href="#" className="nav-link px-2">Events</a></li>
+                    <li><a href="/events" className="nav-link px-2">Events</a></li>
                 </ul>
                 <div className="col-md-3 text-end">
                     <button type="button" className="btn btn-outline-primary me-2">Login</button>
