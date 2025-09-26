@@ -1,27 +1,12 @@
 // src/App.tsx
-import Layout from './components/common/Layout/Layout';
-import Hero from './components/common/Hero/Hero';
-import Events from './components/common/Overzicht/Events';
-import EventDetails from './components/events/EventDetails';
-import { BrowserRouter as Routers, Route, Routes } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
-function App() {
+export default function App() {
     return (
-        <Routers>
-            <Layout>
-                <Hero
-                    title="Office Calendar"
-                    subtitle="Plan your workweek and events in one place."
-                    backgroundImage="/src/assets/images/hero-background.png"
-                    height="500px"
-                />
-                <Routes>
-                    <Route path="/events" element={<Events />} />
-                    <Route path="/events/:id" element={<EventDetails />} />
-                </Routes>
-            </Layout>
-        </Routers>
+        <div>
+            <main>
+                <Outlet />
+            </main>
+        </div>
     );
 }
-
-export default App;
