@@ -33,11 +33,11 @@ function EventForm() {
 
   return (
     <div className='d-flex flex-column gap-4  justify-content-center align-items-center'
-    style={{height: '100vh', backgroundColor: '#CCDBDC'}}>
+    style={{height: '100vh'}}>
       <h2 >Event form</h2>
       <div className='d-flex justify-content-center align-items-center' >
-        <Form onSubmit={handleSubmit} style={{width: '600px', margin: '0 auto', backgroundColor: "#80CED7", padding: "10px", borderRadius: '5px'}}>
-          <Form.Group controlId="formName" className="mb-3">
+        <form onSubmit={handleSubmit} style={{width: '600px', margin: '0 auto', backgroundColor: "#80CED7", padding: "10px", borderRadius: '5px'}}>
+          <div className="form-group mb-3">
             <Form.Label>Name</Form.Label>
             <FormControl
               type="text"
@@ -46,8 +46,8 @@ function EventForm() {
               onChange={handleChange}
               placeholder="Enter the name of the event"
               required/>
-          </Form.Group>
-          <Form.Group controlId="formDescription" className="mb-3">
+          </div>
+          <div className="form-group mb-3">
               <Form.Label>Description</Form.Label>
               <FormControl
                 type="text"
@@ -56,8 +56,8 @@ function EventForm() {
                 onChange={handleChange}
                 placeholder="Enter the description of the event"
                 required/>
-          </Form.Group>
-          <Form.Group controlId="formPlace" className="mb-3">
+          </div>
+          <div className="form-group mb-3">
               <Form.Label>Place</Form.Label>
               <FormControl
                 type="text"
@@ -66,8 +66,8 @@ function EventForm() {
                 onChange={handleChange}
                 placeholder="Enter the place of the event"
                 required/>
-          </Form.Group>
-          <Form.Group controlId="formDate" className="mb-3">
+          </div>
+          <div className="form-group mb-3">
               <Form.Label>Date</Form.Label>
               <FormControl
                 type="text"
@@ -76,11 +76,11 @@ function EventForm() {
                 onChange={handleChange}
                 placeholder="Enter the date of the event"
                 required/>
-          </Form.Group>
+          </div>
           <Button type="submit" variant="primary" style={{backgroundColor: '#263D42', border: 'none'}}>
             Submit
           </Button>
-        </Form>
+        </form>
       </div>
     </div>
   )
