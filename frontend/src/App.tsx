@@ -3,6 +3,7 @@ import Layout from './components/common/Layout/Layout';
 import Hero from './components/common/Hero/Hero';
 import Events from './components/common/Overzicht/Events';
 import EventDetails from './components/events/EventDetails';
+import EventForm from './pages/EventForm';
 import { BrowserRouter as Routers, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Routes>
                     <Route path="/events" element={<Events />} />
                     <Route path="/events/:id" element={<EventDetails />} />
+                    <Route path="/eventform" element={<EventForm/>}/>
                 </Routes>
             </Layout>
         </Routers>
