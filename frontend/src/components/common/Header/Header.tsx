@@ -11,7 +11,7 @@ const Header = () => {
                 </a></div>
                 <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-                    <li><a href="#" className="nav-link px-2">Dashboard</a></li>
+                    <li><a href="/dashboard" className="nav-link px-2">Dashboard</a></li>
                     <li><a href="#" className="nav-link px-2">Calendar</a></li>
                     <li><a href="/events" className="nav-link px-2">Events</a></li>
                 </ul>

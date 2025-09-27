@@ -9,7 +9,8 @@ import {
 import App from './App';
 import Home from './pages/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard';
-
+import Events from './pages/Events/Events';
+import EventDetails from './pages/Events/EventDetail'
 const router = createBrowserRouter([
     {
         path: '/',
@@ -17,6 +18,9 @@ const router = createBrowserRouter([
         children: [
             { index: true, element: <Home /> },
             { path: 'dashboard', element: <Dashboard /> },
+            { path: 'events', element: <Events /> },
+            { path: 'events/:id', element: <EventDetails /> },
+            
         ],
     },
 ]);

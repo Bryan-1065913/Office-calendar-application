@@ -1,7 +1,7 @@
 // src/App.tsx
-import Layout from '../components/common/Layout/Layout.tsx';
-import Hero from '../components/common/Hero/Hero.tsx';
-import Events from '../components/common/Overzicht/Events.tsx';
+import Layout from '../../components/common/Layout/Layout.tsx';
+import Hero from '../../components/common/Hero/Hero.tsx';
+import EventsDetail from '../../components/events/EventDetailComponent.tsx';
 
 function App() {
     return (
@@ -12,7 +12,7 @@ function App() {
                     backgroundImage="/src/assets/images/hero-background.png"
                     height="500px"
                 />
-                <Events />
+                <EventsDetail />
             </Layout>
     );
 }
