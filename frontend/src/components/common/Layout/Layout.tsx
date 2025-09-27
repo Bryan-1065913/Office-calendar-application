@@ -2,6 +2,7 @@
 import { Container } from 'react-bootstrap';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import "/src/styles/General/style.css";
 
 interface LayoutProps {
     children: React.ReactNode;
