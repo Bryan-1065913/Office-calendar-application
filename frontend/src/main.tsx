@@ -10,7 +10,8 @@ import App from './App';
 import Home from './pages/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Events from './pages/Events/Events';
-import EventDetails from './pages/Events/EventDetail'
+import EventDetails from './pages/Events/EventDetail';
+import EventForm from './pages/Forms/EventForms.tsx'
 const router = createBrowserRouter([
     {
         path: '/',
@@ -19,8 +20,8 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: 'dashboard', element: <Dashboard /> },
             { path: 'events', element: <Events /> },
-            { path: 'events/:id', element: <EventDetails /> },
-            
+            { path: 'events/:id', element: <EventDetails /> },        
+            { path: '/eventform', element: <EventForm /> },
         ],
     },
 ]);

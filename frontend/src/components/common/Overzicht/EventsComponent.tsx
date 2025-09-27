@@ -23,7 +23,7 @@ const evenementen: Evenement[] = [
 
 const Events = () => {
   useEffect(() => {
-          window.scrollTo(700, 700);
+          window.scrollTo(614, 614);
       });
   const navigate = useNavigate();
 
