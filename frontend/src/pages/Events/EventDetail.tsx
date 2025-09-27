@@ -3,7 +3,7 @@ import Layout from '../../components/common/Layout/Layout.tsx';
 import Hero from '../../components/common/Hero/Hero.tsx';
 import EventsDetail from '../../components/events/EventDetailComponent.tsx';
 
-function App() {
+function EventDetail() {
     return (
             <Layout>
                 <Hero
@@ -17,4 +17,4 @@ function App() {
     );
 }
 
-export default App;
+export default EventDetail;

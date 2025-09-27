@@ -1,5 +1,5 @@
 import type {ChangeEvent, FormEvent} from 'react';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import {Form, Button, FormControl} from 'react-bootstrap';
 
 interface eventFormData {
@@ -10,6 +10,11 @@ interface eventFormData {
 }
 
 function EventForm() {
+
+  useEffect(() => {
+          window.scrollTo(614, 614);
+      });
+
   const [eventFormData, setEventFormData] = useState<eventFormData>({
     name: "",
     description: "",
