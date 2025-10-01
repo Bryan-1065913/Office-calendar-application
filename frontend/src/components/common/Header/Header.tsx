@@ -16,8 +16,8 @@ const Header = () => {
                     <li><a href="/events" className="nav-link px-2">Events</a></li>
                 </ul>
                 <div className="col-md-3 text-end">
-                    <button type="button" className="btn btn-outline-primary me-2">Login</button>
-                    <button type="button" className="btn btn-primary">Sign-up</button>
+                    <a className="btn btn-outline-primary me-2" href="/login">Login</a>
+                    <a className="btn btn-primary" href="/register">Sign-up</a>
                 </div>
             </header>
         </div>
