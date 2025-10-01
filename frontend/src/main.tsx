@@ -10,6 +10,7 @@ import App from './App';
 import Home from './pages/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './components/common/login-register/Login';
+import RegisterPage from './components/common/login-register/Register';
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: 'dashboard', element: <Dashboard /> },
             { path: 'login', element: <LoginPage /> },
+            { path: 'register', element: <RegisterPage />}
         ],
     },
     
