@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:5017/api"
+const API_URL = "http://localhost:5017/api"
 
 export const authService = {
     login: async (email: string, password: string) => {
