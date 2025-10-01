@@ -50,6 +50,25 @@ app.UseCors("AllowFrontend");
 // ===== Endpoints =====
 var api = app.MapGroup("/api");
 
+auth.MapPost("/login", (LoginRequest request) => 
+{
+    // simple test check
+    if (request.Email == "test@test.com" && request.Password == "test") {
+        return Results.Ok(new LoginResponse {
+            Token = "fake-jwt-token-test",
+            User = new UserDto
+            {
+                Id = "1".
+                Email = request.Email,
+                Name = "Test User"
+            }
+        });
+    }
+    return Results.Unauthorized();
+})
+.WithName("Login")
+.WithOpenApi();
+
 api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
 var summaries = new[]
