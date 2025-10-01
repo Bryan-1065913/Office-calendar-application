@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/bryan/WebstormProjects/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj": {}
+    "/Users/semjansen/Documents/INFORMATICA/Web App Development/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj": {}
   },
   "projects": {
-    "/Users/bryan/WebstormProjects/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj": {
+    "/Users/semjansen/Documents/INFORMATICA/Web App Development/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/bryan/WebstormProjects/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj",
+        "projectUniqueName": "/Users/semjansen/Documents/INFORMATICA/Web App Development/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj",
         "projectName": "OfficeCalendar.Api",
-        "projectPath": "/Users/bryan/WebstormProjects/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj",
-        "packagesPath": "/Users/bryan/.nuget/packages/",
-        "outputPath": "/Users/bryan/WebstormProjects/Office-calender-application/backend/OfficeCalendar.Api/obj/",
+        "projectPath": "/Users/semjansen/Documents/INFORMATICA/Web App Development/Office-calender-application/backend/OfficeCalendar.Api/OfficeCalendar.Api.csproj",
+        "packagesPath": "/Users/semjansen/.nuget/packages/",
+        "outputPath": "/Users/semjansen/Documents/INFORMATICA/Web App Development/Office-calender-application/backend/OfficeCalendar.Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/bryan/.nuget/NuGet/NuGet.Config"
+          "/Users/semjansen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

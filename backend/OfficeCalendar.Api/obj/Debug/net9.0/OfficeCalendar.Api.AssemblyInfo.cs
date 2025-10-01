@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OfficeCalendar.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d73d761dc97a5f1345a67e3f83087a9028a2c0dc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70fd2acc94546ca601e3f29f2208d71a45d6cac4")]
 [assembly: System.Reflection.AssemblyProductAttribute("OfficeCalendar.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OfficeCalendar.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
