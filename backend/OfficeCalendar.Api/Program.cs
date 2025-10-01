@@ -1,4 +1,5 @@
 using System.Reflection;
+using OfficeCalendar.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,10 @@ app.UseCors("AllowFrontend");
 // ===== Endpoints =====
 var api = app.MapGroup("/api");
 
+api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
+var auth = api.MapGroup("/auth");
+
 auth.MapPost("/login", (LoginRequest request) => 
 {
     // simple test check
@@ -58,7 +63,7 @@ auth.MapPost("/login", (LoginRequest request) =>
             Token = "fake-jwt-token-test",
             User = new UserDto
             {
-                Id = "1".
+                Id = "1",
                 Email = request.Email,
                 Name = "Test User"
             }
@@ -68,8 +73,6 @@ auth.MapPost("/login", (LoginRequest request) =>
 })
 .WithName("Login")
 .WithOpenApi();
-
-api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
 var summaries = new[]
 {
