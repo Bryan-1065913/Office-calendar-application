@@ -1,7 +1,14 @@
-namespace OfficeCalendar.Api.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class LoginRequest
+namespace OfficeCalendar.Api.Models 
 {
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public class LoginRequest
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAdress(ErrorMessage = "Not a valid email adress")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = string.Empty;
+    }
 }
