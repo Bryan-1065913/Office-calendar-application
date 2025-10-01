@@ -9,6 +9,7 @@ import {
 import App from './App';
 import Home from './pages/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard';
+import LoginPage from './components/common/login-register/Login';
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,14 @@ const router = createBrowserRouter([
             { path: 'dashboard', element: <Dashboard /> },
         ],
     },
+    {
+        path: '/login',
+        element: <App />,
+        children: [
+            {path: 'login', element: <LoginPage />}
+        ],
+
+    }
 ]);
 
 createRoot(document.getElementById('root')!).render(
