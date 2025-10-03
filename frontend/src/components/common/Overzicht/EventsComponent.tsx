@@ -1,5 +1,5 @@
 import '/src/components/common/Overzicht/Events.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 interface Evenement {
   id?: number;
