@@ -15,7 +15,6 @@
 .dashboard-body{
     display:grid;
     grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 56px);
 }
 
 .dashboard-sidebar {
@@ -24,7 +23,6 @@
     padding: 1rem;
     position: sticky;
     top: 56px;
-    height: calc(100vh - 56px);
     overflow: auto;
 }
 
