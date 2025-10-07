@@ -11,6 +11,8 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
+
+builder.Services.AddControllers(); 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -47,6 +49,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
+app.MapControllers();
+
 // ===== Endpoints =====
 var api = app.MapGroup("/api");
 
@@ -70,7 +74,7 @@ api.MapGet("/weatherforecast", () =>
     return Results.Ok(forecast);
 })
 .WithName("GetWeatherForecast");
-
+// app.MapControllers();
 app.Run();
 
 // ===== Records =====
