@@ -1,11 +1,29 @@
-namespace OfficeCalendar.Api.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace OfficeCalender.Api.Models;
+public class Users
 {
-    public class User
-    {
-        public int Id { get; set; } 
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-    }
+    public int Id { get; set; }
+    public int CompanyId { get; set; }
+    public int DepartmentId { get; set; }
+    public int WorkplaceId { get; set; }
+    [Required]
+    public string FirstName { get; set; } = String.Empty;
+    [Required]
+    public string LastName { get; set; } = String.Empty;
+    [Required]
+    public string Email { get; set; } = String.Empty;
+    [Required]
+    public string PasswordHash { get; set; } = String.Empty;
+    [Required]
+    public string PhoneNumber { get; set; } = String.Empty;
+    [Required]
+    public string JobTitle { get; set; } = String.Empty;
+    [Required]
+    public string Role { get; set; } = String.Empty;
+    public DateTime CreatedAt { get; set; }
+
+    public List<Attendances> attendeces = new List<Attendances>();
+    public List<EventParticipations> event_participations = new List<EventParticipations>();
+    public List<RoomBookings> room_bookings = new List<RoomBookings>();
 }
