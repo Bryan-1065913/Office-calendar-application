@@ -1,13 +1,20 @@
-public class Events{
-    public int id { get; set; }
-    public string title { get; set; }
-    public string description { get; set; }
-    public DateTime starts_at { get; set; }
-    public string status { get; set; }
-    public int created_by { get; set; }
-    public DateTime deleted_at { get; set; }
-    public DateTime created_at { get; set; }
+using System.ComponentModel.DataAnnotations;
 
-    public List<Event_participations> event_participations = new List<Event_participations>();
-    
+namespace OfficeCalender.Api.Models;
+public class Events
+{
+    public int Id { get; set; }
+    [Required]
+    public string Title { get; set; } = String.Empty;
+    [Required]
+    public string Description { get; set; } = String.Empty;
+    public DateTime StartsAt { get; set; }
+    [Required]
+    public string Status { get; set; } = String.Empty;
+    public int CreatedBy { get; set; }
+    public DateTime DeletedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public List<EventParticipations> event_participations = new List<EventParticipations>();
+
 }

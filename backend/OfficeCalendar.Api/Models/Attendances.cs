@@ -1,9 +1,16 @@
-public class Attendances {
-    public int id { get; set; }
-    public int user_id { get; set; }
-    public DateTime day { get; set; }
-    public DateTime check_time { get; set; }
-    public string place { get; set; }
-    public string note { get; set; }
-    public DateTime created_at { get; set; }
+using System.ComponentModel.DataAnnotations;
+
+namespace OfficeCalender.Api.Models;
+
+public class Attendances
+{
+    public int Id { get; set; }
+    public int UserId { get; set; }
+    public DateTime Day { get; set; }
+    public DateTime CheckTime { get; set; }
+    [Required]
+    public string Place { get; set; } = String.Empty;
+    [Required]
+    public string More { get; set; } = String.Empty;
+    public DateTime CreatedAt { get; set; }
 }

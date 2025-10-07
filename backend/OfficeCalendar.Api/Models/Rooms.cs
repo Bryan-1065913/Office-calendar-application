@@ -1,10 +1,16 @@
-public class Rooms {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string room_number { get; set; }
-    public int capacity { get; set; }
-    public DateTime created_at { get; set; }
+using System.ComponentModel.DataAnnotations;
 
-    public List<Room_bookings> room_bookings = new List<Room_bookings>();
+namespace OfficeCalender.Api.Models;
+public class Rooms
+{
+    public int Id { get; set; }
+    [Required]
+    public string Name { get; set; } = String.Empty;
+    [Required]
+    public string RoomNumber { get; set; } = String.Empty;
+    public int Capacity { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public List<RoomBookings> room_bookings = new List<RoomBookings>();
     public List<Workplaces> workplaces = new List<Workplaces>();
 }
