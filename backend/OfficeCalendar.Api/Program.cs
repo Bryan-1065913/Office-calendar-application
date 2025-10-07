@@ -1,5 +1,6 @@
 using System.Reflection;
 using OfficeCalendar.Api.Models;
+using OfficeCalendar.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
+
+// Database Service
+builder.Services.AddSingleton<DatabaseService>();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -52,6 +56,21 @@ app.UseCors("AllowFrontend");
 var api = app.MapGroup("/api");
 
 api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
+// Database connectie test endpoint
+api.MapGet("/db-test", async (DatabaseService dbService) =>
+{
+    try
+    {
+        await dbService.TestConnectionAsync();
+        return Results.Ok(new { status = "Database verbinding succesvol!" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Database fout: {ex.Message}");
+    }
+})
+.WithName("TestDatabaseConnection");
 
 var auth = api.MapGroup("/auth");
 

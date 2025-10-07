@@ -1,3 +1,10 @@
+$Color-Pallette-1: #CCDBDC;
+$Color-Pallette-2: #80CED7;
+$Color-Pallette-3: #63C7B2;
+$Color-Pallette-4:  #8E6C88;
+$Color-Pallette-5: #263d42;
+
+
 .table-wrapper {
   display: flex;
   flex-direction: row;
@@ -8,7 +15,7 @@
 }
 
 .event-card {
-  background-image: url('/src/assets/images/event-image.png');
+  background-color: $Color-Pallette-1;
   border-radius: 15px;
   width: 400px;
   height: 300px;
@@ -16,34 +23,41 @@
   position: relative;
 }
 .event-card:hover {
-  background-image: url('/src/assets/images/event-image.png');
+  background-color: $Color-Pallette-5;
   border-radius: 15px;
   width: 400px;
   height: 300px;
   padding: 10px;
   position: relative;
-  box-shadow: 0 4px 8px rgb(74, 16, 210);
+  box-shadow: 0 4px 8px $Color-Pallette-3;
 }
 
 .event-id{
+  background-color: $Color-Pallette-3;
+  border-radius: 50px;
+  width: 65px;
+  height: 65px;
   position: absolute;
   left: 20px;
+  justify-content: center;
+  text-align: center;
   font-weight: bold;
   font-size: 50px;
+  color: $Color-Pallette-4;
 }
 
 .event-name{
-  color: yellow;
+  color:  $Color-Pallette-4;
   position: absolute;
-  left: 70px;
+  left: 90px;
   font-weight: bold;
   font-size: 50px;
 }
 
 .event-details button{
-  background-color: green;
+  background-color: $Color-Pallette-5;
   border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 5px $Color-Pallette-2;
   border: none;
   position: absolute;
   font-size: 50px;
@@ -59,7 +73,7 @@
 }
 
 .event-card .event-details button:hover {
- box-shadow: 5px 4px 20px rgb(74, 16, 210);
+ box-shadow: 5px 4px 20px $Color-Pallette-3;
 }
 
 .table-title{
