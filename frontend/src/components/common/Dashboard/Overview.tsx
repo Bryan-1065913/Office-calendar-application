@@ -1,7 +1,7 @@
 // src/components/common/Dashboard/Overview.tsx
 import "/src/styles/Dashboard/overview.css";
 
-import { currentUser } from "../../../authentication/auth";
+import {currentUser} from "../../../authentication/auth";
 
 type Day = { wd: string; d: number; chips?: string[] };
 
@@ -54,8 +54,11 @@ const Overview = () => {
                                 </div>
 
                                 <div className="d-flex gap-2 flex-wrap">
-                                    <button className="btn btn-calendar fw-bold flex-fill">Nieuwe afspraak toevoegen</button>
-                                    <button className="btn btn-calendar fw-bold flex-fill">Activiteit toevoegen</button>
+                                    <button className="btn btn-calendar fw-bold flex-fill">Nieuwe afspraak toevoegen
+                                    </button>
+                                    <button className="btn btn-calendar fw-bold flex-fill" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">Activiteit toevoegen
+                                    </button>
                                 </div>
                             </div>
 
@@ -74,7 +77,11 @@ const Overview = () => {
                                             />
                                             {/* Online status dot */}
                                             <span className="position-absolute bottom-0 end-0 bg-success rounded-circle"
-                                                  style={{width: '12px', height: '12px', border: '2px solid white'}}></span>
+                                                  style={{
+                                                      width: '12px',
+                                                      height: '12px',
+                                                      border: '2px solid white'
+                                                  }}></span>
                                         </div>
                                         <div>
                                             <div className="fw-medium">Anna</div>
@@ -92,7 +99,11 @@ const Overview = () => {
                                                 alt="Teamlid"
                                             />
                                             <span className="position-absolute bottom-0 end-0 bg-warning rounded-circle"
-                                                  style={{width: '10px', height: '10px', border: '2px solid white'}}></span>
+                                                  style={{
+                                                      width: '10px',
+                                                      height: '10px',
+                                                      border: '2px solid white'
+                                                  }}></span>
                                         </div>
 
                                         <div className="position-relative">
@@ -104,11 +115,16 @@ const Overview = () => {
                                                 alt="Teamlid"
                                             />
                                             <span className="position-absolute bottom-0 end-0 bg-danger rounded-circle"
-                                                  style={{width: '10px', height: '10px', border: '2px solid white'}}></span>
+                                                  style={{
+                                                      width: '10px',
+                                                      height: '10px',
+                                                      border: '2px solid white'
+                                                  }}></span>
                                         </div>
 
-                                        <div className="d-flex align-items-center justify-content-center rounded-circle bg-light text-muted"
-                                             style={{width: '32px', height: '32px', fontSize: '12px'}}>
+                                        <div
+                                            className="d-flex align-items-center justify-content-center rounded-circle bg-light text-muted"
+                                            style={{width: '32px', height: '32px', fontSize: '12px'}}>
                                             +2
                                         </div>
                                     </div>
@@ -167,6 +183,25 @@ const Overview = () => {
                                     ></textarea>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Activiteit toevoegen</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            ...
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-calendar fw-bold flex-fill">Activiteit opslaan</button>
                         </div>
                     </div>
                 </div>
