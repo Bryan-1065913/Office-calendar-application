@@ -12,8 +12,12 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
+
 // Database Service
 builder.Services.AddSingleton<DatabaseService>();
+
+
+builder.Services.AddControllers(); 
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -51,10 +55,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
-// ===== Endpoints =====
-var api = app.MapGroup("/api");
-
-api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+app.MapControllers();
 
 // Database connectie test endpoint
 api.MapGet("/db-test", async (DatabaseService dbService) =>
@@ -92,8 +93,3 @@ api.MapGet("/weatherforecast", () =>
 
 app.Run();
 
-// ===== Records =====
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
