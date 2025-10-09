@@ -1,19 +1,38 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OfficeCalendar.Api.Models 
-{
-    public class RegisterRequest
-    {
-        [Required(ErrorMessage = "Name is required")]
-        [MinLength(2, ErrorMessage = "Name must be at least 2 charachters")]
-        public string Name { get; set; } = string.Empty;
+namespace OfficeCalendar.Api.Auth;
 
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAdress(ErrorMessage = "Unvalid email adress")]
-        public string Email { get; set; } = string.Empty;
+public class RegisterRequest {
+    [Required]
+    public string FirstName { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Password is required")]
-        [MinLength(6, ErrorMessage = "Password must be atleast 6 charachters")]
-        public string Password { get; set; } = string.Empty;
-    }
+    [Required]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [MinLength(6)]
+    public string Password { get; set; } = string.Empty;
+
+    [Required]
+    [Phone]
+    public string PhoneNumber { get; set; } = string.Empty;
+
+    [Required]
+    public string JobTitle { get; set; } = string.Empty;
+
+    [Required]
+    public string Role { get; set; } = string.Empty;
+
+    [Required]
+    public int CompanyId { get; set; }
+
+    [Required]
+    public int DepartmentId { get; set; }
+
+    [Required]
+    public int WorkplaceId { get; set; }
 }
