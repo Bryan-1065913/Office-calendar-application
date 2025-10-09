@@ -77,17 +77,17 @@ var auth = api.MapGroup("/auth");
 auth.MapPost("/login", (LoginRequest request) => 
 {
     // simple test check
-    if (request.Email == "test@test.com" && request.Password == "test") {
-        return Results.Ok(new LoginResponse {
-            Token = "fake-jwt-token-test",
-            User = new UserDto
-            {
-                Id = "1",
-                Email = request.Email,
-                Name = "Test User"
-            }
-        });
-    }
+    // if (request.Email == "test@test.com" && request.Password == "test") {
+    //     return Results.Ok(new LoginResponse {
+    //         Token = "fake-jwt-token-test",
+    //         User = new UserDto
+    //         {
+    //             Id = "1",
+    //             Email = request.Email,
+    //             Name = "Test User"
+    //         }
+    //     });
+    // }
     return Results.Unauthorized();
 })
 .WithName("Login")

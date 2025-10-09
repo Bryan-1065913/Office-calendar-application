@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OfficeCalendar.Api.Models 
+namespace OfficeCalendar.Api.Auth 
 {
     public class LoginRequest
     {
         [Required(ErrorMessage = "Email is required")]
-        [EmailAdress(ErrorMessage = "Not a valid email adress")]
+        [EmailAddress(ErrorMessage = "Not a valid email adress")]
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
