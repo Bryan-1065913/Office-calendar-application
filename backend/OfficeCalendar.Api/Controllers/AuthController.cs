@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OfficeCalender.Api.Models;
+using OfficeCalendar.Api.Models;
 
 namespace OfficeCalender.Api.Controllers 
 {
