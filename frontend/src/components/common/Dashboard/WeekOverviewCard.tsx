@@ -1,5 +1,5 @@
 // src/components/common/Dashboard/WeekOverviewCard.tsx
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
 type Day = {
     wd: string;
@@ -12,7 +12,8 @@ const WeekOverviewCard = () => {
     const [days, setDays] = useState<Day[]>([]);
     const [currentMonth, setCurrentMonth] = useState<string>('');
     const [currentYear, setCurrentYear] = useState<number>(0);
-    const [weekNumber, setWeekNumber] = useState<number>(0);
+    const [previousWeekNumber, setPreviousWeekNumber] = useState<number>(-1);
+    const [nextWeekNumber, setNextWeekNumber] = useState<number>(1);
     const [weekOffset, setWeekOffset] = useState<number>(0); // 0 = huidige week, -1 = vorige week, +1 = volgende week
 
     useEffect(() => {
@@ -22,9 +23,12 @@ const WeekOverviewCard = () => {
         // Haal maand en jaar van de eerste dag van de week
         if (weekDays.length > 0) {
             const firstDay = weekDays[0].date;
-            setCurrentMonth(firstDay.toLocaleDateString('nl-NL', { month: 'long' }));
+            setCurrentMonth(firstDay.toLocaleDateString('en-US', {month: 'long'}));
             setCurrentYear(firstDay.getFullYear());
-            setWeekNumber(getWeekNumber(firstDay));
+
+            const currentWeek = getWeekNumber(firstDay);
+            setPreviousWeekNumber(currentWeek - 1);
+            setNextWeekNumber(currentWeek + 1);
         }
     }, [weekOffset]);
 
@@ -41,7 +45,7 @@ const WeekOverviewCard = () => {
         monday.setDate(monday.getDate() + (offset * 7));
 
         // Genereer 5 werkdagen (maandag t/m vrijdag)
-        const dagNamen = ['Ma', 'Di', 'Wo', 'Do', 'Vr'];
+        const dagNamen = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
 
         for (let i = 0; i < 5; i++) {
             const day = new Date(monday);
@@ -92,20 +96,23 @@ const WeekOverviewCard = () => {
         <div className="card p-3 shadow-sm">
             {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <button
-                    className="btn btn-link p-0"
-                    aria-label="Vorige week"
-                    onClick={gaNaarVorigeWeek}
-                >
-                    <img src="/src/assets/images/angle-left.svg" width="24" height="24" alt=""/>
-                </button>
+                <div className="d-flex align-items-center gap-2">
+                    <button
+                        className="btn btn-link p-0"
+                        aria-label="Vorige week"
+                        onClick={gaNaarVorigeWeek}
+                    >
+                        <img src="/src/assets/images/angle-left.svg" width="24" height="24" alt=""/>
+                    </button>
+                    <span className="text-muted">week {previousWeekNumber}</span>
+                </div>
 
-                <h5 className="mb-0 fw-bold" style={{ cursor: 'pointer' }} onClick={gaNaarHuidigeWeek}>
+                <h5 className="mb-0 fw-bold" style={{cursor: 'pointer'}} onClick={gaNaarHuidigeWeek}>
                     {currentMonth} {currentYear}
                 </h5>
 
                 <div className="d-flex align-items-center gap-2">
-                    <span className="text-muted">week {weekNumber}</span>
+                    <span className="text-muted">week {nextWeekNumber}</span>
                     <button
                         className="btn btn-link p-0"
                         aria-label="Volgende week"
@@ -116,7 +123,7 @@ const WeekOverviewCard = () => {
                             width="24"
                             height="24"
                             alt=""
-                            style={{ transform: 'rotate(180deg)' }}
+                            style={{transform: 'rotate(180deg)'}}
                         />
                     </button>
                 </div>
@@ -145,10 +152,10 @@ const WeekOverviewCard = () => {
             </div>
 
             <div className="d-flex gap-2 flex-wrap">
-                <button className="btn btn-calendar fw-bold flex-fill">Nieuwe afspraak toevoegen
+                <button className="btn btn-calendar fw-bold flex-fill">Add new appointment
                 </button>
                 <button className="btn btn-calendar fw-bold flex-fill" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Activiteit toevoegen
+                        data-bs-target="#exampleModal">Add activity
                 </button>
             </div>
         </div>

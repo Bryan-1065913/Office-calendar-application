@@ -42,7 +42,7 @@ const ActivityModal = ({ onSave }: ActivityModalProps) => {
         const monday = new Date(today);
         monday.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
 
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 5; i++) {
             const day = new Date(monday);
             day.setDate(monday.getDate() + i);
             week.push(day);
@@ -82,7 +82,7 @@ const ActivityModal = ({ onSave }: ActivityModalProps) => {
                                 return (
                                     <div key={dayKey} className="mb-3">
                                         <label className="form-label fw-bold">
-                                            {day.toLocaleDateString('nl-NL', {
+                                            {day.toLocaleDateString('en-US', {
                                                 weekday: 'long',
                                                 day: 'numeric',
                                                 month: 'long'
