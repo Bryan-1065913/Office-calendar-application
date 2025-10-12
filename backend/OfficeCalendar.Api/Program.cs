@@ -15,6 +15,10 @@ builder.Services.AddCors(options =>
 
 // Database Service
 builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<SqlQueryService>();
+
+// Auth Service
+builder.Services.AddSingleton<IAuthService, AuthService>();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -74,23 +78,52 @@ api.MapGet("/db-test", async (DatabaseService dbService) =>
 
 var auth = api.MapGroup("/auth");
 
-auth.MapPost("/login", (LoginRequest request) => 
+// Login endpoint
+auth.MapPost("/login", async (LoginRequest request, IAuthService authService) => 
 {
-    // simple test check
-    // if (request.Email == "test@test.com" && request.Password == "test") {
-    //     return Results.Ok(new LoginResponse {
-    //         Token = "fake-jwt-token-test",
-    //         User = new UserDto
-    //         {
-    //             Id = "1",
-    //             Email = request.Email,
-    //             Name = "Test User"
-    //         }
-    //     });
-    // }
-    return Results.Unauthorized();
+    try 
+    {
+        // Call AuthServicie
+        var response = await authService.LoginAsync(request);
+        return Results.Ok(response);
+    }
+    catch (UnauthorizedAccessException)
+    {
+        // With wrong email or password:
+        return Results.Unauthorized();
+    }
+    catch (Exception ex) 
+    {
+        // Other errors
+        return Results.Problem("Something went wrong: {ex.Message}");
+    }
+    
 })
 .WithName("Login")
+.WithOpenApi();
+
+// Register endpoint
+auth.MapPost("/register", async (RegisterRequest request, IAuthService authService) => 
+{
+    try 
+    {
+        // call AuthService
+        var response = await authService.RegisterAsync(request);
+        return Results.Ok(response);
+    }
+    catch (InvalidOperationException ex)
+    {
+        // Email already exists
+        return Results.BadRequest(new { message = ex.Message});
+    }
+    catch (Exception ex) 
+    {
+        // Other problems
+        return Results.Problem("Something went wrong: {ex.Message}");
+    }
+
+})
+.WithName("Register")
 .WithOpenApi();
 
 var summaries = new[]
@@ -112,7 +145,7 @@ api.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-app.Run();
+app.Run();  
 
 // ===== Records =====
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
