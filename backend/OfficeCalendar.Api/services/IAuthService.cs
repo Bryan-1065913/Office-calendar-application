@@ -2,7 +2,7 @@ using OfficeCalendar.Api.Models;
 
 namespace OfficeCalendar.Api.Services 
 {
-    public interface iAuthServices
+    public interface IAuthService
     {
         // contract to describe what to expect
         Task<LoginResponse> LoginAsync(LoginRequest request);

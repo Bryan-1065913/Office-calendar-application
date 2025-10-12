@@ -1,61 +1,174 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import { authService } from '../../../services/authService';
+
 
 
 const RegisterPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [name, setName] = useState('');
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        jobTitle: '',
+        companyId: 1, // Default waarden
+        departmentId: 1,
+        workplaceId: 1
+    });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
-    const handleRegister = () => {
-        console.log('Register:', { email, password, confirmPassword, name })
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
 
+        // Validatie
+        if (formData.password !== formData.confirmPassword) {
+            setError('Wachtwoorden komen niet overeen');
+            return;
+        }
+
+        if (formData.password.length < 6) {
+            setError('Wachtwoord moet minimaal 6 karakters zijn');
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    phoneNumber: formData.phoneNumber,
+                    jobTitle: formData.jobTitle,
+                    companyId: formData.companyId,
+                    departmentId: formData.departmentId,
+                    workplaceId: formData.workplaceId
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Sla token op
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Redirect naar dashboard
+                navigate('/dashboard');
+            } else {
+                setError(data.message || 'Registratie mislukt');
+            }
+        } catch (err) {
+            setError('Er ging iets mis. Probeer het later opnieuw.');
+            console.error('Register error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div>
             <Header />
             <div className="container">
+                <h1>Registreren</h1>
 
-                <h1>Registrate</h1>
+                {error && <div className="error-message">{error}</div>}
 
-                <div className="register-container">
-                    <label htmlFor="name">Name</label>
+                <form className="register-container" onSubmit={handleRegister}>
+                    <label htmlFor="firstName">Voornaam</label>
                     <input
                         type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        name="firstName"
+                        placeholder="Voornaam"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <label htmlFor="lastName">Achternaam</label>
+                    <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Achternaam"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
                     />
 
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
+                        name="email"
                         placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <label htmlFor="phoneNumber">Telefoonnummer</label>
+                    <input
+                        type="tel"
+                        name="phoneNumber"
+                        placeholder="+31 6 12345678"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <label htmlFor="jobTitle">Functie</label>
+                    <input
+                        type="text"
+                        name="jobTitle"
+                        placeholder="Bijvoorbeeld: Developer"
+                        value={formData.jobTitle}
+                        onChange={handleChange}
+                        required
                     />
 
                     <label htmlFor="password">Wachtwoord</label>
                     <input
                         type="password"
-                        placeholder="Wachtwoord"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        name="password"
+                        placeholder="Minimaal 6 karakters"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
                     />
 
                     <label htmlFor="confirmPassword">Bevestig Wachtwoord</label>
                     <input
                         type="password"
+                        name="confirmPassword"
                         placeholder="Bevestig Wachtwoord"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
                     />
-                    <button onClick={handleRegister}>Registrate</button>
-                </div>
+
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Bezig met registreren...' : 'Registreren'}
+                    </button>
+                </form>
             </div>
             <Footer />
         </div>
