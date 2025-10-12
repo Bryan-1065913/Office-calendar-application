@@ -16,9 +16,10 @@ const RegisterPage = () => {
         lastName: '',
         phoneNumber: '',
         jobTitle: '',
-        companyId: 1, // Default waarden
-        departmentId: 1,
-        workplaceId: 1
+        role: 'Employee',
+        companyId: 1, // Default data
+        departmentId: 1, // Default data
+        workplaceId: 1 // Default data
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -48,43 +49,36 @@ const RegisterPage = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    phoneNumber: formData.phoneNumber,
-                    jobTitle: formData.jobTitle,
-                    companyId: formData.companyId,
-                    departmentId: formData.departmentId,
-                    workplaceId: formData.workplaceId
-                }),
+            // Gebruik authService in plaats van fetch!
+            const response = await authService.register({
+                email: formData.email,
+                password: formData.password,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                phoneNumber: formData.phoneNumber,
+                jobTitle: formData.jobTitle,
+                role: formData.role,
+                companyId: formData.companyId,
+                departmentId: formData.departmentId,
+                workplaceId: formData.workplaceId
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                // Sla token op
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                
-                // Redirect naar dashboard
-                navigate('/dashboard');
-            } else {
-                setError(data.message || 'Registratie mislukt');
-            }
+            console.log('Registratie succesvol!', response);
+            
+            // Redirect naar dashboard
+            navigate('/dashboard');
         } catch (err) {
-            setError('Er ging iets mis. Probeer het later opnieuw.');
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('Er ging iets mis. Probeer het later opnieuw.');
+            }
             console.error('Register error:', err);
         } finally {
             setLoading(false);
         }
     };
+
 
     return (
         <div>
