@@ -1,8 +1,8 @@
-using OfficeCalender.Api.Models;
+using OfficeCalendar.Api.Models;
 // using OfficeCalender.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OfficeCalender.Api.Controllers;
+namespace OfficeCalendar.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

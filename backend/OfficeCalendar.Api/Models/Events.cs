@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OfficeCalender.Api.Models;
+namespace OfficeCalendar.Api.Models;
 public class Events
 {
     public int Id { get; set; }
