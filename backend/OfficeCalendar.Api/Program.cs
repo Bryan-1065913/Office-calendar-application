@@ -1,5 +1,7 @@
 using System.Reflection;
 
+using OfficeCalendar.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== Services =====
@@ -10,6 +12,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
+
+// Database Service
+builder.Services.AddSingleton<DatabaseService>();
 
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
@@ -50,31 +55,19 @@ app.UseCors("AllowFrontend");
 // ===== Endpoints =====
 var api = app.MapGroup("/api");
 
-api.MapGet("/health", () => Results.Ok(new { status = "ok" }));
-
-var summaries = new[]
+// Database connectie test endpoint
+api.MapGet("/db-test", async (DatabaseService dbService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild",
-    "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-api.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast(
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        )).ToArray();
-
-    return Results.Ok(forecast);
+    try
+    {
+        await dbService.TestConnectionAsync();
+        return Results.Ok(new { status = "Database verbinding succesvol!" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Database fout: {ex.Message}");
+    }
 })
-.WithName("GetWeatherForecast");
+.WithName("TestDatabaseConnection");
 
 app.Run();
-
-// ===== Records =====
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

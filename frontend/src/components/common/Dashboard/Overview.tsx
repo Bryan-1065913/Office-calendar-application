@@ -1,6 +1,8 @@
 // src/components/common/Dashboard/Overview.tsx
 import "/src/styles/Dashboard/overview.css";
 
+import { currentUser } from "../../../authentication/auth";
+
 type Day = { wd: string; d: number; chips?: string[] };
 
 const days: Day[] = [
@@ -15,7 +17,7 @@ const Overview = () => {
     return (
         <div>
             <div>
-                <h1>Welkom, <span className="NameGreeting">[Voornaam]</span>!</h1>
+                <h1>Welkom, <span className="NameGreeting">{currentUser.name}</span>!</h1>
                 <p>Vandaag: [hoeveelheid] meetings, [hoeveelheid] events, [hoeveelheid] taken</p>
             </div>
 
