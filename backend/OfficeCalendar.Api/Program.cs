@@ -1,4 +1,5 @@
 using System.Reflection;
+
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -126,9 +127,6 @@ app.UseHttpsRedirection();
 // ===== Endpoints =====
 var api = app.MapGroup("/api");
 
-api.MapGet("/health", () => Results.Ok(new { status = "ok" }))
-.AllowAnonymous();
-
 // Database connectie test endpoint
 api.MapGet("/db-test", async (DatabaseService dbService) =>
 {
@@ -142,109 +140,6 @@ api.MapGet("/db-test", async (DatabaseService dbService) =>
         return Results.Problem($"Database fout: {ex.Message}");
     }
 })
-.WithName("TestDatabaseConnection")
-.AllowAnonymous();
+.WithName("TestDatabaseConnection");
 
-var auth = api.MapGroup("/auth");
-
-// Login endpoint
-auth.MapPost("/login", async (LoginRequest request, IAuthService authService) => 
-{
-    try 
-    {
-        // Call AuthServicie
-        var response = await authService.LoginAsync(request);
-        return Results.Ok(response);
-    }
-    catch (UnauthorizedAccessException ex)
-    {
-        // With wrong email or password:
-        
-        return Results.Json(
-            new { message = ex.Message },
-            statusCode: StatusCodes.Status401Unauthorized
-        );
-    }
-    catch (Exception ex) 
-    {   
-        // Other errors
-        Console.Error.WriteLine($"Registration error: {ex}");
-        var msg = app.Environment.IsDevelopment() ? ex.ToString() : "Something went wrong during registration";
-        return Results.Problem(msg);
-    }
-    
-})
-.WithName("Login")
-.AllowAnonymous()
-.WithOpenApi();
-
-// Register endpoint
-auth.MapPost("/register", async (RegisterRequest request, IAuthService authService) => 
-{
-    try 
-    {
-        // call AuthService
-        var response = await authService.RegisterAsync(request);
-        return Results.Ok(response);
-    }
-    catch (InvalidOperationException ex)
-    {
-        // Email already exists
-        return Results.BadRequest(new { message = ex.Message});
-    }
-    catch (Exception ex) 
-    {
-        // Other problems
-        return Results.Problem($"Something went wrong: {ex.Message}");
-    }
-
-})
-.WithName("Register")
-.AllowAnonymous()
-.WithOpenApi();
-
-api.MapGet("/me", (HttpContext context) =>
-{
-    var user = context.User;
-    var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-    var email = user.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-    var name = user.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
-    
-    return Results.Ok(new 
-    { 
-        userId,
-        email,
-        name,
-        claims = user.Claims.Select(c => new { c.Type, c.Value })
-    });
-})
-.WithName("GetCurrentUser")
-.RequireAuthorization();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild",
-    "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-api.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast(
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        )).ToArray();
-
-    return Results.Ok(forecast);
-})
-.WithName("GetWeatherForecast")
-.AllowAnonymous();
-
-app.Run();  
-
-// ===== Records =====
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+app.Run();

@@ -10,9 +10,7 @@ import Events from './pages/Events/Events';
 import EventDetails from './pages/Events/EventDetail';
 import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
-import LoginPage from './components/common/login-register/Login';
-import RegisterPage from './components/common/login-register/Register';
-
+import WarningDeleteForm from './pages/Forms/Warning_Delete_Event'
 const router = createBrowserRouter([
     {
         path: '/',
@@ -29,12 +27,11 @@ const router = createBrowserRouter([
             },
 
             { path: 'events', element: <Events /> },
-            { path: 'events/:id', element: <EventDetails /> },
-            { path: 'login', element: <LoginPage /> },
-            { path: 'register', element: <RegisterPage />}
+            { path: 'events/:id', element: <EventDetails /> },        
+            { path: '/eventform', element: <EventForm /> },
+            { path: '/WarningDeleteEvent', element: <WarningDeleteForm/> },
         ],
     },
-    
 ]);
 
 createRoot(document.getElementById('root')!).render(
