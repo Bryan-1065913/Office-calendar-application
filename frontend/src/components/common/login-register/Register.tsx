@@ -83,86 +83,159 @@ const RegisterPage = () => {
     return (
         <div>
             <Header />
-            <div className="container">
-                <h1>Registreren</h1>
-
-                {error && <div className="error-message">{error}</div>}
-
-                <form className="register-container" onSubmit={handleRegister}>
-                    <label htmlFor="firstName">Voornaam</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        placeholder="Voornaam"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="lastName">Achternaam</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        placeholder="Achternaam"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="phoneNumber">Telefoonnummer</label>
-                    <input
-                        type="tel"
-                        name="phoneNumber"
-                        placeholder="+31 6 12345678"
-                        value={formData.phoneNumber}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="jobTitle">Functie</label>
-                    <input
-                        type="text"
-                        name="jobTitle"
-                        placeholder="Bijvoorbeeld: Developer"
-                        value={formData.jobTitle}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="password">Wachtwoord</label>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Minimaal 6 karakters"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <label htmlFor="confirmPassword">Bevestig Wachtwoord</label>
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        placeholder="Bevestig Wachtwoord"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Bezig met registreren...' : 'Registreren'}
-                    </button>
-                </form>
+            <div className="container py-5 mt-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-4 col-lg-6">
+                        <div className="card shadow">
+                            <div className="card-body p-4">
+                                <h1 className="card-title text-center mb-4">Registrate</h1>
+    
+                                {error && (
+                                    <div className="alert alert-danger" role="alert">
+                                        {error}
+                                    </div>
+                                )}
+    
+                                <form onSubmit={handleRegister}>
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label htmlFor="firstName" className="form-label">
+                                                Firstname
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="firstName"
+                                                name="firstName"
+                                                placeholder="Firstname"
+                                                value={formData.firstName}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+    
+                                        <div className="col-md-6 mb-3">
+                                            <label htmlFor="lastName" className="form-label">
+                                                Lastname
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="lastName"
+                                                name="lastName"
+                                                placeholder="Lastname"
+                                                value={formData.lastName}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label htmlFor="email" className="form-label">
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            id="email"
+                                            name="email"
+                                            placeholder="name@example.nl"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label htmlFor="phoneNumber" className="form-label">
+                                            Phone Number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            className="form-control"
+                                            id="phoneNumber"
+                                            name="phoneNumber"
+                                            placeholder="+31 6 12345678"
+                                            value={formData.phoneNumber}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label htmlFor="jobTitle" className="form-label">
+                                            Function
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="jobTitle"
+                                            name="jobTitle"
+                                            placeholder="Example: Developer"
+                                            value={formData.jobTitle}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label htmlFor="password" className="form-label">
+                                            Password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            id="password"
+                                            name="password"
+                                            placeholder="Min 6 Characters"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+    
+                                    <div className="mb-4">
+                                        <label htmlFor="confirmPassword" className="form-label">
+                                            Confirm Password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            id="confirmPassword"
+                                            name="confirmPassword"
+                                            placeholder="Repeat Password.."
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+    
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary w-100"
+                                        disabled={loading}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Loading...
+                                            </>
+                                        ) : (
+                                            'Registreren'
+                                        )}
+                                    </button>
+    
+                                    <div className="text-center mt-3">
+                                        <small className="text-muted">
+                                            Already got an account? <a href="/login">Log in!</a>
+                                        </small>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>
