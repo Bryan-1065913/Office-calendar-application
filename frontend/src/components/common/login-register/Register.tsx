@@ -17,10 +17,10 @@ const RegisterPage = () => {
         phoneNumber: '',
         jobTitle: '',
         role: 'Employee',
-        companyId: 1, // Default data
-        departmentId: 1, // Default data
-        workplaceId: 1 // Default data
     });
+    const [companyId] = useState<number | null>(null);  
+    const [departmentId] = useState<number | null>(null);
+    const [workplaceId] = useState<number | null>(null); 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -58,13 +58,13 @@ const RegisterPage = () => {
                 phoneNumber: formData.phoneNumber,
                 jobTitle: formData.jobTitle,
                 role: formData.role,
-                companyId: formData.companyId,
-                departmentId: formData.departmentId,
-                workplaceId: formData.workplaceId
+                companyId,
+                departmentId,
+                workplaceId
             });
 
             console.log('Registratie succesvol!', response);
-            
+
             // Redirect naar dashboard
             navigate('/dashboard');
         } catch (err) {

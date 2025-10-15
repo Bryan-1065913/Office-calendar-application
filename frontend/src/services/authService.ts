@@ -52,9 +52,9 @@ export const authService = {
         phoneNumber: string
         jobTitle: string
         role: string
-        companyId: number
-        departmentId: number
-        workplaceId: number
+        companyId: number | null
+        departmentId: number | null
+        workplaceId: number | null
     }) => {
         const response = await fetch(`${API_URL}/auth/register`, {
             method: "POST",
@@ -65,21 +65,25 @@ export const authService = {
         });
 
         if (!response.ok) {
-            const error = await response.json().catch(() => ({ message: "Registration failed" }))
-            throw new Error(error.message || "Registration failed")
+            let errorText = `Registration failed (HTTP ${response.status})`
+            try {
+                const err = await response.json()
+                errorText = err.message || err.detail || err.title || errorText
+            } catch { }
+            throw new Error(errorText)
         }
-        
+
         const data = await response.json()
-        
+
         // Save token and user
         localStorage.setItem("token", data.token)
         localStorage.setItem("user", JSON.stringify(data.user))
-        
+
         return data
     },
 
-      // LOGOUT
-      logout: () => {
+    // LOGOUT
+    logout: () => {
         localStorage.removeItem("token")
         localStorage.removeItem("user")
     },
