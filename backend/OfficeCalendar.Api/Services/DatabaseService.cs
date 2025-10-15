@@ -1,7 +1,5 @@
+using MySqlConnector;
 using Dapper;
-using OfficeCalendar.Api.Models;
-using Npgsql;
-
 
 namespace OfficeCalendar.Api.Services
 {
@@ -11,12 +9,12 @@ namespace OfficeCalendar.Api.Services
 
         public DatabaseService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<NpgsqlConnection> GetConnectionAsync()
+        public async Task<MySqlConnection> GetConnectionAsync()
         {
-            var connection = new NpgsqlConnection(_connectionString);
+            var connection = new MySqlConnection(_connectionString);
             await connection.OpenAsync();
             return connection;
         }
@@ -24,7 +22,7 @@ namespace OfficeCalendar.Api.Services
         public async Task TestConnectionAsync()
         {
             using var connection = await GetConnectionAsync();
-            Console.WriteLine("PostgreSQL database verbinding succesvol!");
+            Console.WriteLine("Database verbinding succesvol!");
         }
 
 
