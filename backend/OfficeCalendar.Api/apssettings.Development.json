@@ -1,5 +1,5 @@
 {
     "ConnectionStrings": {
-        "DefaultConnection": "Server=localhost;Port=3306;Database=office-calendar;Uid=office_user;Pwd=qubdef-becpi7-wibFur;"
+        "DefaultConnection": "Server=localhost;Port=5432;Database=office_calendar;Uid=office_user;Pwd=qubdef-becpi7-wibFur;"
     }
-}
+}  
