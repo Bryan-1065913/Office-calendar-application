@@ -21,7 +21,7 @@ const LoginPage = () => {
       const data = await authService.login(email, password);
       console.log('Login succes!', data);
 
-      navigate('/dashbooard');
+      navigate('/dashboard');
 
     } catch (error) {
       if (error instanceof Error) {
@@ -38,31 +38,66 @@ const LoginPage = () => {
   return (
     <div>
       <Header />
-      <div className="container">
-        <h1>Login</h1>
+      <div className="container py-5 mt-5">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-5">
+            <div className="card shadow">
+              <div className="card-body p-4">
+                <h1 className="card-title text-center mb-4">Login</h1>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
 
-        <div className="login-container">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isLoading}
-          />
-          <button onClick={handleLogin} disabled={isLoading}>
-            {isLoading ? 'Loading...' : 'Login'}
-          </button>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <button
+                  onClick={handleLogin}
+                  className="btn btn-primary w-100"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Loading...
+                    </>
+                  ) : (
+                    'Login'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />
