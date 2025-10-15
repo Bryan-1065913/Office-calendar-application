@@ -21,7 +21,7 @@ namespace OfficeCalendar.Api.Models
 
     public class RegisterRequest
     {
-        [Required]
+    [Required]
     public string FirstName { get; set; } = string.Empty;
 
     [Required]
@@ -45,14 +45,9 @@ namespace OfficeCalendar.Api.Models
     [Required]
     public string Role { get; set; } = string.Empty;
 
-    [Required]
-    public int CompanyId { get; set; }
-
-    [Required]
-    public int DepartmentId { get; set; }
-
-    [Required]
-    public int WorkplaceId { get; set; }
+    public int? CompanyId { get; set; }
+    public int? DepartmentId { get; set; }
+    public int? WorkplaceId { get; set; }
 
     }
 
