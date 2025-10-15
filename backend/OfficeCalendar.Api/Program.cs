@@ -1,8 +1,18 @@
 using System.Reflection;
-
+using OfficeCalendar.Api.Repositories;
 using OfficeCalendar.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+builder.Services.AddScoped<AttendanceRepository>();
+builder.Services.AddScoped<CompaniesRepository>();
+builder.Services.AddScoped<DepartmentsRepository>();
+builder.Services.AddScoped<EventParticipationsRepository>();
+builder.Services.AddScoped<EventsRepository>();
+builder.Services.AddScoped<RoomBookingsRepository>();
+builder.Services.AddScoped<RoomsRepository>();
+builder.Services.AddScoped<UsersRepository>();
+builder.Services.AddScoped<WorkplacesRepository>();
 
 // ===== Services =====
 builder.Services.AddCors(options =>
@@ -37,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-
+app.MapControllers();
 // ===== Middleware =====
 if (app.Environment.IsDevelopment())
 {
