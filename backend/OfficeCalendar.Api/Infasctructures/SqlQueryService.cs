@@ -13,6 +13,7 @@ public class SqlQueryService
     {
         var sqlPath = Path.Combine(AppContext.BaseDirectory, "Sql");
         
+        
         if (!Directory.Exists(sqlPath))
         {
             Console.WriteLine($"Warning: SQL directory not found at {sqlPath}");

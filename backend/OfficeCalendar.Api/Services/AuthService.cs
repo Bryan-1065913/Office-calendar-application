@@ -69,6 +69,7 @@ namespace OfficeCalendar.Api.Services
             }
             catch (Exception ex)
             {
+                Console.Error.WriteLine(ex);
                 throw new Exception($"Something went wrong: {ex.Message}", ex);
             }
         }
@@ -107,7 +108,8 @@ namespace OfficeCalendar.Api.Services
                         Role = request.Role,
                         CompanyId = request.CompanyId,
                         DepartmentId = request.DepartmentId,
-                        WorkplaceId = request.WorkplaceId
+                        WorkplaceId = request.WorkplaceId,
+                        CreatedAt = DateTime.UtcNow
                     }
                 );
 
@@ -139,7 +141,7 @@ namespace OfficeCalendar.Api.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Registration error: {ex.Message}", ex);
+                throw new Exception($" Test Registration error: {ex.Message}", ex);
             }
         }
 
