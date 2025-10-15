@@ -3,7 +3,7 @@
 const Header = () => {
     return (
         <header
-            className="d-flex fixed-top bg-white flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+            className="d-flex fixed-top bg-white flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom mb-5">
             <div className="col-md-3 mb-2 mb-md-0">
                 <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none">
                     <img src="/src/assets/images/logo.png" alt="Logo" width="105" height="50" />
