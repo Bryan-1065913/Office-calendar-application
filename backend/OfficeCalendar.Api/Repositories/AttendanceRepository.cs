@@ -32,7 +32,7 @@ namespace OfficeCalendar.Api.Repositories
                     Day = reader.GetDateTime(reader.GetOrdinal("day")),
                     CheckTime = reader.GetDateTime(reader.GetOrdinal("check_time")),
                     Place = reader.GetString(reader.GetOrdinal("place")),
-                    More = reader.GetString(reader.GetOrdinal("more")),
+                    Note = reader.GetString(reader.GetOrdinal("note")),
                     CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
                 });
             }

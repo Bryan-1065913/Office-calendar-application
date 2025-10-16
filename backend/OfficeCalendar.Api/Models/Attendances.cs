@@ -11,6 +11,6 @@ public class Attendances
     [Required]
     public string Place { get; set; } = String.Empty;
     [Required]
-    public string More { get; set; } = String.Empty;
+    public string Note { get; set; } = String.Empty;
     public DateTime CreatedAt { get; set; }
 }

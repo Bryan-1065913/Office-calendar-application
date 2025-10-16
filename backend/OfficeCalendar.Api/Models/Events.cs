@@ -12,7 +12,7 @@ public class Events
     [Required]
     public string Status { get; set; } = String.Empty;
     public int CreatedBy { get; set; }
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
     public DateTime CreatedAt { get; set; }
 
     public List<EventParticipations> event_participations = new List<EventParticipations>();

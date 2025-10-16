@@ -31,7 +31,7 @@ namespace OfficeCalendar.Api.Repositories
                     Description = reader.GetString(reader.GetOrdinal("description")),
                     StartsAt = reader.GetDateTime(reader.GetOrdinal("starts_at")),
                     Status = reader.GetString(reader.GetOrdinal("status")),
-                    DeletedAt = reader.GetDateTime(reader.GetOrdinal("deleted_at")),
+                    DeletedAt = reader.IsDBNull(reader.GetOrdinal("deleted_at")) ? null : reader.GetDateTime(reader.GetOrdinal("deleted_at")),
                     CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
                 });
             }
