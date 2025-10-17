@@ -10,15 +10,15 @@ interface Evenement {
 }
 
 const evenementen: Evenement[] = [
-  { id: 1, name: "evenement", description: "This is the description for event 1.", place: "rotterdam", date: "30/09/2026"},
-  { id: 2, name: "evenement", description: "This is the description for event 2.", place: "online", date: "30/09/2026"},
-  { id: 3, name: "evenement", description: "This is the description for event 3.", place: "online", date: "30/09/2026"},
-  { id: 4, name: "evenement", description: "This is the description for event 4.", place: "online", date: "30/09/2026"},
-  { id: 5, name: "evenement", description: "This is the description for event 5.", place: "online", date: "30/09/2026"},
-  { id: 6, name: "evenement", description: "This is the description for event 6.", place: "online", date: "30/09/2026"},
-  { id: 8, name: "evenement", description: "This is the description for event 8.", place: "online", date: "30/09/2026"},
-  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2026"},
-  { id: 10, name: "evenement", description: "This is the description for event 10.", place: "online", date: "30/09/2026"}
+  { id: 1, name: "evenement", description: "This is the description for event 1.", place: "rotterdam", date: "30/09/2025"},
+  { id: 2, name: "evenement", description: "This is the description for event 2.", place: "online", date: "30/09/2025"},
+  { id: 3, name: "evenement", description: "This is the description for event 3.", place: "online", date: "30/09/2025"},
+  { id: 4, name: "evenement", description: "This is the description for event 4.", place: "online", date: "30/09/2025"},
+  { id: 5, name: "evenement", description: "This is the description for event 5.", place: "online", date: "30/09/2025"},
+  { id: 6, name: "evenement", description: "This is the description for event 6.", place: "online", date: "30/09/2025"},
+  { id: 8, name: "evenement", description: "This is the description for event 8.", place: "online", date: "30/09/2025"},
+  { id: 9, name: "evenement", description: "This is the description for event 9.", place: "online", date: "30/09/2025"},
+  { id: 10, name: "evenement", description: "This is the description for event 10.", place: "online", date: "30/09/2025"}
 ];
 
 const Events = () => {

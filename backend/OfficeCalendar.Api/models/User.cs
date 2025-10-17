@@ -23,7 +23,7 @@ public class Users
     public string Role { get; set; } = String.Empty;
     public DateTime CreatedAt { get; set; }
 
-    public List<Attendances> attendeces = new List<Attendances>();
-    public List<EventParticipations> event_participations = new List<EventParticipations>();
-    public List<RoomBookings> room_bookings = new List<RoomBookings>();
+    // public List<Attendances> attendeces = new List<Attendances>();
+    // public List<EventParticipations> event_participations = new List<EventParticipations>();
+    // public List<RoomBookings> room_bookings = new List<RoomBookings>();
 }
