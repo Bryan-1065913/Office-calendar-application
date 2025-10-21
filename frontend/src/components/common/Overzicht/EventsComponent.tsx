@@ -1,7 +1,7 @@
 import '/src/components/common/Overzicht/Events.scss';
 import { useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-import {useFetch} from '../../../hooks/useFetch';
+import {useFetch} from '../../../hooks/useFetchGet';
 
 interface Evenement {
   id: number;

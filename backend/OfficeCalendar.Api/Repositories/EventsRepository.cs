@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.ObjectPool;
 using Npgsql;
 using OfficeCalendar.Api.Models;
 using OfficeCalendar.Api.Services;
@@ -36,6 +37,30 @@ namespace OfficeCalendar.Api.Repositories
                 });
             }
             return events;
+        }
+
+        public async Task<Events> DeleteEventAsync(int id)
+        {
+            var query = await File.ReadAllTextAsync("Infrastructure/Sql/events/events_delete_by_id.sql");
+            Events Event = null;
+            await using var connection = await _databaseService.GetConnectionAsync();
+            await using var command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("id", id);
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                Event = new Events
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("id")),
+                    Title = reader.GetString(reader.GetOrdinal("title")),
+                    Description = reader.GetString(reader.GetOrdinal("description")),
+                    StartsAt = reader.GetDateTime(reader.GetOrdinal("starts_at")),
+                    Status = reader.GetString(reader.GetOrdinal("status")),
+                    DeletedAt = reader.IsDBNull(reader.GetOrdinal("deleted_at")) ? null : reader.GetDateTime(reader.GetOrdinal("deleted_at")),
+                    CreatedAt = reader.GetDateTime(reader.GetOrdinal("created_at"))
+                };
+            }
+            return Event;
         }
     }
 }

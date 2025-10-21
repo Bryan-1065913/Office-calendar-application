@@ -21,5 +21,18 @@ namespace OfficeCalendar.Api.Controllers
             List<Events> events = await _repository.GetEventsAsync();
             return Ok(events);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteById(int id)
+        {
+            Console.WriteLine($"Received DELETE for id {id}");
+            Events event_ = await _repository.DeleteEventAsync(id);
+            if (event_ == null) {
+                Console.WriteLine("Event not found");
+                return NotFound();
+            }
+            Console.WriteLine($"Deleted event: {event_.Title}");
+            return Ok(event_);
+        }
     }
 }

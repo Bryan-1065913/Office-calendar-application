@@ -1,16 +1,60 @@
 import { useEffect, useState } from 'react';
+import { useFetchDelete } from '../../hooks/useFetchDelete'
 import '/src/components/pop-up/Warning_Delete_Event.scss';
 
 
-
+interface Evenement {
+  id: number;
+  title: string;
+  description?: string;
+  startsAt: string;
+  status: string;
+  createdBy: number;
+  deletedAt?: string | null;
+  createdAt: string;
+}
 
 const Warning_Delete = () => {
+  const [evenement, setEvenement] = useState<Evenement>();
+  const [message, setMessage] = useState("");
   const [id, setId] = useState<number>();
-  function WarningDelete(): undefined{
+  const [triggerDelete, setTriggerDelete] = useState(false);
+  const { data, isLoading, error } = useFetchDelete<Evenement>({ 
+        url: triggerDelete && id ? `http://localhost:5017/api/events/${id}` : "",
+  });
+  useEffect(() => {
+          if(message){
+            const timer = setTimeout(() => setMessage(""), 3000);
+            return () => clearTimeout(timer);
+          }
+      }, [message]);
+  useEffect(() => {
+    window.scrollTo(610, 610);
+  });
+  useEffect(() => {
+      if (data) {
+        setEvenement(data);
+        if(evenement !== undefined){
+          setMessage(`${evenement.id} got deleted with title ${evenement.title}`);
+        }
+        setTriggerDelete(false);
+    }
+  }, [data]);
+
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  const WarningDelete = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!id) {
+        alert("Please enter a valid ID");
+        return;
+    }
     const del = confirm(`Confirm Delete Event ${id}?`);
     if(del == true){
       alert("deleted")
-      // api delete here
+      setTriggerDelete(true);
     }
     else if(del == false)
     {
@@ -18,12 +62,9 @@ const Warning_Delete = () => {
     }
     else 
     {
-      alert("wrong button");
+      alert("wrong button")
     }
   }
-  useEffect(() => {
-          window.scrollTo(610, 610);
-      });
   return (
     <div className="main">
         <div className="Border-line-event"></div>
@@ -36,6 +77,11 @@ const Warning_Delete = () => {
                 <button type="submit" className="delete_Button" onClick={WarningDelete}><strong>Delete</strong></button>
             </form>
         </div>
+        {message && (
+          <div className="warningMessage" >
+            {message}
+          </div>
+        )}
     </div>
   );
 };

@@ -2,8 +2,8 @@ import { useParams } from 'react-router';
 import NotFound from '../common/NotFound/NotFound';
 import { useState, useEffect } from 'react';
 import '/src/components/events/EventDetail.scss';
-import { useFetch} from '../../hooks/useFetch';
-import { useFetchSecond } from '../../hooks/useFetchSecond';
+import { useFetch} from '../../hooks/useFetchGet';
+import { useFetchSecond } from '../../hooks/useFetchSecondGet';
 interface Evenement {
   id: number;
   title: string;
