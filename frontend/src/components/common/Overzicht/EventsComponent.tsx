@@ -1,10 +1,9 @@
 import '/src/components/common/Overzicht/Events.scss';
-// Navigation hook 
-import { useNavigate } from 'react-router';
 // useState and useEffect hooks
 import { useState, useEffect } from 'react';
 // useFetch custom hook
 import {useFetch} from '../../../hooks/useFetchGet';
+import EventCardRender from '../EventCards/EventCard'
 
 // Defines the structure of an event object and its attributes
 interface Evenement {
@@ -25,8 +24,6 @@ const Events = () => {
   // this is a hook that lets you store in this case an Evenement
   //It works like an getter and setter in c#
   const [evenementen, setEvenementen] = useState<Evenement[]>([]);
-  // navigation hook it works like the dom <link>
-  const navigate = useNavigate();
   // this has its own space of stuff happening such as fetch
   useEffect(() => {
     //scrolls to a certain place of the webpage
@@ -78,16 +75,8 @@ const Events = () => {
 
       <div className="table-wrapper">
         {/* mapping over all elements that have been filtered and taking only their id and title */}
-        {upcomingevents.map(({ id, title}) => (
-          <div key={id} className="event-card">
-            {/* Showing id and title on the frontend*/}
-            <h1 className="event-id">{id}</h1>
-            <h2 className="event-name">{title}</h2>
-            <div className="event-details">
-              {/* navigates you to a new page with an id */}
-              <button onClick={() => {navigate(`/events/${id}`)}}>Details</button>
-            </div>
-          </div>
+        {upcomingevents.map(event => (
+          <EventCardRender key={event.id} id={event.id} title={event.title}/>
         ))}
       </div>
     </div>
