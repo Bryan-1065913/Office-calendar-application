@@ -1,10 +1,15 @@
+// useState useEffect hooks
 import React, {useState, useEffect} from 'react';
+
 
 type UseFetchProps = {
     url: string;
 }
+// 
 export function useFetchDelete<T>({url}: UseFetchProps) {
+    // data wordt opgeslagen met de hook useState
     const [data, setData] = useState<T>();
+    // 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     useEffect(() => {

@@ -1,8 +1,12 @@
 import '/src/components/common/Overzicht/Events.scss';
+// Navigation hook 
 import { useNavigate } from 'react-router';
+// useState and useEffect hooks
 import { useState, useEffect } from 'react';
+// useFetch custom hook
 import {useFetch} from '../../../hooks/useFetchGet';
 
+// Defines the structure of an event object and its attributes
 interface Evenement {
   id: number;
   title: string;
@@ -16,30 +20,56 @@ interface Evenement {
 
 
 
+// Events component
 const Events = () => {
+  // this is a hook that lets you store in this case an Evenement
+  //It works like an getter and setter in c#
   const [evenementen, setEvenementen] = useState<Evenement[]>([]);
+  // navigation hook it works like the dom <link>
   const navigate = useNavigate();
+  // this has its own space of stuff happening such as fetch
   useEffect(() => {
-          window.scrollTo(614, 614);
+    //scrolls to a certain place of the webpage
+    window.scrollTo(614, 614);
           
-      });
+  });// because of no []dependency array it renders everytime the component renders 
+  // for example with f5
+  
+  // this is using the custom hook to fetch data from the api which is connected to the database
+  // data returns the data that is being fetched
+  // if data takes long than isLoading is happening which is returned from the hook
+  // and if you get an error data nor isLoading is being done instead error comes in place
   const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
+  //this useEffect hook is  using dependency array
+  // which means when it is returned it does not load agian
   useEffect(() => {
     if (data) {
+      // the useState hook is being set with data from the custom hook if it exists ofcourse
       setEvenementen(data);
     }
   }, [data]);
+  // if isLoading is true it returns jsx so the user knows that the page is loading
   if (isLoading) return <p>Loading...</p>;
+  // if error is true it returns jsx so the user knows about the error
   if (error) return <p>Error: {error}</p>;
+  // new data is being made here;
   const now = new Date();
+  
+  //this is a function that returns a new data object from a string 
   const parsedDate = (dateStr:string) => {
+    // since in the database the  data is being saved with an T between the data and time so we have to split it
     dateStr = dateStr.split('T')[0]; // "dd/mm/yyyy"
+    // here year month and dat are being saved from the split and being made number
     const [year, month, day] = dateStr.split("-").map(Number);
+    // returns an new Date based on year month and day stored before
     return new Date(year, month - 1, day);
   }
-  console.log(evenementen);
+  // this filters all evenementen based on if thier startsAt which is of type datetime is undifined'
+  // than we have a ternaty operator which says if its true ignore the event else a new date is being parsed and checked if its greater is than now which is of type datetime
   const upcomingevents = evenementen.filter(events => events.startsAt === undefined ? false : parsedDate(events.startsAt) > now);
-
+  // than the function returns JSX
+  // the JSX always needs some opening tags and in there 
+  // you can have more opening tags
   return (
     <div>
       <header>
@@ -47,11 +77,14 @@ const Events = () => {
       </header>
 
       <div className="table-wrapper">
+        {/* mapping over all elements that have been filtered and taking only their id and title */}
         {upcomingevents.map(({ id, title}) => (
           <div key={id} className="event-card">
+            {/* Showing id and title on the frontend*/}
             <h1 className="event-id">{id}</h1>
             <h2 className="event-name">{title}</h2>
             <div className="event-details">
+              {/* navigates you to a new page with an id */}
               <button onClick={() => {navigate(`/events/${id}`)}}>Details</button>
             </div>
           </div>
@@ -61,4 +94,5 @@ const Events = () => {
   );
 };
 
+// exports the NotFound component so we can use it in another file
 export default Events;

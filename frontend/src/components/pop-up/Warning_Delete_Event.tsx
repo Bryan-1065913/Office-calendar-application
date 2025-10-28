@@ -1,8 +1,10 @@
+// useEffect, useState hook
 import { useEffect, useState } from 'react';
+//useFetchDelete custom hook
 import { useFetchDelete } from '../../hooks/useFetchDelete'
 import '/src/components/pop-up/Warning_Delete_Event.scss';
 
-
+// Defines the structure of an event object and its attributes
 interface Evenement {
   id: number;
   title: string;
@@ -14,20 +16,21 @@ interface Evenement {
   createdAt: string;
 }
 
+
 const Warning_Delete = () => {
   const [evenement, setEvenement] = useState<Evenement>();
   const [message, setMessage] = useState("");
   const [id, setId] = useState<number>();
   const [triggerDelete, setTriggerDelete] = useState(false);
-  const { data, isLoading, error } = useFetchDelete<Evenement>({ 
+  const { data, isLoading, error } = useFetchDelete<Evenement>({
         url: triggerDelete && id ? `http://localhost:5017/api/events/${id}` : "",
   });
   useEffect(() => {
-          if(message){
-            const timer = setTimeout(() => setMessage(""), 3000);
-            return () => clearTimeout(timer);
-          }
-      }, [message]);
+    if(message){
+      const timer = setTimeout(() => setMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
   useEffect(() => {
     window.scrollTo(610, 610);
   });
@@ -44,8 +47,8 @@ const Warning_Delete = () => {
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-
   const WarningDelete = (e: React.FormEvent) => {
+    // prevents the form from reloading the page which makes
     e.preventDefault();
     if (!id) {
         alert("Please enter a valid ID");
