@@ -49,7 +49,6 @@ const Event = () => {
     useEffect(() => {
         //scrolls to a certain place of the webpage
         window.scrollTo(610, 610);
-            
     });// because of no []dependency array it renders everytime the component renders 
     // for example with f5
 
@@ -73,7 +72,7 @@ const Event = () => {
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     if (isLoading2) return <p>Loading...</p>;
-    if (error2) return <p>Error: {error}</p>;
+    if (error2) return <p>Error: {error2}</p>;
 
     //than we try to find a specific evenement with the id of useParams hook 
     const event = evenementen.find(e => e.id === Number(id));

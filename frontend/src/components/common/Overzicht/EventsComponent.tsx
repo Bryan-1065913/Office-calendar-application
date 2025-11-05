@@ -3,8 +3,9 @@ import '/src/components/common/Overzicht/Events.scss';
 import { useState, useEffect } from 'react';
 // useFetch custom hook
 import {useFetch} from '../../../hooks/useFetchGet';
+// custom hook two
+import { useFetchSecond } from '../../../hooks/useFetchSecondGet';
 import EventCardRender from '../EventCards/EventCard'
-
 // Defines the structure of an event object and its attributes
 interface Evenement {
   id: number;
@@ -17,26 +18,37 @@ interface Evenement {
   createdAt: string;
 }
 
-
+interface User {
+    id: number;
+    companyId: number;
+    departmentId: number;
+    workplaceId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    passwordHash: string;
+    phoneNumber: string;
+    jobTitle: string;
+    role: string;
+    createdAt: string;
+}
 
 // Events component
 const Events = () => {
   // this is a hook that lets you store in this case an Evenement
   //It works like an getter and setter in c#
   const [evenementen, setEvenementen] = useState<Evenement[]>([]);
-  // this has its own space of stuff happening such as fetch
-  useEffect(() => {
-    //scrolls to a certain place of the webpage
-    window.scrollTo(614, 614);
-          
-  });// because of no []dependency array it renders everytime the component renders 
-  // for example with f5
+  const [monthNumber, setMonthNumber] = useState<number>(0);
+  const [userList, setUserList] = useState<User[]>([]);
   
   // this is using the custom hook to fetch data from the api which is connected to the database
   // data returns the data that is being fetched
   // if data takes long than isLoading is happening which is returned from the hook
   // and if you get an error data nor isLoading is being done instead error comes in place
   const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
+  
+  const { data2, isLoading2, error2 } = useFetchSecond<User[]>({ url: `http://localhost:5017/api/users` });
+  // sets the User array
   //this useEffect hook is  using dependency array
   // which means when it is returned it does not load agian
   useEffect(() => {
@@ -45,13 +57,28 @@ const Events = () => {
       setEvenementen(data);
     }
   }, [data]);
+  useEffect(() => {
+    if (data2) {
+        setUserList(data2);
+    }
+  }, [data2]);
+  // this has its own space of stuff happening such as fetch
+  useEffect(() => {
+    //scrolls to a certain place of the webpage
+    window.scrollTo(614, 614);
+          
+  });// because of no []dependency array it renders everytime the component renders 
+  // for example with f5
   // if isLoading is true it returns jsx so the user knows that the page is loading
   if (isLoading) return <p>Loading...</p>;
   // if error is true it returns jsx so the user knows about the error
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p>Error: {error}</p>;  
+  // all 4 return the error JSX or Loading JSX
+  if (isLoading2) return <p>Loading...</p>;
+  if (error2) return <p>Error: {error2}</p>;
+  
   // new data is being made here;
   const now = new Date();
-  
   //this is a function that returns a new data object from a string 
   const parsedDate = (dateStr:string) => {
     // since in the database the  data is being saved with an T between the data and time so we have to split it
@@ -64,6 +91,14 @@ const Events = () => {
   // this filters all evenementen based on if thier startsAt which is of type datetime is undifined'
   // than we have a ternaty operator which says if its true ignore the event else a new date is being parsed and checked if its greater is than now which is of type datetime
   const upcomingevents = evenementen.filter(events => events.startsAt === undefined ? false : parsedDate(events.startsAt) > now);
+  
+  const eventsThisMonth = upcomingevents.filter(event => parsedDate(event.startsAt).getMonth() === monthNumber);
+
+  const monthNames: string[] = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
   // than the function returns JSX
   // the JSX always needs some opening tags and in there 
   // you can have more opening tags
@@ -74,10 +109,32 @@ const Events = () => {
       </header>
 
       <div className="table-wrapper">
-        {/* mapping over all elements that have been filtered and taking only their id and title */}
-        {upcomingevents.map(event => (
-          <EventCardRender key={event.id} id={event.id} title={event.title}/>
-        ))}
+        <div className="Calendar">
+          <button className="left-Button" onClick={() => setMonthNumber(prev => prev === 0 ? 11 : prev - 1)}>&lt;</button>
+          <p className="monthName">{monthNames[monthNumber]}</p>
+          <p className="underLine">______________________________</p>
+          <button className="right-Button" onClick={() => setMonthNumber(prev => prev === 11 ? 0 : prev + 1)}>&gt;</button>
+        </div>
+        <div className="events-container">
+          {/* mapping over all elements that have been filtered and taking only their id and title */}
+          {eventsThisMonth.length === 0 ? (
+            <p className="errorMessage">No events this month</p>
+          ) : (
+            eventsThisMonth.map(event => {
+            return (
+            <div className="event">
+              <EventCardRender 
+              key={event.id} 
+              id={event.id} 
+              title={event.title} 
+              CreatedBy={event.createdBy} 
+              users={userList}
+              />
+            </div>
+            );
+          })
+          )}
+        </div>
       </div>
     </div>
   );

@@ -29,4 +29,3 @@ export function useFetchSecond<T>({url}: UseFetchProps) {
     
     return {data2, isLoading2, error2};
 }
- 
