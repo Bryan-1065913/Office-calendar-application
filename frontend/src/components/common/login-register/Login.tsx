@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { authService } from '../../../services/authService';
+import { useAuth } from '../../../authentication/AuthContext';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const data = await authService.login(email, password);
+      const data = await login(email, password);
       console.log('Login succes!', data);
 
       navigate('/dashboard');

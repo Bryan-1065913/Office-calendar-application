@@ -13,6 +13,7 @@ import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
 import RegisterPage from './components/common/login-register/Register';
+import { AuthProvider } from './authentication/AuthContext';
 
 const router = createBrowserRouter([
     {
@@ -32,14 +33,16 @@ const router = createBrowserRouter([
             { path: 'events', element: <Events /> },
             { path: 'events/:id', element: <EventDetails /> },
             { path: 'login', element: <LoginPage /> },
-            { path: 'register', element: <RegisterPage />}
+            { path: 'register', element: <RegisterPage /> }
         ],
     },
-    
+
 ]);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
     </StrictMode>
 );
