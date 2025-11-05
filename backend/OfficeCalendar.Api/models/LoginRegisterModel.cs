@@ -43,7 +43,7 @@ namespace OfficeCalendar.Api.Models
     public string JobTitle { get; set; } = string.Empty;
 
     [Required]
-    public string Role { get; set; } = string.Empty;
+    public string Role { get; set; } = "user";
 
     public int? CompanyId { get; set; }
     public int? DepartmentId { get; set; }

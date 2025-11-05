@@ -16,7 +16,7 @@ const RegisterPage = () => {
         lastName: '',
         phoneNumber: '',
         jobTitle: '',
-        role: 'Employee',
+        role: 'user',
     });
     const [companyId] = useState<number | null>(null);  
     const [departmentId] = useState<number | null>(null);

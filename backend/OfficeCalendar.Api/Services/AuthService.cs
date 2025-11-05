@@ -78,6 +78,12 @@ namespace OfficeCalendar.Api.Services
         {
             try
             {
+                // Make sure role is set to user
+                if (string.IsNullOrEmpty(request.Role))
+                {
+                    request.Role = "user";
+                }
+
                 // Check if email exists
                 var checkQuery = await _sqlQueryService.GetQueryAsync("users_check_email_exists");
                 var existsResult = await _databaseService.QuerySingleOrDefaultAsync<int>(
