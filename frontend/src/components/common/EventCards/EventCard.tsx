@@ -21,16 +21,17 @@ interface EventCardProps {
     title: string;
     CreatedBy: number;
     users: User[];
+    eventId: number;
 }
 
-const EventCardRender = ({id, title, CreatedBy, users} : EventCardProps) => {
+const EventCardRender = ({id, title, CreatedBy, users, eventId} : EventCardProps) => {
     // navigation hook it works like the dom <link>
     const navigate = useNavigate();
     const createdUser = users.find(user => user.id === CreatedBy);
     return(
         <div key={id} className="event-card">
             {/* Showing id and title on the frontend*/}
-            <h1 className="event-id">{id}</h1>
+            <h1 className="event-id">{eventId}</h1>
             <h2 className="event-name">{title}</h2>
             {createdUser != null &&(
             
