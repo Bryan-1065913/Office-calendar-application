@@ -21,9 +21,9 @@ export default function ProtectedRoute({ role }: { role?: string }) {
     }
 
     // check role
-    if (role && user?.role !== role) {
-        return <Navigate to="/" replace />;
-    }
+    // if (role && user?.role !== role) {
+    //     return <Navigate to="/" replace />;
+    // }
 
     return <Outlet />;
 

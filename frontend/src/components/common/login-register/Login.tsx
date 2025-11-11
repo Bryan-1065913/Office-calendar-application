@@ -1,29 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { useAuth } from '../../../authentication/AuthContext';
 
 const LoginPage = () => {
+  const { login, isAuthenticated } = useAuth()
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // check if ur authenticated, if yes then send to dashboard
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]); 
+
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
     console.log(email, password);
     setError('')
     setIsLoading(true);
 
     try {
-      const data = await login(email, password);
-      console.log('Login succes!', data);
-
-      navigate('/dashboard');
-
+      await login(email, password);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message || 'Login mislukt, controleer je gegevens.');

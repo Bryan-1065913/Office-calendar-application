@@ -1,12 +1,12 @@
 // src/components/common/Layout/LayoutDashboard.tsx
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import { Nav } from "react-bootstrap";
 import "/src/styles/General/style.css";
 import "/src/styles/Layout/layout-dashboard.css";
 import HeaderDashboard from "../Header/Header-Dashboard";
 
-const LayoutDashboard = ({ children }: { children: React.ReactNode }) => {
+const LayoutDashboard = () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -18,15 +18,16 @@ const LayoutDashboard = ({ children }: { children: React.ReactNode }) => {
             <div className="dashboard-body">
                 <aside className="dashboard-sidebar">
                     <Nav className="flex-column">
-                        <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
-                        <Nav.Link as={NavLink} to="/agenda">Mijn agenda</Nav.Link>
-                        <Nav.Link as={NavLink} to="/tasks">Taken</Nav.Link>
-                        <Nav.Link as={NavLink} to="/team">Team</Nav.Link>
-                        <Nav.Link as={NavLink} to="/settings">Instellingen</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard" end>Dashboard</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/profile">Profile</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/agenda">Mijn agenda</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/tasks">Taken</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/team">Team</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/settings">Instellingen</Nav.Link>
                     </Nav>
                 </aside>
 
-                <main className="dashboard-content">{children}</main>
+                <main className="dashboard-content"><Outlet /></main>
             </div>
         </div>
     );
