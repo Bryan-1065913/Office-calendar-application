@@ -30,6 +30,13 @@ namespace OfficeCalendar.Api.Data
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Email).IsUnique();
+                
+                // Zorg dat email altijd lowercase wordt opgeslagen (optioneel)
+                entity.Property(e => e.Email)
+                    .HasConversion(
+                        v => v.ToLower(),
+                        v => v.ToLower()
+                    );
             });
 
             // WorkStatus configuratie

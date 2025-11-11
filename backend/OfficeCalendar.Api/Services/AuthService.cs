@@ -2,21 +2,22 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Dapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using OfficeCalendar.Api.Models;
+using OfficeCalendar.Api.Data;
 
 namespace OfficeCalendar.Api.Services
 {
     public class AuthService
     {
-        private readonly DatabaseService _db;
+        private readonly ApplicationDbContext _context;  // Vervang DatabaseService door DbContext
         private readonly IConfiguration _configuration;
 
-        public AuthService(DatabaseService db, IConfiguration configuration)
+        public AuthService(ApplicationDbContext context, IConfiguration configuration)
         {
-            _db = db;
+            _context = context;
             _configuration = configuration;
         }
 
@@ -25,11 +26,8 @@ namespace OfficeCalendar.Api.Services
             try
             {
                 // Haal user op uit database
-                using var connection = _db.GetConnection();
-                var user = await connection.QuerySingleOrDefaultAsync<User>(
-                    "SELECT * FROM users WHERE email = @Email",
-                    new { Email = request.Email }
-                );
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == request.Email);
 
                 if (user == null)
                 {
@@ -70,11 +68,8 @@ namespace OfficeCalendar.Api.Services
             try
             {
                 // Check of email al bestaat
-                using var connection = _db.GetConnection();
-                var existingUser = await connection.QuerySingleOrDefaultAsync<User>(
-                    "SELECT * FROM users WHERE email = @Email",
-                    new { Email = request.Email }
-                );
+                var existingUser = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == request.Email);
 
                 if (existingUser != null)
                 {
@@ -84,32 +79,19 @@ namespace OfficeCalendar.Api.Services
                 // Hash wachtwoord
                 var passwordHash = HashPassword(request.Password);
 
-                // Insert nieuwe user
-                var userId = await connection.ExecuteScalarAsync<int>(
-                    @"INSERT INTO users (first_name, last_name, email, password_hash, role, created_at)
-                      VALUES (@FirstName, @LastName, @Email, @PasswordHash, @Role, @CreatedAt)
-                      RETURNING id",
-                    new
-                    {
-                        FirstName = request.FirstName,
-                        LastName = request.LastName,
-                        Email = request.Email,
-                        PasswordHash = passwordHash,
-                        Role = "user",
-                        CreatedAt = DateTime.UtcNow
-                    }
-                );
-
-                // Haal de nieuwe user op
-                var user = await connection.QuerySingleOrDefaultAsync<User>(
-                    "SELECT * FROM users WHERE id = @Id",
-                    new { Id = userId }
-                );
-
-                if (user == null)
+                // Maak nieuwe user
+                var user = new User
                 {
-                    throw new Exception("Failed to retrieve created user");
-                }
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PasswordHash = passwordHash,
+                    Role = "user",
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
                 // Genereer JWT token
                 var token = GenerateJwtToken(user);
