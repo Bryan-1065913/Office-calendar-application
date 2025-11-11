@@ -25,25 +25,27 @@ namespace OfficeCalendar.Api.Services
         {
             try
             {
-                // Haal user op uit database
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Email == request.Email);
 
+                Console.WriteLine($"User found: {user != null}");
+        
                 if (user == null)
                 {
                     throw new UnauthorizedAccessException("Invalid email or password");
                 }
 
-                // Verifieer wachtwoord
+                Console.WriteLine($"PasswordHash: {user.PasswordHash}");
+                Console.WriteLine($"PasswordHash is null or empty: {string.IsNullOrEmpty(user.PasswordHash)}");
+
                 if (!VerifyPassword(request.Password, user.PasswordHash))
                 {
                     throw new UnauthorizedAccessException("Invalid email or password");
                 }
 
-                // Genereer JWT token
                 var token = GenerateJwtToken(user);
-
-                return new AuthResponse
+        
+                var response = new AuthResponse
                 {
                     Token = token,
                     UserId = user.Id,
@@ -52,14 +54,15 @@ namespace OfficeCalendar.Api.Services
                     LastName = user.LastName,
                     Role = user.Role
                 };
-            }
-            catch (UnauthorizedAccessException)
-            {
-                throw;
+
+                Console.WriteLine($"Response: {System.Text.Json.JsonSerializer.Serialize(response)}");
+        
+                return response;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Something went wrong: {ex.Message}", ex);
+                Console.WriteLine($"Login error: {ex.Message}");
+                throw;
             }
         }
 
