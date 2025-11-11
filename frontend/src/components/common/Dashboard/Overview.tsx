@@ -8,6 +8,7 @@ import WeekOverviewCard from "./WeekOverviewCard";
 import TodayCard from "./TodayCard";
 import TasksCard from "./TasksCard";
 import NotesCard from "./NotesCard";
+import ProfileCard from "./ProfileCard";
 
 const Overview = () => {
     const { user } = useAuth();
@@ -33,6 +34,7 @@ const Overview = () => {
                             <div className="col-12"><TodayCard /></div>
                             <div className="col-12"><TasksCard /></div>
                             <div className="col-12"><NotesCard /></div>
+                            <div className="col-12"><ProfileCard /></div>
                         </div>
                     </div>
                 </div>

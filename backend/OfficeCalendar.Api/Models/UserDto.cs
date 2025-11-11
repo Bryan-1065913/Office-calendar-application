@@ -9,7 +9,7 @@ namespace OfficeCalendar.Api.Models
         public string FullName => $"{FirstName} {LastName}";
         public string PhoneNumber { get; set; } = string.Empty;
         public string JobTitle { get; set; } = string.Empty;
-        public string Role { get; set; } = "user";
+        public string Role { get; set; } = "userw";
         
         // NO PasswordHash!
     }
