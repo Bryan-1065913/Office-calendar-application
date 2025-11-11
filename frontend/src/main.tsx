@@ -16,7 +16,7 @@ import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/Profile/ProfileCard';
-import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
+// import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
 
 
 const router = createBrowserRouter([
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
                             { index: true , element: <Overview /> },
 
                             { path: 'profile', element: <ProfileCard />},
-                            { path: 'changeProfile', element: <ChangeProfile />},
+                            // { path: 'changeProfile', element: <ChangeProfile />},
 
 
 
