@@ -8,7 +8,7 @@ import WeekOverviewCard from "./WeekOverviewCard";
 import TodayCard from "./TodayCard";
 import TasksCard from "./TasksCard";
 import NotesCard from "./NotesCard";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./Profile/ProfileCard";
 
 const Overview = () => {
     const { user } = useAuth();

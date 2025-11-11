@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 const errorData = await response.json().catch(() => null);
                 throw new Error(
                     errorData?.message || 
-                    errorData?.detail || 
+                    errorData?.detail ||  
                     'Login mislukt, controleer je gegevens.'
                 );
             }
