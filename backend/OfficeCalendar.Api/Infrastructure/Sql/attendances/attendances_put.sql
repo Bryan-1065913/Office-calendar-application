@@ -1,0 +1,1 @@
+UPDATE attendances SET id = @id, user_id = @user_id, day = @day, check_time = @check_time, place = @place, note = @note, created_at = @created_at WHERE id = @id;

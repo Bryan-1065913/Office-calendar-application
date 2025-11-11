@@ -4,9 +4,9 @@ namespace OfficeCalendar.Api.Models;
 public class Users
 {
     public int Id { get; set; }
-    public int CompanyId { get; set; }
-    public int DepartmentId { get; set; }
-    public int WorkplaceId { get; set; }
+    public int? CompanyId { get; set; }
+    public int? DepartmentId { get; set; }
+    public int? WorkplaceId { get; set; }
     [Required]
     public string FirstName { get; set; } = String.Empty;
     [Required]

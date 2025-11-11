@@ -7,11 +7,12 @@ $Color-Pallette-5: #263d42;
 
 .table-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 10px;
   margin-left: 150px;
   position: relative;
+  margin-bottom: 50px;
 }
 
 .event-card {
@@ -81,6 +82,143 @@ $Color-Pallette-5: #263d42;
   font-weight: bold;
   text-align: center;
   padding: 50px;
+}
+.Calendar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $Color-Pallette-5;
+  gap: 0px;
+  margin-top: 0px;
+  margin-left: -150px;
+  padding-bottom: 50px;
+}
+
+.left-Button,
+.right-Button {
+  background: none;
+  border: none;
+  font-size: 60px;
+  font-weight: bold;
+  color: $Color-Pallette-5;
+  z-index: 3;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.left-Button:hover,
+.right-Button:hover {
+  color: $Color-Pallette-2;
+}
+
+.monthName {
+  font-size: 30px;
+  color: $Color-Pallette-5;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+  min-width: 300px;
+}
+
+
+.events-container {
+  display: grid;
+  margin-left: 50px;
+  grid-template-columns: repeat(3, 1fr); /* 3 per rij */
+  gap: 30px;
+  width: 85%;
+  justify-items: center;
+  margin-top: 100px;
+}
+
+.underLine {
+  margin-top: 2px;
+  position: absolute;
+  font-size: 30px;
+  color: $Color-Pallette-5;
+  font-weight: bold;
+}
+
+.errorMessage {
+  background-color: $Color-Pallette-3;
+  padding: 50px;
+  border-radius: 25px;
+  position: absolute;
+  bottom: 10px; // moves it below the month name or buttons
+  left: 50%;
+  transform: translateX(-72%);
+  font-size: 24px;
+  color: $Color-Pallette-5;
+  font-weight: bold;
+}
+
+.creator-fullName {
+  margin-top: 250px;
+  font-size: 24px;
+  font-weight: bold;
+  color: $Color-Pallette-4;
+}
+.bottom-left-Button{
+  position: absolute;
+  background: none;
+  border: none;
+  font-size: 60px;
+  font-weight: bold;
+  margin-top: -50px;
+  color: $Color-Pallette-5;
+  z-index: 3;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-left: -150px;
+}
+
+.bottom-right-Button {
+  position: absolute;
+  background: none;
+  border: none;
+  font-size: 60px;
+  font-weight: bold;
+  margin-top: -50px;
+  color: $Color-Pallette-5;
+  z-index: 3;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-left: -50px;
+}
+
+.bottom-left-Button:hover,
+.bottom-right-Button:hover {
+  position: absolute;
+  color: $Color-Pallette-2;
+}
+
+.PageNumber {
+  position: absolute;
+  font-size: 30px;
+  color: $Color-Pallette-5;
+  font-weight: bold;
+  text-align: center;
+  margin-top: -20px;
+  margin-left: -80px;
+}
+.pages {
+  margin-left: 200px;
+  margin-top: 50px;
+}
+
+.main-filter {
+  position: absolute;
+  right: 0;
+  margin: 20px; /* optional breathing room */
+}
+
+.search-filter {
+  position: absolute;
+  margin-left: -400px;
+  margin-top: -120px;
+  height: 40px;
+  padding: 15px;
+  border-radius: 50px;
 }
 
 @keyframes buttonmove {
