@@ -1,8 +1,16 @@
-import { useAuth } from "../../../authentication/AuthContext";
+import { useState } from "react";
+import { useAuth } from "../../../../authentication/AuthContext";
+
 
 const ProfileCard = () => {
     // check user auth
     const { user } = useAuth();
+    const [isEditing, setIsEditing] = useState('false');
+    const [formData, setFormData] = useState({
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        email: user?.email || "",
+    })
 
     if (!user) {
         return <div className="alert alert-info">Loading profiel...</div>;

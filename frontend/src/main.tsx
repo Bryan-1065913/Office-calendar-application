@@ -15,7 +15,9 @@ import RegisterPage from './components/common/login-register/Register';
 import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
 import Overview from './components/common/Dashboard/Overview';
-import ProfileCard from './components/common/Dashboard/ProfileCard';
+import ProfileCard from './components/common/Dashboard/Profile/ProfileCard';
+import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
+
 
 const router = createBrowserRouter([
     {
@@ -33,7 +35,12 @@ const router = createBrowserRouter([
                         children: 
                         [
                             { index: true , element: <Overview /> },
+
                             { path: 'profile', element: <ProfileCard />},
+                            { path: 'changeProfile', element: <ChangeProfile />},
+
+
+
                             // dit worden de nieuwe children die moet je aanmaken
                             // { path: 'profile', element: <Agenda />},
                             // { path: 'profile', element: <Taks />},

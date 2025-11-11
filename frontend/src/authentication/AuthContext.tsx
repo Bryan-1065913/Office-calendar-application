@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Bij mount: check of user nog ingelogd is
     useEffect(() => {
         const checkAuth = () => {
             const storedToken = localStorage.getItem('token');
@@ -76,28 +77,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!response.ok) {
                 const errorData = await response.json().catch(() => null);
                 throw new Error(
-                    errorData?.message ||
+                    errorData?.message || 
+                    errorData?.detail ||  
                     'Login mislukt, controleer je gegevens.'
                 );
             }
 
             const data = await response.json();
 
-            const user = {
-                id: data.userId,
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                fullName: `${data.firstName} ${data.lastName}`,
-                phoneNumber: '',
-                jobTitle: '',
-                role: data.role,
-            };
-
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(data.user));
             setToken(data.token);
-            setUser(user);
+            setUser(data.user);
         } catch (error) {
             throw error;
         } finally {
@@ -117,28 +108,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!response.ok) {
                 const errorData = await response.json().catch(() => null);
                 throw new Error(
-                    errorData?.message ||
+                    errorData?.message || 
+                    errorData?.detail || 
                     'Registratie mislukt, probeer het later opnieuw.'
                 );
             }
 
             const data = await response.json();
 
-            const user = {
-                id: data.userId,
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                fullName: `${data.firstName} ${data.lastName}`,
-                phoneNumber: '',
-                jobTitle: '',
-                role: data.role,
-            };
-
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(data.user));
             setToken(data.token);
-            setUser(user);
+            setUser(data.user);
         } catch (error) {
             throw error;
         } finally {
@@ -176,4 +157,4 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within AuthProvider');
     }
     return context;
-};
+}; 
