@@ -17,7 +17,7 @@ namespace OfficeCalendar.Api.Models
 
         [Required]
         [Column("date")]
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
 
         [Required]
         [Column("status")]
@@ -33,7 +33,6 @@ namespace OfficeCalendar.Api.Models
         [Column("updated_at")]
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation property
         [ForeignKey("UserId")]
         public User? User { get; set; }
     }
