@@ -14,13 +14,13 @@ const ActivityModal = ({ onSave }: ActivityModalProps) => {
     const [planning, setPlanning] = useState<Planning>({});
 
     const activityOptions = [
-        { value: '', label: 'Type activiteit' },
-        { value: 'kantoor', label: 'Kantoor' },
-        { value: 'thuis', label: 'Thuiswerken' },
-        { value: 'vrij', label: 'Vrij' },
-        { value: 'ziek', label: 'Ziek' },
-        { value: 'vakantie', label: 'Vakantie' },
-        { value: 'overig', label: 'Overig' }
+        { value: '', label: 'Type of activity' },
+        { value: 'office', label: 'Office' },
+        { value: 'home', label: 'Home' },
+        { value: 'day off', label: 'Day off' },
+        { value: 'sick', label: 'Sick' },
+        { value: 'holiday', label: 'Holiday' },
+        { value: 'other', label: 'Other' }
     ];
 
     useEffect(() => {

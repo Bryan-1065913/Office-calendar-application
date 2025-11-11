@@ -24,7 +24,7 @@ const TeamCard = () => {
                     </div>
                     <div>
                         <div className="fw-medium">Anna</div>
-                        <small className="text-muted">Kantoor</small>
+                        <small className="text-muted">Office</small>
                     </div>
                 </div>
 
@@ -72,15 +72,15 @@ const TeamCard = () => {
             <div className="mt-3 pt-3 border-top">
                 <div className="row text-center">
                     <div className="col-4">
-                        <small className="text-muted d-block">Kantoor</small>
+                        <small className="text-muted d-block">Office</small>
                         <strong className="text-success">3</strong>
                     </div>
                     <div className="col-4">
-                        <small className="text-muted d-block">Thuis</small>
+                        <small className="text-muted d-block">Home</small>
                         <strong className="text-warning">2</strong>
                     </div>
                     <div className="col-4">
-                        <small className="text-muted d-block">Afwezig</small>
+                        <small className="text-muted d-block">Absent</small>
                         <strong className="text-danger">1</strong>
                     </div>
                 </div>

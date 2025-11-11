@@ -2,10 +2,10 @@
 const TasksCard = () => {
     return (
         <div className="card p-3 shadow-sm">
-            <h6 className="fw-bold">Mijn taken</h6>
+            <h6 className="fw-bold">My tasks</h6>
             <div>
                 <input type="checkbox" id="scales" name="scales" className="me-2"/>
-                <label htmlFor="scales">Verslag afmaken</label>
+                <label htmlFor="scales">Finish report</label>
             </div>
         </div>
     );
