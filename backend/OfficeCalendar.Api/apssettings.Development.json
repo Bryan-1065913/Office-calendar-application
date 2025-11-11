@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Port=5432;Database=office_calendar_local;Uid=office_calendar_admin;Pwd=Foztik-cyjnyd-mojwe3"
+  }
+}

@@ -1,5 +1,6 @@
-using OfficeCalendar.Api.Models;
+// Services/DatabaseService.cs
 using Npgsql;
+using Microsoft.Extensions.Configuration;
 
 namespace OfficeCalendar.Api.Services
 {
@@ -9,20 +10,20 @@ namespace OfficeCalendar.Api.Services
 
         public DatabaseService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
+            _connectionString = configuration.GetConnectionString("DefaultConnection") 
+                                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         }
 
-        public async Task<NpgsqlConnection> GetConnectionAsync()
+        public NpgsqlConnection GetConnection()
         {
-            var connection = new NpgsqlConnection(_connectionString);
-            await connection.OpenAsync();
-            return connection;
+            return new NpgsqlConnection(_connectionString);
         }
 
         public async Task TestConnectionAsync()
         {
-            using var connection = await GetConnectionAsync();
-            Console.WriteLine("PostgreSQL database verbinding succesvol!");
+            using var connection = GetConnection();
+            await connection.OpenAsync();
+            await connection.CloseAsync();
         }
     }
 }
