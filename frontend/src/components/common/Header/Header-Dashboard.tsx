@@ -1,9 +1,17 @@
 // src/components/common/Header/Header-Dashboard.tsx
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { useAuth } from "../../../authentication/AuthContext.tsx";
 
 type Props = { open: boolean; onToggle: () => void };
 
 const HeaderDashboard = ({ open, onToggle }: Props) => {
+    const { logout } = useAuth();
+
+    const handleLogout = (e: React.MouseEvent) => {
+        e.preventDefault();
+        logout();
+    };
+
     return (
         <Navbar expand="lg" className="dashboard-header" data-bs-theme="dark">
             <Container fluid>
@@ -19,11 +27,15 @@ const HeaderDashboard = ({ open, onToggle }: Props) => {
                             <ul className="dropdown-menu text-small">
                                 <li><a className="dropdown-item" href="#">New project...</a></li>
                                 <li><a className="dropdown-item" href="#">Settings</a></li>
-                                <li><a className="dropdown-item" href="/pofile">Profile</a></li>
+                                <li><a className="dropdown-item" href="/profile">Profile</a></li>
                                 <li>
                                     <hr className="dropdown-divider"/>
                                 </li>
-                                <li><a className="dropdown-item" href="#">Sign out</a></li>
+                                <li>
+                                    <a className="dropdown-item" href="#" onClick={handleLogout}>
+                                        Sign out
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </Nav>

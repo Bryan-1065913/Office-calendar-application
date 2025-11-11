@@ -17,7 +17,7 @@ const Overview = () => {
         <div>
             <div>
                 <h1>Welcome, <span className="NameGreeting">{user?.firstName}</span>!</h1>
-                <p>Today: [hoeveelheid] meetings, [hoeveelheid] events, [hoeveelheid] tasks</p>
+                <p>Today: [quantity] meetings, [quantity] events, [quantity] tasks</p>
             </div>
 
             <div className="container m-0 p-0">

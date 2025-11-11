@@ -73,9 +73,9 @@ const WeekOverviewCard = () => {
     function getChipsForDay(date: Date): string[] {
         const dayOfWeek = date.getDay();
 
-        if (dayOfWeek === 1 || dayOfWeek === 4) return ["Kantoor"];
-        if (dayOfWeek === 2) return ["Vrij"];
-        if (dayOfWeek === 3 || dayOfWeek === 5) return ["Thuiswerken"];
+        if (dayOfWeek === 1 || dayOfWeek === 4) return ["Office"];
+        if (dayOfWeek === 2) return ["Free"];
+        if (dayOfWeek === 3 || dayOfWeek === 5) return ["Home"];
 
         return [];
     }
@@ -139,9 +139,9 @@ const WeekOverviewCard = () => {
                                 <span
                                     key={c}
                                     className={`badge rounded-pill px-3 py-2 text-white ${
-                                        c === "Kantoor" ? "bg-teal" :
-                                            c === "Thuiswerken" ? "bg-lilac" :
-                                                c === "Vrij" ? "bg-platinum" :
+                                        c === "Office" ? "bg-teal" :
+                                            c === "Home" ? "bg-lilac" :
+                                                c === "Free" ? "bg-platinum" :
                                                     "bg-secondary"
                                     }`}
                                 >{c}</span>
