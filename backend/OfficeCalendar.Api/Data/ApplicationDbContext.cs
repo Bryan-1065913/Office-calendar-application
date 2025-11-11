@@ -1,22 +1,47 @@
 // Data/ApplicationDbContext.cs
-public class ApplicationDbContext : DbContext
-{
-    
-    public DbSet<WorkStatus> WorkStatuses { get; set; }
+using Microsoft.EntityFrameworkCore;
+using OfficeCalendar.Api.Models;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+namespace OfficeCalendar.Api.Data
+{
+    public class ApplicationDbContext : DbContext
     {
-        base.OnModelCreating(modelBuilder);
-        
-        // ... bestaande configuraties ...
-        
-        // WorkStatus configuratie
-        modelBuilder.Entity<WorkStatus>(entity =>
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            entity.HasIndex(e => new { e.UserId, e.Date })
-                .IsUnique();
-            
-            entity.HasIndex(e => e.Date);
-        });
+        }
+
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Workplace> Workplaces { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventParticipation> EventParticipations { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<RoomBooking> RoomBookings { get; set; }
+        public DbSet<WorkStatus> WorkStatuses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // User configuratie
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
+
+            // WorkStatus configuratie
+            modelBuilder.Entity<WorkStatus>(entity =>
+            {
+                entity.HasIndex(e => new { e.UserId, e.Date }).IsUnique();
+                entity.HasIndex(e => e.Date);
+            });
+
+            // Event soft delete
+            modelBuilder.Entity<Event>()
+                .HasQueryFilter(e => e.DeletedAt == null);
+        }
     }
 }

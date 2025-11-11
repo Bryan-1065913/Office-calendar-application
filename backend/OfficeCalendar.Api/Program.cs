@@ -1,53 +1,53 @@
+// Program.cs
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using OfficeCalendar.Api.Data;
 using OfficeCalendar.Api.Repositories;
 using OfficeCalendar.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
-builder.Services.AddScoped<AttendanceRepository>();
-builder.Services.AddScoped<CompaniesRepository>();
-builder.Services.AddScoped<DepartmentsRepository>();
-builder.Services.AddScoped<EventParticipationsRepository>();
-builder.Services.AddScoped<EventsRepository>();
-builder.Services.AddScoped<RoomBookingsRepository>();
-builder.Services.AddScoped<RoomsRepository>();
-builder.Services.AddScoped<UsersRepository>();
-builder.Services.AddScoped<WorkplacesRepository>();
 
 // ===== Services =====
+builder.Services.AddControllers();
+
+// ===== DbContext (voor EF Core) =====
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ===== Generic Repository =====
+builder.Services.AddScoped(typeof(GenericRepository<>));
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:5174")
+        policy.WithOrigins("http://localhost:5174", "http://localhost:5173")
               .AllowAnyHeader()
-              .AllowAnyMethod());
+              .AllowAnyMethod()
+              .AllowCredentials());
 });
 
 // Database Service
 builder.Services.AddSingleton<DatabaseService>();
 
+// Auth Service
+builder.Services.AddScoped<AuthService>();
+
 // Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // API-informatie
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "OfficeCalendar API",
-        Version = "v1"
+        Version = "v1",
+        Description = "API voor Office Calendar applicatie"
     });
-
-    // XML comments insluiten als je die wilt gebruiken
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
-    if (File.Exists(xmlPath))
-    {
-        c.IncludeXmlComments(xmlPath);
-    }
 });
 
 var app = builder.Build();
-app.MapControllers();
+
 // ===== Middleware =====
 if (app.Environment.IsDevelopment())
 {
@@ -55,17 +55,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "OfficeCalendar API v1");
-        c.RoutePrefix = "swagger"; // UI op /swagger
+        c.RoutePrefix = "swagger";
     });
 }
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
+app.UseAuthorization();
+app.MapControllers();
 
-// ===== Endpoints =====
+// ===== Test Endpoints =====
 var api = app.MapGroup("/api");
 
-// Database connectie test endpoint
 api.MapGet("/db-test", async (DatabaseService dbService) =>
 {
     try
@@ -78,6 +79,7 @@ api.MapGet("/db-test", async (DatabaseService dbService) =>
         return Results.Problem($"Database fout: {ex.Message}");
     }
 })
-.WithName("TestDatabaseConnection");
+.WithName("TestDatabaseConnection")
+.WithOpenApi();
 
 app.Run();
