@@ -108,7 +108,7 @@ const Event = () => {
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id && ep.status == "joined");
     const eventUsers = users.filter(u =>  EventParticipation.some( ep => ep.userId === u.id ));
-    const eventUserId = eventParticipations.some( ep => ep.userId === user.id);
+    const eventUserId = eventParticipations.some( ep => ep.userId === user.id && event.id === ep.eventId && ep.status == "joined");
     const joinButtonHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         console.log("You have joined the event");
