@@ -4,14 +4,17 @@ $Color-Pallette-3: #63C7B2;
 $Color-Pallette-4:  #8E6C88;
 $Color-Pallette-5: #263d42;
 
-
+.main-background{
+    justify-content: center;
+    text-align: center;
+}
 .Border-line-event{
     background-color: $Color-Pallette-5;
     width: 430px;
     height: 570px;
     margin: 0 auto;
     position: relative;
-    margin-top: 60px;
+    margin-top: 260px;
     margin-bottom: 30px;
     border-radius: 20px;
     z-index: 1;
@@ -19,13 +22,12 @@ $Color-Pallette-5: #263d42;
 
 .main-card-event {
     background-color: $Color-Pallette-1;
-    width: 490px;
+    width: 460px;
     height: 600px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    margin-left: -0px;
-    margin-top: -614px;
+    margin-top: -608px;
     margin-bottom: 30px;
     position: relative;
     border-radius: 20px;
@@ -222,73 +224,97 @@ $Color-Pallette-5: #263d42;
     transform: translate(0%, 0%);
 }
 .gebruikers-panel-users {
+    display: flex;
+    flex-direction: column;
     padding-left: 40px;
-    position: absolute;
+    position: relative;
     height: 450px;
     width: 300px;       /* give some width */
     border-radius: 20px;
     box-shadow: 0px 0px 10px $Color-Pallette-5;
-    left: 430px;
-    top: -0px;
+    margin: auto;
+    
+    transform: translate(110%, 165%);
+    right: 0;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: -608px;
+    margin-bottom: 30px;
 
     overflow-y: auto;   /* vertical scroll */
     overflow-x: auto; /* hide horizontal scroll */
 }
-
+.form-decline-event,
+.form-join-event{
+    position: relative;
+    margin: 0 auto;
+    margin-top: -300px;
+    margin-bottom: 60px;
+    height: 200px;
+    width: 400px;
+    z-index: 1;
+}
+.button-decline,
 .button-join {
-    position: absolute;
+    position: relative;
     height: 100px;
     width: 200px;
     background-color: $Color-Pallette-2;
-    color: $Color-Pallette-1;
-    left: -190px;
+    color: $Color-Pallette-5;
+    font-weight: bold;
+    
+    left: -50px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
-    margin-top: 400px;
     animation: buttonpressed 5s ease-in-out forwards;
 }
 
+.button-decline:hover,
 .button-join:hover {
-    position: absolute;
+    position: relative;
     height: 100px;
     width: 200px;
     background-color: $Color-Pallette-2;
-    color: $Color-Pallette-1;
-    left: -190px;
+    color: $Color-Pallette-5;
+    font-weight: bold;
+    
+    left: -50px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
-    margin-top: 400px;
-    animation: buttonhovered 3s infinite;
+    transform: translateX(-130px) scale(0.99);
 }
 
 
 @keyframes buttonpressed {
   0% {
     opacity: 0;
-    margin-top: 100px;
+    margin-top: 400px;
     box-shadow: 5px 5px 0px $Color-Pallette-5;
   }
   50% {
     opacity: 0.5;
-    margin-top: 300;
+    margin-top: 600;
     box-shadow: 10px 10px 10px $Color-Pallette-5;
   }
   100% {
     opacity: 1;
-    margin-top: 400px;
+    margin-top: 800px;
     box-shadow: 20px 20px 15px $Color-Pallette-5;
   }
 }
 @keyframes buttonhovered {
     0% {
+        left: -50px;
         font-weight: bold;
         color: $Color-Pallette-1;
     }
     50% {
+        left: -80px;
         font-weight: bold;
         color: $Color-Pallette-5;
     }
     100%{
+        left: -14s0px;
         font-weight: bold;
         color: $Color-Pallette-1;
     }

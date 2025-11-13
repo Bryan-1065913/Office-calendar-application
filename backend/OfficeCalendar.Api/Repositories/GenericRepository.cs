@@ -101,6 +101,14 @@ namespace OfficeCalendar.Api.Repositories
             return rowsAffected > 0;
         }
 
+        // CUSTOM DELETE QUERY EventParticipations
+        public async Task<bool> DeleteEventParticipationAsync(int userId, int eventId)
+        {
+            using var connection = _db.GetConnection();
+            var sql = $"DELETE FROM {_tableName} WHERE user_id = @UserId AND event_id = @EventId";
+            var rowsAffected = await connection.ExecuteAsync(sql, new { UserId = userId, EventId = eventId });
+            return rowsAffected > 0;
+        }
         // CUSTOM QUERY
         public async Task<List<T>> QueryAsync(string sql, object? parameters = null)
         {

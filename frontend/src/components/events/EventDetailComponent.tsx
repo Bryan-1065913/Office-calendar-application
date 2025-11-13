@@ -9,7 +9,10 @@ import '/src/components/events/EventDetail.scss';
 import { useFetch} from '../../hooks/useFetchGet';
 // custom hook two
 import { useFetchSecond } from '../../hooks/useFetchSecondGet';
+import {useFetchThird} from '../../hooks/useFetchThird';
 // Defines the structure of an event object and its attributes
+import { useAuth } from "../../authentication/AuthContext";
+
 interface Evenement {
   id: number;
   title: string;
@@ -20,7 +23,12 @@ interface Evenement {
   deletedAt?: string | null;
   createdAt: string;
 }
-
+interface EventParticipation {
+    id: number;
+    userId: number;
+    eventId: number;
+    createdAt: string;
+}
 // Defines the structure of an User object and its attributes
 interface User {
     id: number;
@@ -39,9 +47,11 @@ interface User {
 
 // Event componenet
 const Event = () => {
+    const { user } = useAuth();
     // storage of evenementen using useState hook 
     const [evenementen, setEvenementen] = useState<Evenement[]>([]);
     // storage of User using another useState hook
+    const [eventParticipations, setEventParticipations] = useState<EventParticipation[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     // useParams hook takes the id in this case thats being given in the parameter
     const { id } = useParams<{ id: string}>();
@@ -55,7 +65,8 @@ const Event = () => {
     // we are using 2 custom hooks cause we cant use the same one twice
     // because of you would overwrite data, isloading and error
     const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
-    const { data2, isLoading2, error2 } = useFetchSecond<User[]>({ url: `http://localhost:5017/api/users/${id}` });
+    const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `http://localhost:5017/api/EventParticipations` });
+    const { data3, isLoading3, error3 } = useFetchThird<User[]>({ url: `http://localhost:5017/api/users` });
     // sets the Evenement array
     useEffect(() => {
         if (data) {
@@ -65,35 +76,99 @@ const Event = () => {
     // sets the User array
     useEffect(() => {
         if (data2) {
-            setUsers(data2);
+            setEventParticipations(data2);
         }
     }, [data2]);
+    useEffect(() => {
+        if (data3) {
+            setUsers(data3);
+        }
+    }, [data3]);
     // all 4 return the error JSX or Loading JSX
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     if (isLoading2) return <p>Loading...</p>;
     if (error2) return <p>Error: {error2}</p>;
+    if (isLoading3) return <p>Loading...</p>;
+    if (error3) return <p>Error: {error3}</p>;
 
     //than we try to find a specific evenement with the id of useParams hook 
     const event = evenementen.find(e => e.id === Number(id));
-    // we also get all users from useState() hook users hook
-    const eventUsers = users;
+
     // and if an event is null or undifined it returns JSX notfound instead
     if(!event) {
         return <NotFound />;
     }
+    // we also get all users from useState() hook users hook
+    if(user == null )
+    {
+        return <NotFound />;
+    }
+    const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id);
+    const eventUsers = users.filter(u =>  EventParticipation.map( ep => ep.userId === u.id ));
+    const eventUserId = eventUsers.map( eu => eu.id === user.id);
+    const joinButtonHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        console.log("You have joined the event");
+        try
+        {
+            const response = await fetch("http://localhost:5017/api/EventParticipations/", {
+                method: 'POST',
+                headers : {
+                     'content-type' : 'application/json',
+
+
+                },
+                body: JSON.stringify({
+                    userId: user.id, // hardcoded for now
+                    eventId:  event.id,
+                    status: "joined"
+                }),
+            });
+        }
+        catch (error)
+        {
+            console.log("Error:", error);
+        }        
+    };
+
+    const declineButtonHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        console.log("You have declined the event");
+        try
+        {
+            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
+                method: 'DELETE',
+                headers : {
+                     'content-type' : 'application/json',
+
+
+                },
+            });
+        }
+        catch (error)
+        {
+            console.log("Error:", error);
+        }        
+    };
     // the function Returns JSX
     return (
         <div className="main">
+            {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
             {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
-            {"gebruikers" === "gebruikers" && (
-                <form>
-                    <button type="submit" className="button-join">JOIN NOW !!!</button>
+            { user != null && user.role === "user" && !eventUserId && (
+                <form className="form-join-event" >
+                    <button type="submit" className="button-join" onClick={joinButtonHandler}>JOIN NOW !!!</button>
+                </form>
+            )}
+            { user != null && user.role === "user" && eventUserId && (
+                <form className="form-decline-event" >
+                    <button type="submit" className="button-decline" onClick={declineButtonHandler}>DECLINE</button>
                 </form>
             )}
             <div className="main-background">
-                {/* same thing here but this time a panel on the right will be shown*/}
-                { "gebruikers" === "gebruikers" && (
+                {/* same thing here but this time a panel on the right will be shown */}
+                { user != null && user.role === "user"  && (
                 <div className="gebruikers-main-users">
                     <div className="gebruikers-panel-users">
                         <table>
@@ -137,7 +212,7 @@ const Event = () => {
                     </div>
                 </div>
                 {/* only admins can enter here which is a panel on the left of all users that enrolled*/}
-                { "ADMIN" === "ADMIN" && (
+                { user != null && user.role === "admin" &&(
                 <div className="main-users">
                     <div className="admin-panel-users">
                         <table>
