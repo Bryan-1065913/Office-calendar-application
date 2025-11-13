@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { useAuth } from '../../../authentication/AuthContext';
 
 const LoginPage = () => {
-  const { login, isAuthenticated } = useAuth()
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +14,9 @@ const LoginPage = () => {
 
   // check if ur authenticated, if yes then send to dashboard
   useEffect(() => {
+    console.log(isAuthenticated);
     if (isAuthenticated) {
+      console.log('User is authenticated, navigating to dashboard.');
       navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]); 
@@ -27,6 +29,7 @@ const LoginPage = () => {
 
     try {
       await login(email, password);
+
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message || 'Login mislukt, controleer je gegevens.');

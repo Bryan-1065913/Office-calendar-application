@@ -1,6 +1,7 @@
 // src/components/common/Header/Header-Dashboard.tsx
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { useAuth } from "../../../authentication/AuthContext.tsx";
+import {useNavigate} from "react-router";
 
 type Props = { open: boolean; onToggle: () => void };
 
@@ -16,7 +17,9 @@ const HeaderDashboard = ({ open, onToggle }: Props) => {
         <Navbar expand="lg" className="dashboard-header" data-bs-theme="dark">
             <Container fluid>
                 <Navbar.Brand>
-                    <img src="/src/assets/images/logo.png" alt="Logo" width="105" height="50" />
+                    <a href="/">
+                        <img src="/src/assets/images/logo.png" alt="Logo" width="105" height="50" />
+                    </a>
                 </Navbar.Brand>
                 <div className="d-flex align-items-center gap-2">
                     <Nav className="d-none d-lg-flex">

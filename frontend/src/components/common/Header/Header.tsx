@@ -1,6 +1,8 @@
 // src/components/common/Header/Header.tsx
+import {useAuth} from "../../../authentication/AuthContext.tsx";
 
 const Header = () => {
+    const { user } = useAuth();
     return (
         <header
             className="d-flex fixed-top bg-white flex-wrap align-items-center justify-content-center justify-content-md-between p-3 border-bottom mb-5">
@@ -15,8 +17,12 @@ const Header = () => {
                 <li><a href="/events" className="nav-link px-2">Events</a></li>
             </ul>
             <div className="col-md-3 text-end">
-                <a className="btn btn-outline-primary me-2" href="/login">Login</a>
-                <a className="btn btn-primary" href="/register">Sign-up</a>
+                { !user && (
+                    <> 
+                        <a className="btn btn-outline-primary me-2" href="/login">Login</a>
+                        <a className="btn btn-primary" href="/register">Sign-up</a>
+                    </>
+                )}
             </div>
         </header>
     );
