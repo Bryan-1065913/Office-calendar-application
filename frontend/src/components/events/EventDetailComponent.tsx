@@ -10,6 +10,7 @@ import { useFetch} from '../../hooks/useFetchGet';
 // custom hook two
 import { useFetchSecond } from '../../hooks/useFetchSecondGet';
 import {useFetchThird} from '../../hooks/useFetchThird';
+import { Navigate } from "react-router";
 // Defines the structure of an event object and its attributes
 import { useAuth } from "../../authentication/AuthContext";
 
@@ -102,7 +103,7 @@ const Event = () => {
     // we also get all users from useState() hook users hook
     if(user == null )
     {
-        return <NotFound />;
+        return <Navigate to="/login" replace />;
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id);
     const eventUsers = users.filter(u =>  EventParticipation.map( ep => ep.userId === u.id ));
