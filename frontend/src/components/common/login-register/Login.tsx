@@ -15,9 +15,9 @@ const LoginPage = () => {
   // check if ur authenticated, if yes then send to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true }); 
     }
-  }, [isAuthenticated, navigate]); 
+  }, [isAuthenticated]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();

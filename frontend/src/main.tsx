@@ -16,7 +16,6 @@ import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/Profile/ProfileCard';
-import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
 
 
 const router = createBrowserRouter([
@@ -30,14 +29,13 @@ const router = createBrowserRouter([
                 element: <ProtectedRoute /*role="Admin"*/ />,
                 children: [
                     { 
-                        path: 'dashboard', 
+                        path: 'dashboard',  
                         element: <LayoutDashboard />, 
                         children: 
                         [
                             { index: true , element: <Overview /> },
 
                             { path: 'profile', element: <ProfileCard />},
-                            { path: 'changeProfile', element: <ChangeProfile />},
 
 
 
