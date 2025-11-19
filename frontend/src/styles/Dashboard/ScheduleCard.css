@@ -1,0 +1,40 @@
+.schedule-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+}
+
+.schedule-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--gunmetal);
+}
+
+.schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--tiffany);
+    flex-shrink: 0;
+}
+
+.text {
+    font-size: 18px;
+    color: var(--gunmetal);
+}
