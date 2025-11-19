@@ -1,7 +1,10 @@
 // src/components/common/Dashboard/WeekOverviewCard.tsx
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { workStatusService, type WorkStatus } from '../../../services/workStatusService';
 import { useAuth } from '../../../authentication/AuthContext';
+import '../../../styles/Dashboard/WeekOverviewCard.css';
+import { StatusBadge } from './StatusBadge';
+import ChevronIcon from "../../../assets/images/chevron.svg?react";
 
 type Day = {
     wd: string;
@@ -16,8 +19,7 @@ const WeekOverviewCard = () => {
     const [days, setDays] = useState<Day[]>([]);
     const [currentMonth, setCurrentMonth] = useState<string>('');
     const [currentYear, setCurrentYear] = useState<number>(0);
-    const [previousWeekNumber, setPreviousWeekNumber] = useState<number>(-1);
-    const [nextWeekNumber, setNextWeekNumber] = useState<number>(1);
+    const [currentWeekNumber, setCurrentWeekNumber] = useState<number>(0);
     const [weekOffset, setWeekOffset] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -26,7 +28,6 @@ const WeekOverviewCard = () => {
         if (user?.id) {
             loadWeekData(weekOffset);
         } else {
-            // Geen user ingelogd, toon lege week
             const weekDays = getWeekDays(weekOffset);
             setDays(weekDays);
             updateWeekInfo(weekDays);
@@ -34,10 +35,7 @@ const WeekOverviewCard = () => {
     }, [weekOffset, user]);
 
     const loadWeekData = async (offset: number) => {
-        if (!user?.id) {
-            console.log('No user logged in');
-            return;
-        }
+        if (!user?.id) return;
 
         setIsLoading(true);
         setError(null);
@@ -45,25 +43,13 @@ const WeekOverviewCard = () => {
         try {
             const monday = getMonday(offset);
             const weekDays = getWeekDays(offset);
-
-            // Format date als "2025-11-11"
             const startDateStr = monday.toISOString().split('T')[0];
 
-            console.log('Fetching work status for:', startDateStr, 'User:', user.id);
-
-            // Haal work statuses op van de backend
             const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.id);
 
-            console.log('Received statuses:', statuses);
-
-            // Update dagen met de opgehaalde statuses
             const updatedDays = weekDays.map(day => {
                 const dayStr = day.date.toISOString().split('T')[0];
-
-                // ✅ FIX: Vergelijk datums zonder tijd
                 const status = statuses.find(s => s.date.split('T')[0] === dayStr);
-
-                console.log(`Day ${dayStr}:`, status ? 'Found status' : 'No status', status);
 
                 return {
                     ...day,
@@ -76,11 +62,10 @@ const WeekOverviewCard = () => {
             updateWeekInfo(weekDays);
         } catch (error: any) {
             console.error('Failed to load work status:', error);
-            console.error('Error details:', error.response?.data || error.message);
-            setError('Kon werkstatus niet laden. Check console voor details.');
             const weekDays = getWeekDays(offset);
             setDays(weekDays);
             updateWeekInfo(weekDays);
+            setError('Kon werkstatus niet laden. Check console voor details.');
         } finally {
             setIsLoading(false);
         }
@@ -89,12 +74,10 @@ const WeekOverviewCard = () => {
     function updateWeekInfo(weekDays: Day[]) {
         if (weekDays.length > 0) {
             const firstDay = weekDays[0].date;
-            setCurrentMonth(firstDay.toLocaleDateString('nl-NL', {month: 'long'}));
+            setCurrentMonth(firstDay.toLocaleDateString('en-US', { month: 'long' }));
             setCurrentYear(firstDay.getFullYear());
-
             const currentWeek = getWeekNumber(firstDay);
-            setPreviousWeekNumber(currentWeek - 1);
-            setNextWeekNumber(currentWeek + 1);
+            setCurrentWeekNumber(currentWeek);
         }
     }
 
@@ -110,7 +93,7 @@ const WeekOverviewCard = () => {
     function getWeekDays(offset: number): Day[] {
         const monday = getMonday(offset);
         const week: Day[] = [];
-        const dagNamen = ['Ma', 'Di', 'Wo', 'Do', 'Vr'];
+        const dagNamen = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
 
         for (let i = 0; i < 5; i++) {
             const day = new Date(monday);
@@ -137,7 +120,7 @@ const WeekOverviewCard = () => {
         const statusMap: Record<string, string> = {
             'office': 'Office',
             'home': 'Home',
-            'vacation': 'Free',
+            'vacation': 'Leave',
             'sick': 'Sick',
             'business_trip': 'Business Trip',
             'other': 'Other'
@@ -145,109 +128,90 @@ const WeekOverviewCard = () => {
         return statusMap[status] || status;
     }
 
-    function getStatusColor(status: string): string {
-        // Gebruik je originele kleuren!
-        const colorMap: Record<string, string> = {
-            'Office': 'bg-teal',      // Jouw custom class
-            'Home': 'bg-lilac',       // Jouw custom class
-            'Free': 'bg-platinum',    // Jouw custom class
-            'Sick': 'bg-danger',
-            'Business Trip': 'bg-info',
-            'Other': 'bg-secondary'
+    // Map label → variant for StatusBadge
+    function mapLabelToVariant(label: string): 'off' | 'sick' | 'home' | 'leave' | 'office' {
+        const map: Record<string, any> = {
+            "Off": "off",
+            "Sick": "sick",
+            "Home": "home",
+            "Leave": "leave",
+            "Office": "office"
         };
-        return colorMap[status] || 'bg-secondary';
+        return map[label] || "office";
     }
 
-    const gaNaarVorigeWeek = () => {
-        setWeekOffset(prev => prev - 1);
-    };
-
-    const gaNaarVolgendeWeek = () => {
-        setWeekOffset(prev => prev + 1);
-    };
-
-    const gaNaarHuidigeWeek = () => {
-        setWeekOffset(0);
-    };
+    const gaNaarVorigeWeek = () => setWeekOffset(prev => prev - 1);
+    const gaNaarVolgendeWeek = () => setWeekOffset(prev => prev + 1);
+    const gaNaarHuidigeWeek = () => setWeekOffset(0);
 
     return (
-        <div className="card p-3 shadow-sm">
-            {/* Header */}
-            <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="week-overview-card card shadow-sm">
+            <div className="week-overview-header d-flex justify-content-between align-items-center mb-2 px-1">
                 <div className="d-flex align-items-center gap-2">
                     <button
-                        className="btn btn-link p-0"
+                        className="week-nav-button btn btn-link p-0 text-decoration-none"
                         aria-label="Vorige week"
                         onClick={gaNaarVorigeWeek}
                         disabled={isLoading}
                     >
-                        <img src="/src/assets/images/angle-left.svg" width="24" height="24" alt=""/>
+                        <ChevronIcon className="chevron chevron-left" />
                     </button>
-                    <span className="text-muted">week {previousWeekNumber}</span>
+                    <span className="week-label">
+                        Week {currentWeekNumber > 0 ? currentWeekNumber - 1 : 52}
+                    </span>
                 </div>
 
-                <h5 className="mb-0 fw-bold" style={{cursor: 'pointer'}} onClick={gaNaarHuidigeWeek}>
+                <h5 className="week-title" onClick={gaNaarHuidigeWeek}>
                     {currentMonth} {currentYear}
                 </h5>
 
                 <div className="d-flex align-items-center gap-2">
-                    <span className="text-muted">week {nextWeekNumber}</span>
+                    <span className="week-label">
+                        Week {currentWeekNumber + 1}
+                    </span>
                     <button
-                        className="btn btn-link p-0"
+                        className="week-nav-button btn btn-link p-0 text-decoration-none"
                         aria-label="Volgende week"
                         onClick={gaNaarVolgendeWeek}
                         disabled={isLoading}
                     >
-                        <img
-                            src="/src/assets/images/angle-left.svg"
-                            width="24"
-                            height="24"
-                            alt=""
-                            style={{transform: 'rotate(180deg)'}}
-                        />
+                        <ChevronIcon className="chevron chevron-right" />
                     </button>
                 </div>
             </div>
 
             {error && (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                <div className="alert alert-danger alert-dismissible fade show mb-2" role="alert">
                     {error}
                     <button type="button" className="btn-close" onClick={() => setError(null)}></button>
                 </div>
             )}
 
             {isLoading ? (
-                <div className="text-center py-5">
-                    <div className="spinner-border" role="status">
+                <div className="text-center py-4">
+                    <div className="spinner-border spinner-border-sm" role="status">
                         <span className="visually-hidden">Laden...</span>
                     </div>
                 </div>
             ) : (
                 <>
-                    <div className="row row-cols-2 row-cols-md-5 text-center g-3 align-items-start mb-3">
-                        {days.map(({wd, d, date, chips}) => (
-                            <div className="col" key={date.toISOString()}>
-                                <div className="fw-medium">{wd}</div>
-                                <div className="fs-4 lh-1">{d}</div>
-                                <div className="d-flex gap-2 justify-content-center flex-wrap mt-2">
+                    <div className="week-days-grid text-center align-items-start">
+                        {days.map(({ wd, d, date, chips }) => (
+                            <div className="col day-item" key={date.toISOString()}>
+                                <div className="day-name">{wd}</div>
+                                <div className="day-number">{d}</div>
+
+                                <div className="day-badges d-flex justify-content-center flex-wrap gap-2">
                                     {(chips ?? []).map((c) => (
-                                        <span
+                                        <StatusBadge
                                             key={c}
-                                            className={`badge rounded-pill px-3 py-2 text-white ${getStatusColor(c)}`}
-                                        >{c}</span>
+                                            label={c}
+                                            variant={mapLabelToVariant(c)}
+                                        />
                                     ))}
                                 </div>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="d-flex gap-2 flex-wrap">
-                        <button className="btn btn-calendar fw-bold flex-fill">
-                            Nieuwe afspraak
-                        </button>
-                        <button className="btn btn-calendar fw-bold flex-fill">
-                            Werkstatus toevoegen
-                        </button>
                     </div>
                 </>
             )}
