@@ -145,7 +145,7 @@ const WeekOverviewCard = () => {
     const gaNaarHuidigeWeek = () => setWeekOffset(0);
 
     return (
-        <div className="week-overview-card card shadow-sm">
+        <div className="week-overview-card card">
             <div className="week-overview-header d-flex justify-content-between align-items-center mb-2 px-1">
                 <div className="d-flex align-items-center gap-2">
                     <button

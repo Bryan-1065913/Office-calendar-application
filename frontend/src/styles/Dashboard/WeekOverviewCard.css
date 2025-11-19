@@ -5,6 +5,7 @@
     border-radius: 26px;
     padding: 10px;
     color: var(--gunmetal);
+    box-shadow: var(--shadow);
 }
 
 /* Header styling */
@@ -61,7 +62,7 @@
 }
 
 .day-item {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     border-radius: 14px;
     padding: 10px;
     display: flex;
