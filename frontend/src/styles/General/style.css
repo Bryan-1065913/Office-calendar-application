@@ -1,7 +1,10 @@
-root {
+:root {
     --gunmetal: #263D42;
     --violet: #8E6C88;
     --tiffany: #63C7B2;
     --nonphoto: #80CED7;
     --platinum: #CCDBDC;
+    --white: #FFFFFF;
+
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.1)
 }
