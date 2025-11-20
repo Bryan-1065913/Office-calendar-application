@@ -1,7 +1,7 @@
 .tasks-card {
     background: var(--white);
     border-radius: var(--border-radius);
-    padding: 22px;
+    padding: 20px;
     box-shadow: var(--shadow);
 }
 
