@@ -7,7 +7,6 @@ import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
 import ScheduleCard from "./ScheduleCard.tsx";
 import TasksCard from "./TasksCard";
-import NotesCard from "./NotesCard";
 import ProfileCard from "./Profile/ProfileCard";
 
 const Overview = () => {
@@ -33,7 +32,6 @@ const Overview = () => {
                         <div className="row g-3">
                             <div className="col-12"><ScheduleCard /></div>
                             <div className="col-12"><TasksCard /></div>
-                            <div className="col-12"><NotesCard /></div>
                             <div className="col-12"><ProfileCard /></div>
                         </div>
                     </div>
