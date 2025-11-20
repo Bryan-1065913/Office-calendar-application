@@ -41,14 +41,11 @@ namespace OfficeCalendar.Api.Controllers
             {
                 return NotFound("User not found");
             }
-            else {
-                return("Gevonden");
-            }
 
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
                 return NotFound("User not found");
-            
+
             Console.WriteLine($"User: {user.FirstName}, Phone: {user.PhoneNumber}, JobTitle: {user.JobTitle}");
 
             return Ok(MapToUserDto(user));
