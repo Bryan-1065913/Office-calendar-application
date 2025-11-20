@@ -6,5 +6,6 @@
     --platinum: #CCDBDC;
     --white: #FFFFFF;
 
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.1)
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    --border-radius: 26px;
 }
