@@ -1,0 +1,75 @@
+.tasks-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+}
+
+.tasks-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--gunmetal);
+}
+
+.tasks-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.task-row {
+    padding: 12px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.task-row:last-child {
+    border-bottom: none;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+}
+
+.task-item input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Custom checkbox */
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.task-item input:checked + .checkbox-custom {
+    background: var(--tiffany);
+    border-color: var(--tiffany);
+}
+
+.task-item input:checked + .checkbox-custom::after {
+    content: "✓";
+    font-size: 13px;
+    color: var(--white);
+}
+
+/* Tekst */
+.task-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gunmetal);
+}
