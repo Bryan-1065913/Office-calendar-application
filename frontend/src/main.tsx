@@ -4,6 +4,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
+import './assets/fonts/sen.css';
+
 import App from './App';
 import Home from './pages/Home/Home';
 import Events from './pages/Events/Events';
@@ -15,7 +17,7 @@ import RegisterPage from './components/common/login-register/Register';
 import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
 import Overview from './components/common/Dashboard/Overview';
-import ProfileCard from './components/common/Dashboard/Profile/ProfileCard';
+import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
 // import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
 
 
