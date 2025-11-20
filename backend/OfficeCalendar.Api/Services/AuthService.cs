@@ -52,6 +52,8 @@ namespace OfficeCalendar.Api.Services
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber ?? string.Empty,
+                    JobTitle = user.JobTitle ?? string.Empty,
                     Role = user.Role
                 };
 
@@ -99,13 +101,14 @@ namespace OfficeCalendar.Api.Services
                 // Genereer JWT token
                 var token = GenerateJwtToken(user);
 
-                return new AuthResponse
-                {
+                return new AuthResponse {
                     Token = token,
                     UserId = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber ?? string.Empty,
+                    JobTitle = user.JobTitle ?? string.Empty,
                     Role = user.Role
                 };
             }
@@ -189,6 +192,8 @@ namespace OfficeCalendar.Api.Services
         public string Email { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty; 
+        public string JobTitle { get; set; } = string.Empty;  
         public string Role { get; set; } = string.Empty;
     }
 }
