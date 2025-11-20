@@ -1,6 +1,6 @@
 .schedule-card {
     background: var(--white);
-    border-radius: 26px;
+    border-radius: var(--border-radius);
     padding: 20px 22px;
     box-shadow: var(--shadow);
 }
