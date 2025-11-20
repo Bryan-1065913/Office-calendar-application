@@ -7,7 +7,7 @@ import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
 import ScheduleCard from "./ScheduleCard.tsx";
 import TasksCard from "./TasksCard";
-import ProfileCard from "./Profile/ProfileCard";
+import ProfileOverviewCard from "./ProfileOverviewCard.tsx";
 
 const Overview = () => {
     const { user } = useAuth();
@@ -32,7 +32,7 @@ const Overview = () => {
                         <div className="row g-3">
                             <div className="col-12"><ScheduleCard /></div>
                             <div className="col-12"><TasksCard /></div>
-                            <div className="col-12"><ProfileCard /></div>
+                            <div className="col-12"><ProfileOverviewCard /></div>
                         </div>
                     </div>
                 </div>
