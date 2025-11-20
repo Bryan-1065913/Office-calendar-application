@@ -2,7 +2,7 @@
 
 /* Card styling */
 .week-overview-card {
-    border-radius: 26px;
+    border-radius: var(--border-radius);
     padding: 10px;
     color: var(--gunmetal);
     box-shadow: var(--shadow);
