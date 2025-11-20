@@ -3,7 +3,7 @@ import "/src/styles/Dashboard/overview.css";
 // import {currentUser} from "../../../authentication/auth";
 import { useAuth } from "../../../authentication/AuthContext";
 import ActivityModal from "./ActivityModal";
-import TeamCard from "./TeamCard";
+import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
 import ScheduleCard from "./ScheduleCard.tsx";
 import TasksCard from "./TasksCard";
@@ -25,7 +25,7 @@ const Overview = () => {
                     <div className="col-md-7">
                         <div className="d-flex flex-column gap-3">
                             <WeekOverviewCard />
-                            <TeamCard />
+                            <TeamOverviewCard />
                         </div>
                     </div>
 
