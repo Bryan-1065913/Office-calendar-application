@@ -109,6 +109,7 @@ namespace OfficeCalendar.Api.Repositories
             var rowsAffected = await connection.ExecuteAsync(sql, new { UserId = userId, EventId = eventId });
             return rowsAffected > 0;
         }
+        
         // CUSTOM QUERY
         public async Task<List<T>> QueryAsync(string sql, object? parameters = null)
         {

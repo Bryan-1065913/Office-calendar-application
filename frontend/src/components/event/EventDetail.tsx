@@ -109,115 +109,34 @@ const Event = () => {
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id && ep.status == "joined");
     const eventUsers = users.filter(u =>  EventParticipation.some( ep => ep.userId === u.id ));
-    const eventUserId = eventParticipations.some( ep => ep.userId === user.id && event.id === ep.eventId && ep.status == "joined");
-    const joinButtonHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        try
-        {
-            const response = await fetch("http://localhost:5017/api/EventParticipations/", {
-                method: 'POST',
-                headers : {
-                     'content-type' : 'application/json',
-
-
-                },
-                body: JSON.stringify({
-                    userId: user.id, // hardcoded for now
-                    eventId:  event.id,
-                    status: "joined"
-                }),
-            });
-            if (response.ok) {
-                console.log("Successfully joined event");
-            }
-        }
-        catch (error)
-        {
-            console.log("Error:", error);
-        }        
-    };
-
-    const declineButtonHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        try
-        {
-            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
-                method: 'DELETE',
-                headers : {
-                     'content-type' : 'application/json',
-
-
-                },
-            });
-            if (response.ok) {
-                console.log("Successfully declined event");
-            }
-        }
-        catch (error)
-        {
-            console.log("Error:", error);
-        }        
-    };
+    const monthNames: string[] = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
     // the function Returns JSX
     return (
-        <div className="main">
-            {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
-            {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
-            { user != null && user.role === "user" && !eventUserId && (
-                <form className="form-join-event" >
-                    <button type="submit" className="button-join" onClick={joinButtonHandler}>JOIN NOW !!!</button>
-                </form>
-            )}
-            { user != null && user.role === "user" && eventUserId && (
-                <form className="form-decline-event" >
-                    <button type="submit" className="button-decline" onClick={declineButtonHandler}>DECLINE</button>
-                </form>
-            )}
-            <div className="main-background">
-                <Aanwezigen eventUsers={eventUsers} />
-                <div className="Border-line-event"></div>
-                <div className="inner-event"></div>
-                {/*event can be called cause it is just one event*/}
-                <div key={event.id} className="main-card-event">
-                    <h1 className="event-id-detail">{event.id}</h1>
-                    <h2 className="event-name-detail">{event.title}</h2>
-                    <div className="underscore-event"></div>
-                    <p className="event-description-detail">{event.description}</p>
-                    <p className="place-event">STATUS</p>
-                    <div className="place-outer-event">
-                        <div className="place-inner-event">
-                            <p className="actual-place-event">{event.status}</p>
-                        </div>
+        <div className="main-background">
+            <div key={event.id} className="main-card-event">
+                <header className="event-title">
+                    <h2 className="event-title-content">{event.title}</h2>
+                </header>
+                <section className="event-all-content">
+                    <p className="event-date-content"><img src="/src/assets/images/calendar.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[0].split("-")[2]}  {monthNames[Number(event.startsAt.split("T")[0].split("-")[1]) - 1]}  {event.startsAt.split("T")[0].split("-")[0]} </p>
+                    <p className="event-time-content"><img src="/src/assets/images/clock.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[1].split(":")[0]}:{event.startsAt.split("T")[1].split(":")[1]} - </p>
+                    <p className="event-location-content"><img src="/src/assets/images/location.svg" alt="Logo" width="33.6" height="36" /></p>
+                </section>
+                <p className="event-description">{event.description}</p>
+                { user.id !== event.createdBy && ( 
+                    <div className="user-button">
+                        <button className="edit-button">Edit</button>
                     </div>
-                    <p className="date-event">DATE</p>
-                    <div className="date-outer-event">
-                        <div className="date-inner-event">
-                            <p className="actual-date-event">{event.startsAt.split("T")[0]}</p>
-                        </div>
-                    </div>
-                </div>
-                {/* only admins can enter here which is a panel on the left of all users that enrolled*/}
-                { user != null && user.role === "admin" &&(
-                <div className="main-users">
-                    <div className="admin-panel-users">
-                        <table>
-                            <thead>
-                                <th className="th-id">ID</th>
-                                <th className="th-name">NAME</th>
-                            </thead>
-                            {eventUsers.map(({ id, lastName}) => (
-
-                                <tbody className="paneel-Card-users">
-                                    <tr>
-                                        <td className="user-id">{id}</td>
-                                        <td className="user-name">{lastName}</td>
-                                    </tr>
-                                </tbody>
-                            ))}
-                        </table>
-                    </div>
-                </div>
                 )}
+                <section className="attendees-content">
+                    <p className="attendees">Attendees</p> 
+                    <div className="attendees-overzicht">
+                        <Aanwezigen eventUsers={eventUsers} />  
+                    </div>
+                </section>
             </div>
         </div>
     );
