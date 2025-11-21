@@ -53,6 +53,7 @@ const Event = () => {
     const { user } = useAuth();
     // storage of evenementen using useState hook 
     const [evenementen, setEvenementen] = useState<Evenement[]>([]);
+    const [buttonEvent, setButtonEvent] = useState<boolean>(false);
     // storage of User using another useState hook
     const [eventParticipations, setEventParticipations] = useState<EventParticipation[]>([]);
     const [users, setUsers] = useState<User[]>([]);
@@ -109,6 +110,54 @@ const Event = () => {
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id && ep.status == "joined");
     const eventUsers = users.filter(u =>  EventParticipation.some( ep => ep.userId === u.id ));
+    const eventUserId = eventParticipations.some( ep => ep.userId === user.id && event.id === ep.eventId && ep.status == "joined");
+    const joinButtonHandler = async () => {
+        try
+        {
+            const response = await fetch("http://localhost:5017/api/EventParticipations/", {
+                method: 'POST',
+                headers : {
+                     'content-type' : 'application/json',
+
+
+                },
+                body: JSON.stringify({
+                    userId: user.id, // hardcoded for now
+                    eventId:  event.id,
+                    status: "joined"
+                }),
+            });
+            if (response.ok) {
+                console.log("Successfully joined event");
+            }
+        }
+        catch (error)
+        {
+            console.log("Error:", error);
+        }        
+    };
+
+    const declineButtonHandler = async () => {
+        try
+        {
+            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
+                method: 'DELETE',
+                headers : {
+                     'content-type' : 'application/json',
+
+
+                },
+            });
+            if (response.ok) {
+                console.log("Successfully declined event");
+            }
+        }
+        catch (error)
+        {
+            console.log("Error:", error);
+        }        
+    };
+
     const monthNames: string[] = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -116,6 +165,7 @@ const Event = () => {
     // the function Returns JSX
     return (
         <div className="main-background">
+            {/*event can be called cause it is just one event*/}
             <div key={event.id} className="main-card-event">
                 <header className="event-title">
                     <h2 className="event-title-content">{event.title}</h2>
@@ -128,7 +178,7 @@ const Event = () => {
                 <p className="event-description">{event.description}</p>
                 { user.id !== event.createdBy && ( 
                     <div className="user-button">
-                        <button className="edit-button">Edit</button>
+                        <button className="edit-button" onClick={() => {setButtonEvent(true);}}>{!eventUserId ? "Join" : "Decline"}</button>
                     </div>
                 )}
                 <section className="attendees-content">
@@ -138,6 +188,58 @@ const Event = () => {
                     </div>
                 </section>
             </div>
+            {buttonEvent &&(
+                <div className="pop-up">
+                    {!eventUserId && (
+                        <p className="Description">do you really want to Join the event: {event.title}</p>
+                    )}
+                    {eventUserId && (
+                        <p className="Description"> do you really want to Leave the event: {event.title}</p>
+                    )}    
+                    <div className="middleware">
+                        {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
+                        {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
+                        { user != null && user.role === "user" && !eventUserId && (
+                            <form className="form-join-event" >
+                                <button type="submit" className="button-join" onClick={() => {
+                                    joinButtonHandler(); setButtonEvent(false);}}>Join</button>
+                                <button type="submit" className="button-cancel" onClick={() => {
+                                    joinButtonHandler(); setButtonEvent(false);}}>Cancel</button>
+                            </form>
+                        )}
+                        { user != null && user.role === "user" && eventUserId && (
+                            <form className="form-decline-event" >
+                                <button type="submit" className="button-decline" onClick={() => {
+                                    declineButtonHandler(); setButtonEvent(false)}}>Decline</button>
+                                <button type="submit" className="button-cancel" onClick={() => {
+                                    setButtonEvent(false)}}>Cancel</button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            )}
+            {/* only admins can enter here which is a panel on the left of all users that enrolled*/}
+            {/* { user != null && user.role === "admin" &&(
+            <div className="main-users">
+                <div className="admin-panel-users">
+                    <table>
+                        <thead>
+                            <th className="th-id">ID</th>
+                            <th className="th-name">NAME</th>
+                        </thead>
+                        {eventUsers.map(({ id, lastName}) => (
+
+                            <tbody className="paneel-Card-users">
+                                <tr>
+                                    <td className="user-id">{id}</td>
+                                    <td className="user-name">{lastName}</td>
+                                </tr>
+                            </tbody>
+                        ))}
+                    </table>
+                </div>
+            </div>
+            )} */}
         </div>
     );
 };

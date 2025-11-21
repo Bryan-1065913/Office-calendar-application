@@ -98,162 +98,103 @@ $Color-Pallette-5: #263d42;
     border: solid $Color-Pallette-3;
 }
 
+.pop-up {
+    position: fixed;
+    background-color: white;
+    width: 900px;
+    height: 500px;
+    padding: 250px;
+    padding-left: 0px;
+    padding-right: 0px;
+    justify-content: center;
+    text-align: center;
+    margin-top: -1200px;
+    margin-left: 50px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 20px 0px rgba($Color-Pallette-3, 0.5);
+}
 
-// .admin-panel-users table {
-//   width: 100%;
-//   border-collapse: collapse;
-// }
-// .paneel-Card-users{
-//     box-shadow: 0px 0px 5px $Color-Pallette-5;
-// }
-// .admin-panel-users td {
-//     font-weight: bold;
-//     padding: 9px;
-//     text-align: center;
-//     background-color: $Color-Pallette-2;
-// }
+.button-decline,
+.button-join{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: $Color-Pallette-1;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: 100px;
+}
 
-// .admin-panel-users th {
-//     font-weight: bold;
-//     padding: 15px;
-//     margin-left: -50px;
-//     text-align: left;
-//     background-color: $Color-Pallette-2;
-// }
+.button-decline:hover,
+.button-join:hover{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    background-color: $Color-Pallette-3;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: 100px;
+}
 
-// .main-users{
-//     transform: translate(0%, -400%);
-// }
-// .admin-panel-users {
-//     position: absolute;
-//     height: 150px;
-//     width: 200px;       /* give some width */
-//     border-radius: 20px;
-//     box-shadow: 0px 0px 10px $Color-Pallette-5;
-//     left: -500px;
-//     top: -600px;
+.button-cancel {
+    color: $Color-Pallette-1;
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: $Color-Pallette-5;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -90px;
+    margin-top: 100px;
+    position: absolute;
+}
+.button-cancel:hover {
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    color: $Color-Pallette-3;
+    background-color: $Color-Pallette-5;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -90px;
+    margin-top: 100px;
+    position: absolute;
+}
 
-//     overflow-y: auto;   /* vertical scroll */
-//     overflow-x: auto; /* hide horizontal scroll */
-// }
+.middleware {
+    margin-left: 100px;
+}
 
-// .gebruikers-panel-users table {
-//   width: 100%;
-//   border-collapse: collapse;
-// }
-// .gebruikers-paneel-Card-users{
-//     box-shadow: 0px 0px 5px $Color-Pallette-5;
-// }
-// .gebruikers-panel-users td {
-//     font-weight: bold;
-//     padding: 9px;
-//     text-align: center;
-//     background-color: $Color-Pallette-2;
-// }
-
-// .gebruikers-panel-users th {
-//     font-weight: bold;
-//     padding: 15px;
-//     text-align: center;
-//     background-color: $Color-Pallette-2;
-// }
-
-// .gebruikers-main-users{
-//     transform: translate(0%, 0%);
-// }
-// .gebruikers-panel-users {
-//     display: flex;
-//     flex-direction: column;
-//     padding-left: 40px;
-//     position: relative;
-//     height: 450px;
-//     width: 300px;       /* give some width */
-//     border-radius: 20px;
-//     box-shadow: 0px 0px 10px $Color-Pallette-5;
-//     margin: auto;
+.Description {
+    font-family: 'San' sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(
+    to right,
+    $Color-Pallette-3,
+    $Color-Pallette-5
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: -100px;
+    margin-left: 50px;
+    background-size: 200%;
+    animation: moveGradient 10s linear infinite;
     
-//     transform: translate(110%, 165%);
-//     right: 0;
-//     flex-direction: column;
-//     margin: 0 auto;
-//     margin-top: -608px;
-//     margin-bottom: 30px;
+}
 
-//     overflow-y: auto;   /* vertical scroll */
-//     overflow-x: auto; /* hide horizontal scroll */
-// }
-// .form-decline-event,
-// .form-join-event{
-//     position: relative;
-//     margin: 0 auto;
-//     margin-top: -300px;
-//     margin-bottom: 60px;
-//     height: 200px;
-//     width: 400px;
-//     z-index: 1;
-// }
-// .button-decline,
-// .button-join {
-//     position: relative;
-//     height: 100px;
-//     width: 200px;
-//     background-color: $Color-Pallette-2;
-//     color: $Color-Pallette-5;
-//     font-weight: bold;
-    
-//     left: -50px;
-//     border-top-left-radius: 50px;
-//     border-bottom-left-radius: 50px;
-//     animation: buttonpressed 5s ease-in-out forwards;
-// }
-
-// .button-decline:hover,
-// .button-join:hover {
-//     position: relative;
-//     height: 100px;
-//     width: 200px;
-//     background-color: $Color-Pallette-2;
-//     color: $Color-Pallette-5;
-//     font-weight: bold;
-    
-//     left: -50px;
-//     border-top-left-radius: 50px;
-//     border-bottom-left-radius: 50px;
-//     transform: translateX(-130px) scale(0.99);
-// }
-
-
-// @keyframes buttonpressed {
-//   0% {
-//     opacity: 0;
-//     margin-top: 400px;
-//     box-shadow: 5px 5px 0px $Color-Pallette-5;
-//   }
-//   50% {
-//     opacity: 0.5;
-//     margin-top: 600;
-//     box-shadow: 10px 10px 10px $Color-Pallette-5;
-//   }
-//   100% {
-//     opacity: 1;
-//     margin-top: 800px;
-//     box-shadow: 20px 20px 15px $Color-Pallette-5;
-//   }
-// }
-// @keyframes buttonhovered {
-//     0% {
-//         left: -50px;
-//         font-weight: bold;
-//         color: $Color-Pallette-1;
-//     }
-//     50% {
-//         left: -80px;
-//         font-weight: bold;
-//         color: $Color-Pallette-5;
-//     }
-//     100%{
-//         left: -14s0px;
-//         font-weight: bold;
-//         color: $Color-Pallette-1;
-//     }
-// }
+@keyframes moveGradient {
+  0% { background-position: 200%; }
+  100% { background-position: -200%; }
+}
