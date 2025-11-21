@@ -1,7 +1,7 @@
 // src/components/common/Dashboard/ScheduleCard.tsx
 import "../../../styles/Dashboard/ScheduleCard.css";
 
-const ScheduleCard = () => {
+const ScheduleOverviewCard = () => {
     const items = [
         "Kick-off meeting",
         "Project update",
@@ -24,4 +24,4 @@ const ScheduleCard = () => {
     );
 };
 
-export default ScheduleCard;
+export default ScheduleOverviewCard;
