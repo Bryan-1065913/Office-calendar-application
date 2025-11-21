@@ -15,7 +15,7 @@ import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
 import RegisterPage from './components/common/login-register/Register';
 import { AuthProvider } from './authentication/AuthContext';
-import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
+import LayoutDashboard from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
 // import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
