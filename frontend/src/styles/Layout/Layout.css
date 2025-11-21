@@ -1,0 +1,86 @@
+/* ===== Dashboard Layout Wrapper ===== */
+.dashboard-layout {
+    min-height: 100vh;
+    background: var(--platinum);
+}
+
+/* ===== Dashboard Body (sidebar + content) ===== */
+.dashboard-body {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    padding: 30px;
+}
+
+/* ===== Sidebar ===== */
+.dashboard-sidebar {
+    background: var(--gunmetal);
+    padding: 32px 28px;
+    border-radius: 28px 0 28px 28px;
+    color: var(--white);
+    height: calc(100vh - 44px);
+    position: sticky;
+    top: 22px;
+}
+
+.sidebar-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--white);
+}
+
+/* Links */
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: var(--white);
+    transition: background 0.2s ease;
+    margin: 5px 0;
+}
+
+.nav-link .nav-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--tiffany);
+}
+
+/* Active link */
+.sidebar-nav .nav-link.active {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+}
+
+.sidebar-nav .nav-link.active .nav-icon {
+    color: var(--gunmetal);
+}
+
+/* Hover */
+.sidebar-nav .nav-link:hover {
+    background: var(--platinum);
+    color: var(--gunmetal);
+}
+
+.sidebar-nav .nav-link:hover .nav-icon {
+    color: var(--gunmetal);
+}
+
+/* ===== Main Content ===== */
+.dashboard-content {
+    height: calc(100vh - 44px);
+}
+
+/* Grote ronde container */
+.content-card {
+    background: var(--platinum);
+    height: 100%;
+    border-radius: var(--border-radius);
+    padding: 20px 20px 20px 80px;
+    border: 2px solid var(--gunmetal);
+    box-shadow: var(--shadow);
+    margin-left: -60px;
+}
