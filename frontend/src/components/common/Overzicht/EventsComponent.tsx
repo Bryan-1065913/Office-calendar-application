@@ -78,7 +78,7 @@ const Events = () => {
   // this has its own space of stuff happening such as fetch
   useEffect(() => {
     //scrolls to a certain place of the webpage
-    window.scrollTo(614, 1014);
+    window.scrollTo(314, 435);
           
   });
   useEffect(() => {

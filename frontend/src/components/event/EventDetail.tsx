@@ -62,7 +62,7 @@ const Event = () => {
      // this has its own space of stuff happening such as fetch
     useEffect(() => {
         //scrolls to a certain place of the webpage
-        window.scrollTo(610, 610);
+        window.scrollTo(314, 435);
     });// because of no []dependency array it renders everytime the component renders 
     // for example with f5
 
