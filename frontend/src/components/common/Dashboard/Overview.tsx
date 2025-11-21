@@ -1,7 +1,7 @@
 // src/components/common/Dashboard/Overview.tsx
 import "/src/styles/Dashboard/overview.css";
 // import {currentUser} from "../../../authentication/auth";
-import { useAuth } from "../../../authentication/AuthContext";
+import GreetingMessage from "./GreetingMessage";
 import ActivityModal from "./ActivityModal";
 import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
@@ -10,14 +10,10 @@ import TasksCard from "./TasksCard";
 import ProfileOverviewCard from "./ProfileOverviewCard.tsx";
 
 const Overview = () => {
-    const { user } = useAuth();
 
     return (
         <div>
-            <div>
-                <h1>Welcome, <span className="NameGreeting">{user?.firstName}</span>!</h1>
-                <p>Today: [quantity] meetings, [quantity] events, [quantity] tasks</p>
-            </div>
+            <GreetingMessage meetings={3} events={2} tasks={5} />
 
             <div className="container m-0 p-0">
                 <div className="row g-3">
