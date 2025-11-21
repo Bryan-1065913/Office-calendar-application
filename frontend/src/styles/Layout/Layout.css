@@ -26,7 +26,7 @@
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 32px;
-    color: var(--white);
+    color: var(--platinum);
 }
 
 /* Links */
@@ -38,7 +38,7 @@
     font-weight: 600;
     padding: 12px 14px;
     border-radius: 14px;
-    color: var(--white);
+    color: var(--platinum);
     transition: background 0.2s ease;
     margin: 5px 0;
 }
