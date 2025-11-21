@@ -6,7 +6,7 @@ const initialTasks = [
     { id: 2, label: "Create new component", completed: false },
 ];
 
-const TasksCard = () => {
+const TasksOverviewCard = () => {
     const [tasks, setTasks] = useState(initialTasks);
 
     const toggleTask = (id: number) => {
@@ -42,4 +42,4 @@ const TasksCard = () => {
     );
 };
 
-export default TasksCard;
+export default TasksOverviewCard;
