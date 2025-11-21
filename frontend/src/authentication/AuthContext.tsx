@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+
 interface User {
     id: number;
     email: string;
@@ -48,10 +49,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const storedToken = localStorage.getItem('token');
             const storedUser = localStorage.getItem('user');
 
-            if (storedToken && storedUser != null && storedUser != 'undefined') {
+            if (storedToken && storedUser) {
                 try {
                     setToken(storedToken);
-                    console.log('Stored user found:', storedUser);
                     setUser(JSON.parse(storedUser));
                 } catch (error) {
                     console.error('Failed to parse user data:', error);
@@ -61,10 +61,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
             setIsLoading(false);
         };
-        checkAuth();
 
-        
+        checkAuth();
     }, []);
+
     const login = async (email: string, password: string) => {
         setIsLoading(true);
         try {
@@ -84,21 +84,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
 
             const data = await response.json();
-            console.log(data);
-            const loggedInUser: User = {
-                id: data.userId,
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                fullName: data.firstName + ' ' + data.lastName,
-                phoneNumber: data.phoneNumber,
-                jobTitle: data.jobTitle,
-                role: data.role,
-            };
+
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(loggedInUser));
+            localStorage.setItem('user', JSON.stringify(data));
+            
             setToken(data.token);
-            setUser(loggedInUser);
+            setUser(data);
         } catch (error) {
             throw error;
         } finally {

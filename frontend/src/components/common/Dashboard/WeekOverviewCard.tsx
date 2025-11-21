@@ -1,50 +1,98 @@
 // src/components/common/Dashboard/WeekOverviewCard.tsx
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
+import { workStatusService, type WorkStatus } from '../../../services/workStatusService';
+import { useAuth } from '../../../authentication/AuthContext';
+import '../../../styles/Dashboard/WeekOverviewCard.css';
+import { StatusBadge } from './StatusBadge';
+import ChevronIcon from "../../../assets/icons/chevron.svg?react";
 
 type Day = {
     wd: string;
     d: number;
     date: Date;
-    chips?: string[]
+    chips?: string[];
+    workStatus?: WorkStatus;
 };
 
 const WeekOverviewCard = () => {
+    const { user } = useAuth();
     const [days, setDays] = useState<Day[]>([]);
     const [currentMonth, setCurrentMonth] = useState<string>('');
     const [currentYear, setCurrentYear] = useState<number>(0);
-    const [previousWeekNumber, setPreviousWeekNumber] = useState<number>(-1);
-    const [nextWeekNumber, setNextWeekNumber] = useState<number>(1);
-    const [weekOffset, setWeekOffset] = useState<number>(0); // 0 = huidige week, -1 = vorige week, +1 = volgende week
+    const [currentWeekNumber, setCurrentWeekNumber] = useState<number>(0);
+    const [weekOffset, setWeekOffset] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const weekDays = getWeekDays(weekOffset);
-        setDays(weekDays);
+        if (user?.id) {
+            loadWeekData(weekOffset);
+        } else {
+            const weekDays = getWeekDays(weekOffset);
+            setDays(weekDays);
+            updateWeekInfo(weekDays);
+        }
+    }, [weekOffset, user]);
 
-        // Haal maand en jaar van de eerste dag van de week
+    const loadWeekData = async (offset: number) => {
+        if (!user?.id) return;
+
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const monday = getMonday(offset);
+            const weekDays = getWeekDays(offset);
+            const startDateStr = monday.toISOString().split('T')[0];
+
+            const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.id);
+
+            const updatedDays = weekDays.map(day => {
+                const dayStr = day.date.toISOString().split('T')[0];
+                const status = statuses.find(s => s.date.split('T')[0] === dayStr);
+
+                return {
+                    ...day,
+                    workStatus: status,
+                    chips: status ? [mapStatusToLabel(status.status)] : []
+                };
+            });
+
+            setDays(updatedDays);
+            updateWeekInfo(weekDays);
+        } catch (error: any) {
+            console.error('Failed to load work status:', error);
+            const weekDays = getWeekDays(offset);
+            setDays(weekDays);
+            updateWeekInfo(weekDays);
+            setError('Kon werkstatus niet laden. Check console voor details.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    function updateWeekInfo(weekDays: Day[]) {
         if (weekDays.length > 0) {
             const firstDay = weekDays[0].date;
-            setCurrentMonth(firstDay.toLocaleDateString('en-US', {month: 'long'}));
+            setCurrentMonth(firstDay.toLocaleDateString('en-US', { month: 'long' }));
             setCurrentYear(firstDay.getFullYear());
-
             const currentWeek = getWeekNumber(firstDay);
-            setPreviousWeekNumber(currentWeek - 1);
-            setNextWeekNumber(currentWeek + 1);
+            setCurrentWeekNumber(currentWeek);
         }
-    }, [weekOffset]);
+    }
 
-    function getWeekDays(offset: number): Day[] {
+    function getMonday(offset: number): Date {
         const today = new Date();
         const currentDay = today.getDay();
-        const week: Day[] = [];
-
-        // Start vanaf maandag
         const monday = new Date(today);
         monday.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
-
-        // Pas offset toe (7 dagen per week)
         monday.setDate(monday.getDate() + (offset * 7));
+        return monday;
+    }
 
-        // Genereer 5 werkdagen (maandag t/m vrijdag)
+    function getWeekDays(offset: number): Day[] {
+        const monday = getMonday(offset);
+        const week: Day[] = [];
         const dagNamen = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
 
         for (let i = 0; i < 5; i++) {
@@ -55,109 +103,118 @@ const WeekOverviewCard = () => {
                 wd: dagNamen[i],
                 d: day.getDate(),
                 date: day,
-                chips: getChipsForDay(day)
+                chips: []
             });
         }
 
         return week;
     }
 
-    // Helper functie om weeknummer te berekenen
     function getWeekNumber(date: Date): number {
         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
         const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
         return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     }
 
-    // Placeholder functie - later kun je hier je echte data ophalen van backend
-    function getChipsForDay(date: Date): string[] {
-        const dayOfWeek = date.getDay();
-
-        if (dayOfWeek === 1 || dayOfWeek === 4) return ["Office"];
-        if (dayOfWeek === 2) return ["Free"];
-        if (dayOfWeek === 3 || dayOfWeek === 5) return ["Home"];
-
-        return [];
+    function mapStatusToLabel(status: string): string {
+        const statusMap: Record<string, string> = {
+            'office': 'Office',
+            'home': 'Home',
+            'vacation': 'Leave',
+            'sick': 'Sick',
+            'business_trip': 'Business Trip',
+            'other': 'Other'
+        };
+        return statusMap[status] || status;
     }
 
-    const gaNaarVorigeWeek = () => {
-        setWeekOffset(prev => prev - 1);
-    };
+    // Map label → variant for StatusBadge
+    function mapLabelToVariant(label: string): 'off' | 'sick' | 'home' | 'leave' | 'office' {
+        const map: Record<string, any> = {
+            "Off": "off",
+            "Sick": "sick",
+            "Home": "home",
+            "Leave": "leave",
+            "Office": "office"
+        };
+        return map[label] || "office";
+    }
 
-    const gaNaarVolgendeWeek = () => {
-        setWeekOffset(prev => prev + 1);
-    };
-
-    const gaNaarHuidigeWeek = () => {
-        setWeekOffset(0);
-    };
+    const gaNaarVorigeWeek = () => setWeekOffset(prev => prev - 1);
+    const gaNaarVolgendeWeek = () => setWeekOffset(prev => prev + 1);
+    const gaNaarHuidigeWeek = () => setWeekOffset(0);
 
     return (
-        <div className="card p-3 shadow-sm">
-            {/* Header */}
-            <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="week-overview-card card">
+            <div className="week-overview-header d-flex justify-content-between align-items-center mb-2 px-1">
                 <div className="d-flex align-items-center gap-2">
                     <button
-                        className="btn btn-link p-0"
+                        className="week-nav-button btn btn-link p-0 text-decoration-none"
                         aria-label="Vorige week"
                         onClick={gaNaarVorigeWeek}
+                        disabled={isLoading}
                     >
-                        <img src="/src/assets/images/angle-left.svg" width="24" height="24" alt=""/>
+                        <ChevronIcon className="chevron chevron-left" />
                     </button>
-                    <span className="text-muted">week {previousWeekNumber}</span>
+                    <span className="week-label">
+                        Week {currentWeekNumber > 0 ? currentWeekNumber - 1 : 52}
+                    </span>
                 </div>
 
-                <h5 className="mb-0 fw-bold" style={{cursor: 'pointer'}} onClick={gaNaarHuidigeWeek}>
+                <h5 className="week-title" onClick={gaNaarHuidigeWeek}>
                     {currentMonth} {currentYear}
                 </h5>
 
                 <div className="d-flex align-items-center gap-2">
-                    <span className="text-muted">week {nextWeekNumber}</span>
+                    <span className="week-label">
+                        Week {currentWeekNumber + 1}
+                    </span>
                     <button
-                        className="btn btn-link p-0"
+                        className="week-nav-button btn btn-link p-0 text-decoration-none"
                         aria-label="Volgende week"
                         onClick={gaNaarVolgendeWeek}
+                        disabled={isLoading}
                     >
-                        <img
-                            src="/src/assets/images/angle-left.svg"
-                            width="24"
-                            height="24"
-                            alt=""
-                            style={{transform: 'rotate(180deg)'}}
-                        />
+                        <ChevronIcon className="chevron chevron-right" />
                     </button>
                 </div>
             </div>
 
-            <div className="row row-cols-2 row-cols-md-5 text-center g-3 align-items-start mb-3">
-                {days.map(({wd, d, date, chips}) => (
-                    <div className="col" key={date.toISOString()}>
-                        <div className="fw-medium">{wd}</div>
-                        <div className="fs-4 lh-1">{d}</div>
-                        <div className="d-flex gap-2 justify-content-center flex-wrap mt-2">
-                            {(chips ?? []).map((c) => (
-                                <span
-                                    key={c}
-                                    className={`badge rounded-pill px-3 py-2 text-white ${
-                                        c === "Office" ? "bg-teal" :
-                                            c === "Home" ? "bg-lilac" :
-                                                c === "Free" ? "bg-platinum" :
-                                                    "bg-secondary"
-                                    }`}
-                                >{c}</span>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {error && (
+                <div className="alert alert-danger alert-dismissible fade show mb-2" role="alert">
+                    {error}
+                    <button type="button" className="btn-close" onClick={() => setError(null)}></button>
+                </div>
+            )}
 
-            <div className="d-flex gap-2 flex-wrap">
-                <button className="btn btn-calendar fw-bold flex-fill">Add new appointment
-                </button>
-                <button className="btn btn-calendar fw-bold flex-fill" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Add activity
-                </button>
-            </div>
+            {isLoading ? (
+                <div className="text-center py-4">
+                    <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Laden...</span>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div className="week-days-grid text-center align-items-start">
+                        {days.map(({ wd, d, date, chips }) => (
+                            <div className="col day-item" key={date.toISOString()}>
+                                <div className="day-name">{wd}</div>
+                                <div className="day-number">{d}</div>
+
+                                <div className="day-badges d-flex justify-content-center flex-wrap gap-2">
+                                    {(chips ?? []).map((c) => (
+                                        <StatusBadge
+                                            key={c}
+                                            label={c}
+                                            variant={mapLabelToVariant(c)}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };

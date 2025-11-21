@@ -1,21 +1,32 @@
-// src/components/common/Layout/Layout.tsx
-import { Container } from 'react-bootstrap';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+// src/components/common/Layout/LayoutDashboard.tsx
+import { NavLink, Outlet } from "react-router";
+import { Nav } from "react-bootstrap";
 import "/src/styles/General/style.css";
+import "/src/styles/Layout/layout-dashboard.css";
+import Header from "../Header/Header.tsx";
 
-interface LayoutProps {
-    children: React.ReactNode;
-}
+const Layout = () => {
 
-const Layout = ({ children }: LayoutProps) => {
     return (
-        <div className="d-flex flex-column min-vh-100">
+        <div className={`dashboard-layout`}>
+            {/* Topbar */}
             <Header />
-            <Container fluid className="flex-grow-1 py-4 px-0">
-                {children}
-            </Container>
-            <Footer />
+
+            {/* Sidebar + Content */}
+            <div className="dashboard-body">
+                <aside className="dashboard-sidebar">
+                    <Nav className="flex-column">
+                        <Nav.Link as={NavLink} to="/dashboard" end>Overview</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/events">Events</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/agenda">Calendar</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/tasks">Tasks</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/team">Team</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard/profile">Profile</Nav.Link>
+                    </Nav>
+                </aside>
+
+                <main className="dashboard-content"><Outlet /></main>
+            </div>
         </div>
     );
 };

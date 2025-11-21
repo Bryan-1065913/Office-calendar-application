@@ -4,6 +4,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
+import './assets/fonts/sen.css';
+
 import App from './App';
 import Home from './pages/Home/Home';
 import Events from './pages/Events/Events';
@@ -13,9 +15,9 @@ import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
 import RegisterPage from './components/common/login-register/Register';
 import { AuthProvider } from './authentication/AuthContext';
-import LayoutDashboard from './components/common/Layout/Layout-Dashboard';
+import LayoutDashboard from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
-import ProfileCard from './components/common/Dashboard/Profile/ProfileCard';
+import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
 // import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
 
 
@@ -30,7 +32,7 @@ const router = createBrowserRouter([
                 element: <ProtectedRoute /*role="Admin"*/ />,
                 children: [
                     { 
-                        path: 'dashboard', 
+                        path: 'dashboard',  
                         element: <LayoutDashboard />, 
                         children: 
                         [

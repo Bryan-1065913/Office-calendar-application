@@ -22,6 +22,7 @@ obj/
 appsettings.Development.json
 appsettings.*.json
 !appsettings.json
+/appsettings.json
 
 # SSH tunnel script (bevat mogelijk server info)
 start-db-tunnel.sh
