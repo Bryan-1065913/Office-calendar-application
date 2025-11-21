@@ -4,7 +4,7 @@ import { workStatusService, type WorkStatus } from '../../../services/workStatus
 import { useAuth } from '../../../authentication/AuthContext';
 import '../../../styles/Dashboard/WeekOverviewCard.css';
 import { StatusBadge } from './StatusBadge';
-import ChevronIcon from "../../../assets/icons/chevron.svg?react";
+import Chevron from "../../../assets/icons/chevron.svg?react";
 
 type Day = {
     wd: string;
@@ -154,7 +154,7 @@ const WeekOverviewCard = () => {
                         onClick={gaNaarVorigeWeek}
                         disabled={isLoading}
                     >
-                        <ChevronIcon className="chevron chevron-left" />
+                        <Chevron className="chevron chevron-left" />
                     </button>
                     <span className="week-label">
                         Week {currentWeekNumber > 0 ? currentWeekNumber - 1 : 52}
@@ -175,7 +175,7 @@ const WeekOverviewCard = () => {
                         onClick={gaNaarVolgendeWeek}
                         disabled={isLoading}
                     >
-                        <ChevronIcon className="chevron chevron-right" />
+                        <Chevron className="chevron chevron-right" />
                     </button>
                 </div>
             </div>
