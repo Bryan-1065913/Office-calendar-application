@@ -5,8 +5,8 @@ import GreetingMessage from "./GreetingMessage";
 import ActivityModal from "./ActivityModal";
 import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
-import ScheduleCard from "./ScheduleCard.tsx";
-import TasksCard from "./TasksCard";
+import ScheduleOverviewCard from "./ScheduleOverviewCard.tsx";
+import TasksOverviewCard from "./TasksOverviewCard.tsx";
 import ProfileOverviewCard from "./ProfileOverviewCard.tsx";
 
 const Overview = () => {
@@ -26,8 +26,8 @@ const Overview = () => {
 
                     <div className="col-md-5">
                         <div className="row g-3">
-                            <div className="col-12"><ScheduleCard /></div>
-                            <div className="col-12"><TasksCard /></div>
+                            <div className="col-12"><ScheduleOverviewCard /></div>
+                            <div className="col-12"><TasksOverviewCard /></div>
                             <div className="col-12"><ProfileOverviewCard /></div>
                         </div>
                     </div>
