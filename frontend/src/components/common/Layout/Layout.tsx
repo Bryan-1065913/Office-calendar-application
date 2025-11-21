@@ -2,20 +2,19 @@
 import { NavLink, Outlet } from "react-router";
 import { Nav } from "react-bootstrap";
 import "/src/styles/General/style.css";
-import "/src/styles/Layout/layout-dashboard.css";
-import Header from "../Header/Header.tsx";
+import "/src/styles/Layout/Layout.css";
+import Header from "../Header/Header";
 
-const Layout = () => {
-
+const LayoutDashboard = () => {
     return (
-        <div className={`dashboard-layout`}>
-            {/* Topbar */}
+        <div className="dashboard-layout">
             <Header />
 
-            {/* Sidebar + Content */}
             <div className="dashboard-body">
                 <aside className="dashboard-sidebar">
-                    <Nav className="flex-column">
+                    <h2 className="sidebar-title">Dashboard</h2>
+
+                    <Nav className="flex-column sidebar-nav">
                         <Nav.Link as={NavLink} to="/dashboard" end>Overview</Nav.Link>
                         <Nav.Link as={NavLink} to="/dashboard/events">Events</Nav.Link>
                         <Nav.Link as={NavLink} to="/dashboard/agenda">Calendar</Nav.Link>
@@ -25,10 +24,14 @@ const Layout = () => {
                     </Nav>
                 </aside>
 
-                <main className="dashboard-content"><Outlet /></main>
+                <main className="dashboard-content">
+                    <div className="content-card">
+                        <Outlet />
+                    </div>
+                </main>
             </div>
         </div>
     );
 };
 
-export default Layout;
+export default LayoutDashboard;
