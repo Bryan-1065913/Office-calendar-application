@@ -34,7 +34,7 @@ const EventCardRender = ({id, title, StartsAt, StartsAtMonth, StartsAtYear, Crea
     const navigate = useNavigate();
     const createdUser = users.find(user => user.id === CreatedBy);
     return(
-        <button className="button-event" onDoubleClick={() => {navigate(`/events/${id}`)}}>
+        <button className="button-event" onDoubleClick={() => {navigate(`/dashboard/events/${id}`)}}>
             <div key={id} className="event-card">
                 <div className="event-container">
                     <h1 className="title">{title}</h1>

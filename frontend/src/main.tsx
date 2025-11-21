@@ -9,7 +9,7 @@ import './assets/fonts/sen.css';
 import App from './App';
 import Home from './pages/Home/Home';
 import Events from './pages/Events/Events';
-import EventDetails from './pages/Events/EventDetail';
+import EventDetails from './components/event/EventDetail.tsx';
 import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
@@ -18,6 +18,7 @@ import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
+import EventOverzicht from './components/common/Overzicht/EventsComponent.tsx'
 // import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
 
 
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
                             { index: true , element: <Overview /> },
 
                             { path: 'profile', element: <ProfileCard />},
+                            { path: 'events', element: <EventOverzicht/>},
+                            { path: '/dashboard/events/:id', element: <EventDetails /> },
                             // { path: 'changeProfile', element: <ChangeProfile />},
 
 
@@ -55,9 +58,6 @@ const router = createBrowserRouter([
                     
                 ],
             },
-
-            { path: 'events', element: <Events /> },
-            { path: 'events/:id', element: <EventDetails /> },
             { path: 'login', element: <LoginPage /> },
             { path: 'register', element: <RegisterPage /> }
         ],

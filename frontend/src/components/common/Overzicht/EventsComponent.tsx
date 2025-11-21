@@ -78,7 +78,7 @@ const Events = () => {
   // this has its own space of stuff happening such as fetch
   useEffect(() => {
     //scrolls to a certain place of the webpage
-    window.scrollTo(314, 435);
+    window.scrollTo(314, 70);
           
   });
   useEffect(() => {
@@ -141,9 +141,6 @@ const Events = () => {
         <header>
           <h1 className="table-title">Upcoming Events</h1>
         </header>
-        <div className="main-filter">
-          <input className="search-filter" placeholder="search" value={search} onChange={e => setSearch(e.target.value)}/>
-        </div>
         <div className="Calendar">
           <button className="left-Button" onClick={() => {
               setMonthNumber(prev => {
