@@ -4,7 +4,7 @@ import { workStatusService, type WorkStatus } from '../../../services/workStatus
 import { useAuth } from '../../../authentication/AuthContext';
 import '../../../styles/Dashboard/WeekOverviewCard.css';
 import { StatusBadge } from './StatusBadge';
-import ChevronIcon from "../../../assets/images/chevron.svg?react";
+import ChevronIcon from "../../../assets/icons/chevron.svg?react";
 
 type Day = {
     wd: string;
