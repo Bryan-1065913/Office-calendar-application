@@ -25,9 +25,14 @@ const WeekOverviewCard = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (user?.id) {
+        console.log('useEffect triggered - user:', user);
+        console.log('user?.userId:', user?.userId);
+
+        if (user?.userId) {
+            console.log('Calling loadWeekData');
             loadWeekData(weekOffset);
         } else {
+            console.log('User not loaded, showing empty week');
             const weekDays = getWeekDays(weekOffset);
             setDays(weekDays);
             updateWeekInfo(weekDays);
@@ -35,7 +40,7 @@ const WeekOverviewCard = () => {
     }, [weekOffset, user]);
 
     const loadWeekData = async (offset: number) => {
-        if (!user?.id) return;
+        if (!user?.userId) return;
 
         setIsLoading(true);
         setError(null);
@@ -45,11 +50,22 @@ const WeekOverviewCard = () => {
             const weekDays = getWeekDays(offset);
             const startDateStr = monday.toISOString().split('T')[0];
 
-            const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.id);
+            console.log('=== API CALL DEBUG ===');
+            console.log('Monday:', monday);
+            console.log('StartDate:', startDateStr);
+            console.log('UserId:', user.userId);
+            console.log('Week days:', weekDays.map(d => d.date.toISOString().split('T')[0]));
+
+            const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.userId);
+
+            console.log('API Response:', statuses);
+            console.log('Response length:', statuses?.length);
 
             const updatedDays = weekDays.map(day => {
                 const dayStr = day.date.toISOString().split('T')[0];
                 const status = statuses.find(s => s.date.split('T')[0] === dayStr);
+
+                console.log(`Day ${dayStr}: status =`, status);
 
                 return {
                     ...day,
@@ -57,6 +73,11 @@ const WeekOverviewCard = () => {
                     chips: status ? [mapStatusToLabel(status.status)] : []
                 };
             });
+
+            console.log('Updated days with chips:', updatedDays.map(d => ({
+                date: d.date.toISOString().split('T')[0],
+                chips: d.chips
+            })));
 
             setDays(updatedDays);
             updateWeekInfo(weekDays);
