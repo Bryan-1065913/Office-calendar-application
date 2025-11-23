@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Port=5433;Database=office_calendar;Uid=moby;Pwd=Welkom123!"
+    "DefaultConnection": "Server=server;Port=port;Database=name;Uid=user;Pwd=password"
   }
 }
