@@ -8,11 +8,15 @@ using Microsoft.OpenApi.Models;
 using OfficeCalendar.Api.Data;
 using OfficeCalendar.Api.Repositories;
 using OfficeCalendar.Api.Services;
+using Dapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ===== Services =====
 builder.Services.AddControllers();
+
+// ===== Dapper =====
+DefaultTypeMap.MatchNamesWithUnderscores = true;
 
 // ===== JWT configuration =====
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

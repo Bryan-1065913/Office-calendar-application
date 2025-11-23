@@ -20,6 +20,9 @@ namespace OfficeCalendar.Api.Models
 
         [Column("starts_at")]
         public DateTime StartsAt { get; set; }
+        
+        [Column("ends_at")]
+        public DateTime EndsAt { get; set; }
 
         [Column("status")]
         [MaxLength(50)]
@@ -39,5 +42,7 @@ namespace OfficeCalendar.Api.Models
         public User? Creator { get; set; }
         
         public ICollection<EventParticipation> EventParticipations { get; set; } = new List<EventParticipation>();
+        
+        public ICollection<RoomBooking> RoomBookings { get; set; } = new List<RoomBooking>();
     }
 }
