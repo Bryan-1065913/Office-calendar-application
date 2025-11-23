@@ -94,4 +94,5 @@
     margin-left: -80px; /* Vergroot de overlap van -60px naar -80px */
     padding-left: 100px; /* Verhoog padding zodat content niet onder sidebar komt */
     overflow-y: auto;
+    display: flex;
 }
