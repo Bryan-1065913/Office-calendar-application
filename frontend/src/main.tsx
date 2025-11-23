@@ -6,8 +6,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './assets/fonts/sen.css';
 
-import App from './App';
-import Home from './pages/Home/Home';
 import Events from './pages/Events/Events';
 import EventDetails from './pages/Events/EventDetail';
 import EventForm from './pages/Forms/EventForms';
@@ -24,45 +22,27 @@ import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App />,
+        element: <ProtectedRoute />,
         children: [
-            { index: true, element: <Home /> },
-
             {
-                element: <ProtectedRoute /*role="Admin"*/ />,
+                path: '/',
+                element: <LayoutDashboard />,
                 children: [
-                    { 
-                        path: 'dashboard',  
-                        element: <LayoutDashboard />, 
-                        children: 
-                        [
-                            { index: true , element: <Overview /> },
-
-                            { path: 'profile', element: <ProfileCard />},
-                            // { path: 'changeProfile', element: <ChangeProfile />},
-
-
-
-                            // dit worden de nieuwe children die moet je aanmaken
-                            // { path: 'profile', element: <Agenda />},
-                            // { path: 'profile', element: <Taks />},
-                            // { path: 'profile', element: <Team />},
-                            // { path: 'profile', element: <Settings />},
-                            
-                        ],
-                    },
+                    { index: true, element: <Overview /> },
+                    { path: 'events', element: <Events /> },
+                    { path: 'events/:id', element: <EventDetails /> },
+                    // { path: 'agenda', element: <AgendaPage /> },
+                    // { path: 'tasks', element: <TasksPage /> },
+                    // { path: 'team', element: <TeamPage /> },
+                    { path: 'profile', element: <ProfileCard /> },
                     { path: 'eventform', element: <EventForm /> },
-                    
                 ],
             },
-
-            { path: 'events', element: <Events /> },
-            { path: 'events/:id', element: <EventDetails /> },
-            { path: 'login', element: <LoginPage /> },
-            { path: 'register', element: <RegisterPage /> }
         ],
     },
-
+    // Login/Register buiten de protected route
+    { path: 'login', element: <LoginPage /> },
+    { path: 'register', element: <RegisterPage /> },
 ]);
 
 createRoot(document.getElementById('root')!).render(
