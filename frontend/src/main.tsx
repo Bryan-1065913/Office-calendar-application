@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './assets/fonts/sen.css';
 
-import EventDetails from './components/event/EventDetail.tsx';
+// import EventDetails from './components/event/EventDetail.tsx';
 import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
@@ -15,7 +15,7 @@ import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
-import EventOverzicht from './components/common/Overzicht/EventsComponent.tsx';
+import EventOverzicht from './components/common/Overzicht/Events.tsx';
 
 const router = createBrowserRouter([
     {
@@ -28,19 +28,16 @@ const router = createBrowserRouter([
                 children: [
                     { index: true, element: <Overview /> },
                     { path: 'events', element: <EventOverzicht /> },
-                    { path: 'events/:id', element: <EventDetails /> },
+                    // { path: 'events/:id', element: <EventDetails /> },
+                    { path: 'agenda', element: <div>Agenda - Coming soon</div> }, // ← Voeg deze toe
+                    { path: 'tasks', element: <div>Tasks - Coming soon</div> },   // ← Voeg deze toe
+                    { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
                     { path: 'profile', element: <ProfileCard /> },
                     { path: 'eventform', element: <EventForm /> },
-
-                    // Voeg deze toe wanneer je ze implementeert:
-                    // { path: 'agenda', element: <AgendaPage /> },
-                    // { path: 'tasks', element: <TasksPage /> },
-                    // { path: 'team', element: <TeamPage /> },
                 ],
             },
         ],
     },
-    // Login/Register buiten de protected route
     { path: 'login', element: <LoginPage /> },
     { path: 'register', element: <RegisterPage /> },
 ]);
