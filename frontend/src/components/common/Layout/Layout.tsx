@@ -11,9 +11,9 @@ import TasksList from "../../../assets/icons/list.svg?react";
 import Users from "../../../assets/icons/users.svg?react";
 import User from "../../../assets/icons/user.svg?react";
 
-const LayoutDashboard = () => {
+const Layout = () => {
     return (
-        <div className="dashboard-layout">
+        <div className="layout">
             <Header />
 
             <div className="dashboard-body">
@@ -21,12 +21,12 @@ const LayoutDashboard = () => {
                     <h2 className="sidebar-title">Dashboard</h2>
 
                     <Nav className="flex-column sidebar-nav">
-                        <Nav.Link as={NavLink} to="/dashboard" end><House className="nav-icon house" /> Overview</Nav.Link>
-                        <Nav.Link as={NavLink} to="/dashboard/events"><StarCalendar className="nav-icon star-calendar" /> Events</Nav.Link>
-                        <Nav.Link as={NavLink} to="/dashboard/agenda"><Calendar className="nav-icon calendar" /> Calendar</Nav.Link>
-                        <Nav.Link as={NavLink} to="/dashboard/tasks"><TasksList className="nav-icon tasks-list" /> Tasks</Nav.Link>
-                        <Nav.Link as={NavLink} to="/dashboard/team"><Users className="nav-icon users" /> Team</Nav.Link>
-                        <Nav.Link as={NavLink} to="/dashboard/profile"><User className="nav-icon user" />Profile</Nav.Link>
+                        <Nav.Link as={NavLink} to="/" end><House className="nav-icon house" /> Overview</Nav.Link>
+                        <Nav.Link as={NavLink} to="/events"><StarCalendar className="nav-icon star-calendar" /> Events</Nav.Link>
+                        <Nav.Link as={NavLink} to="/agenda"><Calendar className="nav-icon calendar" /> Calendar</Nav.Link>
+                        <Nav.Link as={NavLink} to="/tasks"><TasksList className="nav-icon tasks-list" /> Tasks</Nav.Link>
+                        <Nav.Link as={NavLink} to="/team"><Users className="nav-icon users" /> Team</Nav.Link>
+                        <Nav.Link as={NavLink} to="/profile"><User className="nav-icon user" />Profile</Nav.Link>
                     </Nav>
                 </aside>
 
@@ -40,4 +40,4 @@ const LayoutDashboard = () => {
     );
 };
 
-export default LayoutDashboard;
+export default Layout;
