@@ -1,3 +1,4 @@
+// AuthContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 interface User {
@@ -8,7 +9,10 @@ interface User {
     fullName: string;
     phoneNumber: string;
     jobTitle: string;
+    location: string;
     role: string;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 interface AuthContextType {
@@ -19,6 +23,8 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     register: (data: RegisterData) => Promise<void>;
     logout: () => void;
+    updateProfile: (profileData: UpdateProfileData) => Promise<void>;
+    refreshUser: () => Promise<void>;
 }
 
 interface RegisterData {
@@ -32,6 +38,15 @@ interface RegisterData {
     companyId: number | null;
     departmentId: number | null;
     workplaceId: number | null;
+}
+
+interface UpdateProfileData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    location: string;
+    jobTitle: string;
 }
 
 const API_URL = "http://localhost:5017/api";
@@ -65,6 +80,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         checkAuth();
     }, []);
 
+    // Na login: haal volledige profiel op
+    useEffect(() => {
+        if (token && user) {
+            refreshUser();
+        }
+    }, [token]);
+
     const login = async (email: string, password: string) => {
         setIsLoading(true);
         try {
@@ -77,8 +99,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!response.ok) {
                 const errorData = await response.json().catch(() => null);
                 throw new Error(
-                    errorData?.message || 
-                    errorData?.detail ||  
+                    errorData?.message ||
+                    errorData?.detail ||
                     'Login mislukt, controleer je gegevens.'
                 );
             }
@@ -87,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data));
-            
+
             setToken(data.token);
             setUser(data);
         } catch (error) {
@@ -109,8 +131,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (!response.ok) {
                 const errorData = await response.json().catch(() => null);
                 throw new Error(
-                    errorData?.message || 
-                    errorData?.detail || 
+                    errorData?.message ||
+                    errorData?.detail ||
                     'Registratie mislukt, probeer het later opnieuw.'
                 );
             }
@@ -135,6 +157,82 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
     };
 
+    // Haal complete user profile op
+    const refreshUser = async () => {
+        const storedToken = localStorage.getItem('token');
+        if (!storedToken) return;
+
+        try {
+            const response = await fetch(`${API_URL}/profile`, {
+                headers: {
+                    'Authorization': `Bearer ${storedToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile');
+            }
+
+            const userData = await response.json();
+
+            // Update both state and localStorage
+            setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+        } catch (error) {
+            console.error('Failed to refresh user:', error);
+        }
+    };
+
+    // Update profiel
+    const updateProfile = async (profileData: UpdateProfileData) => {
+        const storedToken = localStorage.getItem('token');
+        if (!storedToken) {
+            throw new Error('Not authenticated');
+        }
+
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${API_URL}/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${storedToken}`,
+                },
+                body: JSON.stringify({
+                    firstName: profileData.firstName,
+                    lastName: profileData.lastName,
+                    email: profileData.email,
+                    phoneNumber: profileData.phoneNumber,
+                    location: profileData.location,
+                    jobTitle: profileData.jobTitle,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                throw new Error(
+                    errorData?.message ||
+                    'Failed to update profile'
+                );
+            }
+
+            const result = await response.json();
+
+            // Update user met de response van de API (bevat nu updatedAt)
+            if (result.user) {
+                setUser(result.user);
+                localStorage.setItem('user', JSON.stringify(result.user));
+            } else {
+                // Fallback: refresh user data
+                await refreshUser();
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -145,6 +243,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 login,
                 register,
                 logout,
+                updateProfile,
+                refreshUser,
             }}
         >
             {children}
@@ -158,4 +258,4 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within AuthProvider');
     }
     return context;
-}; 
+};

@@ -15,7 +15,7 @@ const LoginPage = () => {
   // check if ur authenticated, if yes then send to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard', { replace: true }); 
+      navigate('/', { replace: true });
     }
   }, [isAuthenticated]);
 

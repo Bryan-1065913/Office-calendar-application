@@ -12,9 +12,9 @@ import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
 import RegisterPage from './components/common/login-register/Register';
 import { AuthProvider } from './authentication/AuthContext';
-import LayoutDashboard from './components/common/Layout/Layout.tsx';
+import Layout from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
-import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
+import Profile from './components/common/Profile/Profile.tsx';
 import EventOverzicht from './components/common/Overzicht/Events.tsx';
 
 const router = createBrowserRouter([
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <LayoutDashboard />,
+                element: <Layout />,
                 children: [
                     { index: true, element: <Overview /> },
                     { path: 'events', element: <EventOverzicht /> },
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
                     { path: 'agenda', element: <div>Agenda - Coming soon</div> }, // ← Voeg deze toe
                     { path: 'tasks', element: <div>Tasks - Coming soon</div> },   // ← Voeg deze toe
                     { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
-                    { path: 'profile', element: <ProfileCard /> },
+                    { path: 'profile', element: <Profile /> },
                     { path: 'eventform', element: <EventForm /> },
                 ],
             },

@@ -1,0 +1,143 @@
+.profile-container {
+    background: var(--white);
+    border-radius: 26px;
+    padding: 35px 40px;
+    display: flex;
+    gap: 40px;
+    box-shadow: var(--shadow);
+}
+
+/* LEFT SIDE */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    background: #d6dbde;
+    border-radius: 50%;
+}
+
+.btn-edit-photo {
+    padding: 10px 22px;
+    border-radius: 12px;
+    border: none;
+    background: var(--tiffany);
+    color: var(--gunmetal);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* RIGHT SIDE */
+.profile-right {
+    width: 100%;
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gunmetal);
+}
+
+.role-badge {
+    padding: 4px 12px;
+    background: var(--tiffany);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--gunmetal);
+    font-weight: 600;
+}
+
+/* LABELS + VALUES */
+.info-wrapper {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.info-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gunmetal);
+    margin-bottom: 12px;
+}
+
+.info-item {
+    margin-bottom: 16px;
+}
+
+.info-item label {
+    font-size: 12px;
+    color: var(--gunmetal);
+    opacity: 0.7;
+}
+
+.info-item p {
+    margin: 3px 0 0;
+    font-size: 14px;
+    color: var(--gunmetal);
+}
+
+/* INPUTS */
+input,
+select {
+    width: 100%;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #d2d7da;
+    padding: 0 14px;
+    font-size: 14px;
+    color: var(--gunmetal);
+}
+
+.input-block {
+    margin-bottom: 20px;
+}
+
+/* BUTTONS */
+.btn-edit {
+    padding: 12px 24px;
+    background: var(--tiffany);
+    border: none;
+    border-radius: 12px;
+    color: var(--gunmetal);
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.btn-cancel,
+.btn-save {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid var(--tiffany);
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--tiffany);
+}
+
+.btn-save {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+}

@@ -67,7 +67,7 @@ const RegisterPage = () => {
             console.log('Registratie succesvol!', response);
 
             // Redirect naar dashboard
-            navigate('/dashboard');
+            navigate('/');
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
