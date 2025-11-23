@@ -31,7 +31,7 @@ const Header = () => {
                 {user ? (
                     <div ref={dropdownRef} className="profile-area" onClick={() => setOpen(o => !o)}>
                         <UserIcon className="profile-icon" />
-                        <Chevron className={`chevron ${open ? "rotated" : ""}`} />
+                        <Chevron className={`chevron-profile ${open ? "rotated" : ""}`} />
 
                         {open && (
                             <div className="profile-dropdown open">
