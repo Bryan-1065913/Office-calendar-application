@@ -9,14 +9,9 @@
     padding: 22px;
     display: flex;
     gap: 22px;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow);
     cursor: pointer;
     transition: transform .15s ease, box-shadow .2s ease;
-}
-
-.event-card-wrapper:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
 }
 
 /* ============================================
