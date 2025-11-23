@@ -1,53 +1,71 @@
-import { useNavigate } from 'react-router';
-import '/src/components/common/EventCards/EventCard.scss';
-// Defines the structure of an User object and its attributes
+import { useNavigate } from "react-router";
+import "../../../styles/Event/EventCard.css";
+
 interface User {
     id: number;
-    companyId: number;
-    departmentId: number;
-    workplaceId: number;
     firstName: string;
     lastName: string;
-    email: string;
-    passwordHash: string;
-    phoneNumber: string;
-    jobTitle: string;
-    role: string;
-    createdAt: string;
+}
+
+interface Room {
+    name: string;
+    roomNumber?: string;
 }
 
 interface EventCardProps {
     id: number;
     title: string;
-    CreatedBy: number;
     StartsAt: string;
+    EndsAt?: string; // Optioneel maken voor als er geen eindtijd is
     StartsAtMonth: string;
-    StartsAtYear:number;
+    StartsAtYear: number;
+    CreatedBy: number;
     users: User[];
+    room?: Room; // Optioneel omdat een event misschien geen kamer heeft
 }
 
-const EventCardRender = ({id, title, StartsAt, StartsAtMonth, StartsAtYear, CreatedBy, users} : EventCardProps) => {
-    const datum = StartsAt.split("T")[0];
-    const time = StartsAt.split("T")[1]
-    const day = datum.split("-")[2];
-    // navigation hook it works like the dom <link>
-    const navigate = useNavigate();
-    const createdUser = users.find(user => user.id === CreatedBy);
-    return(
-        <button className="button-event" onDoubleClick={() => {navigate(`/dashboard/events/${id}`)}}>
-            <div key={id} className="event-card">
-                <div className="event-container">
-                    <h1 className="title">{title}</h1>
-                    <h1 className="date">{day} {StartsAtMonth} {StartsAtYear}</h1> 
-                    <h1 className="time-place">{time.split(":")[0]}:{time.split(":")[1]} - {}</h1>
-                    {/* Showing id and title on the frontend*/}
-                    {createdUser != null &&(
-                    <p className="creator-fullName">Created By: {createdUser.firstName} {createdUser.lastName}</p>
-                    )}
-                </div>   
-            </div>
-        </button>
-  );
-};
+export default function EventCardRender({
+                                            id,
+                                            title,
+                                            StartsAt,
+                                            EndsAt,
+                                            StartsAtMonth,
+                                            StartsAtYear,
+                                            room
+                                        }: EventCardProps) {
 
-export default EventCardRender;
+    const navigate = useNavigate();
+
+    // Parse start tijd
+    const [startDatePart, startTimePart] = StartsAt.split("T");
+    const day = startDatePart.split("-")[2];
+    const startTime = startTimePart.slice(0, 5);
+
+    // Parse eind tijd (als het bestaat)
+    const endTime = EndsAt ? EndsAt.split("T")[1].slice(0, 5) : startTime;
+
+    return (
+        <div
+            className="event-card-wrapper"
+            onDoubleClick={() => navigate(`/events/${id}`)}
+        >
+            <div className="event-card-image"></div>
+
+            <div className="event-card-content">
+                <h3 className="event-title">{title}</h3>
+
+                <p className="event-date">
+                    {day} {StartsAtMonth.toLowerCase()} {StartsAtYear}
+                </p>
+
+                <p className="event-time">
+                    {startTime} – {endTime}
+                </p>
+
+                <p className="event-location">
+                    {room ? room.name : "Locatie onbekend"}
+                </p>
+            </div>
+        </div>
+    );
+}
