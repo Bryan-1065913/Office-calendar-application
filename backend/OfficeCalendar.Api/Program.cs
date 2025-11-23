@@ -44,6 +44,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ===== Generic Repository =====
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 builder.Services.AddScoped(typeof(GenericRepository<>));
 
 // CORS

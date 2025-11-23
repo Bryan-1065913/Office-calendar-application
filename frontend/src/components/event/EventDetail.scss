@@ -1,0 +1,199 @@
+$Color-Pallette-1: #CCDBDC;
+$Color-Pallette-2: #80CED7;
+$Color-Pallette-3: #63C7B2;
+$Color-Pallette-4:  #8E6C88;
+$Color-Pallette-5: #263d42;
+
+.main-background{
+    background-color: $Color-Pallette-1;
+    padding: 100px;
+    min-height: auto; 
+    gap: 10px;
+}
+
+.main-card-event {
+    display: fixed;
+    background-color: white;
+    width: 1000px;
+    min-height: 815px;
+    border-radius: 26px;
+    padding: 50px;
+    margin-top: -50px;
+    gap: 30px;
+}
+
+.event-all-content{
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.event-title{
+    margin-top: -30px;
+    height: 24px;
+    text-align: center;
+    width: 900px;
+    gap: 10px;
+}
+.event-title-content{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+    letter-spacing: -3px;
+}
+
+.event-date-content{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: -1px;
+}
+
+.event-time-content{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: -1px;
+}
+
+.event-description{
+    font-family: 'San', sans-serif;
+    font-size: 24px;
+    letter-spacing: -1px;
+    margin-top: -10px;
+    margin-left: 15px;
+}
+
+.attendees-content{
+    font-family: 'San', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 15px;
+    margin-top: 20px;
+
+}
+
+.attendees-overzicht {
+    display: grid;
+    gap: 50px;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 50px;
+}
+
+.user-button {
+    justify-content: right;
+    text-align: right;
+}
+
+.edit-button {
+    color: $Color-Pallette-3;
+    font-family: 'San', sans-serif;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 8px;
+    width: 70px;
+    height: 34px;
+    justify-content: center;
+    text-align: center;
+    border: solid $Color-Pallette-3;
+}
+
+.pop-up {
+    position: fixed;
+    background-color: white;
+    width: 900px;
+    height: 500px;
+    padding: 250px;
+    padding-left: 0px;
+    padding-right: 0px;
+    justify-content: center;
+    text-align: center;
+    margin-top: -850px;
+    margin-left: 50px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 20px 0px rgba($Color-Pallette-3, 0.5);
+}
+
+.button-decline,
+.button-join{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: $Color-Pallette-1;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: 100px;
+}
+
+.button-decline:hover,
+.button-join:hover{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    background-color: $Color-Pallette-3;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -260px;
+    margin-top: 100px;
+}
+
+.button-cancel {
+    color: $Color-Pallette-1;
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: $Color-Pallette-5;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -90px;
+    margin-top: 100px;
+    position: absolute;
+}
+.button-cancel:hover {
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    color: $Color-Pallette-3;
+    background-color: $Color-Pallette-5;
+    border:none;
+    border-radius: 25px;
+    height: 140px;
+    width: 300px;
+    margin-left: -90px;
+    margin-top: 100px;
+    position: absolute;
+}
+
+.middleware {
+    margin-left: 100px;
+}
+
+.Description {
+    font-family: 'San' sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(
+    to right,
+    $Color-Pallette-3,
+    $Color-Pallette-5
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: -100px;
+    margin-left: 50px;
+    background-size: 200%;
+    animation: moveGradient 10s linear infinite;
+    
+}
+
+@keyframes moveGradient {
+  0% { background-position: 200%; }
+  100% { background-position: -200%; }
+}

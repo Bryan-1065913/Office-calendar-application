@@ -65,5 +65,12 @@ namespace OfficeCalendar.Api.Controllers
             if (!success) return NotFound();
             return NoContent();
         }
+        [HttpDelete("{userId}/{eventId}")]
+        public async Task<IActionResult> DeleteEventParticipationByUserIdAndEventId(int userId, int eventId)
+        {
+            var success = await _repository.DeleteEventParticipationAsync(userId, eventId);
+            if (!success) return NotFound();
+            return NoContent();
+        }
     }
 }

@@ -6,8 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './assets/fonts/sen.css';
 
-import Events from './pages/Events/Events';
-import EventDetails from './pages/Events/EventDetail';
+import EventDetails from './components/event/EventDetail.tsx';
 import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
@@ -16,8 +15,7 @@ import { AuthProvider } from './authentication/AuthContext';
 import LayoutDashboard from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import ProfileCard from './components/common/Dashboard/ProfileOverviewCard.tsx';
-// import ChangeProfile from './components/common/Dashboard/Profile/ChangeProfile';
-
+import EventOverzicht from './components/common/Overzicht/EventsComponent.tsx';
 
 const router = createBrowserRouter([
     {
@@ -29,13 +27,15 @@ const router = createBrowserRouter([
                 element: <LayoutDashboard />,
                 children: [
                     { index: true, element: <Overview /> },
-                    { path: 'events', element: <Events /> },
+                    { path: 'events', element: <EventOverzicht /> },
                     { path: 'events/:id', element: <EventDetails /> },
+                    { path: 'profile', element: <ProfileCard /> },
+                    { path: 'eventform', element: <EventForm /> },
+
+                    // Voeg deze toe wanneer je ze implementeert:
                     // { path: 'agenda', element: <AgendaPage /> },
                     // { path: 'tasks', element: <TasksPage /> },
                     // { path: 'team', element: <TeamPage /> },
-                    { path: 'profile', element: <ProfileCard /> },
-                    { path: 'eventform', element: <EventForm /> },
                 ],
             },
         ],
