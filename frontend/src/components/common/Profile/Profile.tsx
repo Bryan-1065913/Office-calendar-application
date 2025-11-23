@@ -156,7 +156,7 @@ const Profile = () => {
                         </div>
 
                         <div className="info-item">
-                            <label>Department</label>
+                            <label>Function</label>
 
                             {!isEditing ? (
                                 <p>{user.jobTitle || 'Not assigned'}</p>
