@@ -5,6 +5,7 @@ namespace OfficeCalendar.Api.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
         public string? PhoneNumber { get; set; }
         public string? JobTitle { get; set; }
     }

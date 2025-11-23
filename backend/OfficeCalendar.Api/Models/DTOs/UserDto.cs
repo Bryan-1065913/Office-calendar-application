@@ -7,10 +7,11 @@ namespace OfficeCalendar.Api.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";
+        public string Location { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string JobTitle { get; set; } = string.Empty;
         public string Role { get; set; } = "user";
-        
-        // NO PasswordHash!
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }
