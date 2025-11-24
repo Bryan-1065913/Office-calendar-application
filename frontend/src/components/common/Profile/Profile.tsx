@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useAuth } from "../../../authentication/AuthContext";
 import "../../../styles/Profile/Profile.css";
+import Button from "../UI/Buttons.tsx"
 
 const Profile = () => {
     const { user, updateProfile } = useAuth();
@@ -13,7 +14,7 @@ const Profile = () => {
         email: user?.email || "",
         phone: user?.phoneNumber || "",
         location: user?.location || "",
-        department: user?.jobTitle || "",
+        jobTitle: user?.jobTitle || "",
     });
 
     if (!user) return <div>Loading...</div>;
@@ -30,7 +31,7 @@ const Profile = () => {
                 email: form.email,
                 phoneNumber: form.phone,
                 location: form.location,
-                jobTitle: form.department,
+                jobTitle: form.jobTitle,
             });
 
             setIsEditing(false);
@@ -71,7 +72,7 @@ const Profile = () => {
                 <div className="profile-photo"></div>
 
                 {isEditing && (
-                    <button className="btn-edit-photo">Edit photo</button>
+                    <Button >Edit photo</Button>
                 )}
             </div>
 
@@ -161,12 +162,7 @@ const Profile = () => {
                             {!isEditing ? (
                                 <p>{user.jobTitle || 'Not assigned'}</p>
                             ) : (
-                                <select name="department" value={form.department} onChange={onChange}>
-                                    <option value="">Select department</option>
-                                    <option value="Development">Development</option>
-                                    <option value="Support">Support</option>
-                                    <option value="Management">Management</option>
-                                </select>
+                                <input name="jobTitle" value={form.jobTitle} onChange={onChange} />
                             )}
                         </div>
                     </div>
@@ -174,13 +170,13 @@ const Profile = () => {
 
                 {/* === BUTTONS === */}
                 {!isEditing ? (
-                    <button className="btn-edit" onClick={() => setIsEditing(true)}>
-                        Edit profile
-                    </button>
+                    <div className="button-container">
+                        <Button onClick={() => setIsEditing(true)}>Edit profile</Button>
+                    </div>
                 ) : (
                     <div className="edit-buttons">
-                        <button className="btn-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
-                        <button className="btn-save" onClick={saveChanges}>Save</button>
+                        <Button variant="secondary" onClick={() => setIsEditing(false)}>Cancel</Button>
+                        <Button onClick={saveChanges}>Save changes</Button>
                     </div>
                 )}
             </div>
