@@ -5,6 +5,9 @@
     display: flex;
     gap: 40px;
     box-shadow: var(--shadow);
+    height: -webkit-min-content;
+    justify-content: center;
+    margin: auto;
 }
 
 /* LEFT SIDE */
@@ -40,8 +43,10 @@
 .profile-top {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(38, 61, 66, 0.12);
 }
 
 .profile-name {
@@ -101,6 +106,10 @@ select {
     color: var(--gunmetal);
 }
 
+.input-group {
+    gap: 30px;
+}
+
 .input-block {
     margin-bottom: 20px;
 }
@@ -117,10 +126,16 @@ select {
     cursor: pointer;
 }
 
+.button-container {
+    display: flex;
+    justify-content: end;
+}
+
 .edit-buttons {
     display: flex;
     gap: 14px;
     margin-top: 10px;
+    justify-content: space-between;
 }
 
 .btn-cancel,
