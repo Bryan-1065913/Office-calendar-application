@@ -4,6 +4,7 @@ import { Nav } from "react-bootstrap";
 import "/src/styles/General/style.css";
 import "/src/styles/Layout/Layout.css";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import House from "../../../assets/icons/house.svg?react";
 import StarCalendar from "../../../assets/icons/calendar-star.svg?react";
 import Calendar from "../../../assets/icons/calendar.svg?react";
@@ -36,6 +37,8 @@ const Layout = () => {
                     </div>
                 </main>
             </div>
+
+            <Footer />
         </div>
     );
 };

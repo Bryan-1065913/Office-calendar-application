@@ -15,6 +15,7 @@ import { AuthProvider } from './authentication/AuthContext';
 import Layout from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import Profile from './components/common/Profile/Profile.tsx';
+import Calendar from './components/common/Calendar/Calendar.tsx';
 import EventOverzicht from './components/common/Overzicht/Events.tsx';
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
                     { index: true, element: <Overview /> },
                     { path: 'events', element: <EventOverzicht /> },
                     // { path: 'events/:id', element: <EventDetails /> },
-                    { path: 'agenda', element: <div>Agenda - Coming soon</div> }, // ← Voeg deze toe
+                    { path: 'agenda', element: <Calendar /> },
                     { path: 'tasks', element: <div>Tasks - Coming soon</div> },   // ← Voeg deze toe
                     { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
                     { path: 'profile', element: <Profile /> },

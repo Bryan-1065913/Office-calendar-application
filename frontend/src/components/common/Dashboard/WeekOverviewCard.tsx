@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { workStatusService, type WorkStatus } from '../../../services/workStatusService';
 import { useAuth } from '../../../authentication/AuthContext';
 import '../../../styles/Dashboard/WeekOverviewCard.css';
-import { StatusBadge } from './StatusBadge';
+import { StatusBadge } from '../UI/StatusBadge.tsx';
 import Chevron from "../../../assets/icons/chevron.svg?react";
 
 type Day = {
