@@ -158,6 +158,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     // Haal complete user profile op
+    // In AuthContext.tsx
     const refreshUser = async () => {
         const storedToken = localStorage.getItem('token');
         if (!storedToken) return;
@@ -175,9 +176,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const userData = await response.json();
 
-            // Update both state and localStorage
-            setUser(userData);
-            localStorage.setItem('user', JSON.stringify(userData));
+            const mappedUser = {
+                ...userData,
+                userId: userData.id
+            };
+
+            setUser(mappedUser);
+            localStorage.setItem('user', JSON.stringify(mappedUser));
         } catch (error) {
             console.error('Failed to refresh user:', error);
         }
