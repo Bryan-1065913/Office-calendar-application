@@ -1,0 +1,17 @@
+.footer {
+    background-color: var(--dark-gunmetal);
+    color: var(--platinum);
+    font-weight: 500;
+    padding: 25px 30px;
+}
+
+.footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-logo img {
+    height: 50px;
+    width: auto;
+}
