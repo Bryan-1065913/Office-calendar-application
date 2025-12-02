@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 // importing the NotFound file
 import NotFound from '../common/NotFound/NotFound';
 // useState, useEffect hooks 
-import { useState, useEffect, useMemo} from 'react';
+import { useState, useEffect} from 'react';
 import '/src/components/event/EventDetail.scss';
 // custom hook one
 import { useFetch} from '../../hooks/useFetchGet';
