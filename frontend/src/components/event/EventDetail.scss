@@ -6,7 +6,7 @@ $Color-Pallette-5: #263d42;
 
 .main-background{
     background-color: $Color-Pallette-1;
-    padding: 100px;
+    padding: 50px;
     min-height: auto; 
     gap: 10px;
 }
@@ -48,6 +48,13 @@ $Color-Pallette-5: #263d42;
 }
 
 .event-time-content{
+    font-family: 'San', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: -1px;
+}
+
+.event-location-content {
     font-family: 'San', sans-serif;
     font-weight: bold;
     font-size: 20px;

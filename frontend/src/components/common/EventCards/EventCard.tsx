@@ -47,7 +47,7 @@ export default function EventCardRender({
     return (
         <div
             className="event-card-wrapper"
-            onDoubleClick={() => navigate(`/events/${id}`)}
+            onClick={() => navigate(`/events/${id}`,{ state: { room } })}
         >
             <div className="event-card-image"></div>
 

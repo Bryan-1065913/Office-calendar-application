@@ -3,28 +3,37 @@ import { useParams } from 'react-router';
 // importing the NotFound file
 import NotFound from '../common/NotFound/NotFound';
 // useState, useEffect hooks 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo} from 'react';
 import '/src/components/event/EventDetail.scss';
 // custom hook one
 import { useFetch} from '../../hooks/useFetchGet';
 // custom hook two
 import { useFetchSecond } from '../../hooks/useFetchSecondGet';
 import {useFetchThird} from '../../hooks/useFetchThird';
-import { Navigate } from "react-router";
+import { Navigate} from "react-router";
 // Defines the structure of an event object and its attributes
 import { useAuth } from "../../authentication/AuthContext";
 import Aanwezigen from '../common/aanwezigen/aanwezigen';
+interface Room {
+    name: string;
+    roomNumber?: string;
+    // voeg hier eventueel andere velden toe als je ze later nodig hebt (capacity, etc.)
+}
+
 
 interface Evenement {
   id: number;
   title: string;
   description?: string;
   startsAt: string;
+  endsAt: string;
   status: string;
   createdBy: number;
   deletedAt?: string | null;
   createdAt: string;
+  room?: Room;
 }
+
 interface EventParticipation {
     id: number;
     userId: number;
@@ -110,7 +119,8 @@ const Event = () => {
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id && ep.status == "joined");
     const eventUsers = users.filter(u =>  EventParticipation.some( ep => ep.userId === u.id ));
-    const eventUserId = eventParticipations.some( ep => ep.userId === user.id && event.id === ep.eventId && ep.status == "joined");
+    const eventUserId = eventParticipations.some( ep => ep.userId === user.userId && event.id === ep.eventId && ep.status == "joined");
+    
     const joinButtonHandler = async () => {
         try
         {
@@ -122,7 +132,7 @@ const Event = () => {
 
                 },
                 body: JSON.stringify({
-                    userId: user.id, // hardcoded for now
+                    userId: user.userId, // hardcoded for now
                     eventId:  event.id,
                     status: "joined"
                 }),
@@ -140,7 +150,7 @@ const Event = () => {
     const declineButtonHandler = async () => {
         try
         {
-            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
+            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.userId}/${event.id}`, {
                 method: 'DELETE',
                 headers : {
                      'content-type' : 'application/json',
@@ -171,12 +181,12 @@ const Event = () => {
                     <h2 className="event-title-content">{event.title}</h2>
                 </header>
                 <section className="event-all-content">
-                    <p className="event-date-content"><img src="/src/assets/images/calendar.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[0].split("-")[2]}  {monthNames[Number(event.startsAt.split("T")[0].split("-")[1]) - 1]}  {event.startsAt.split("T")[0].split("-")[0]} </p>
-                    <p className="event-time-content"><img src="/src/assets/images/clock.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[1].split(":")[0]}:{event.startsAt.split("T")[1].split(":")[1]} - </p>
-                    <p className="event-location-content"><img src="/src/assets/images/location.svg" alt="Logo" width="33.6" height="36" /></p>
+                    <p className="event-date-content"><img src="/src/assets/icons/calendar.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[0].split("-")[2]}  {monthNames[Number(event.startsAt.split("T")[0].split("-")[1]) - 1]}  {event.startsAt.split("T")[0].split("-")[0]} </p>
+                    <p className="event-time-content"><img src="/src/assets/icons/clock.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[1].split(":")[0]}:{event.startsAt.split("T")[1].split(":")[1]} - {event.endsAt.split("T")[1].split(":")[0]}:{event.endsAt.split("T")[1].split(":")[1]}</p>
+                    <p className="event-location-content"><img src="/src/assets/icons/location.svg" alt="Logo" width="33.6" height="36" /> {event.room ? event.room.name : "Locatie onbekend"}</p>
                 </section>
                 <p className="event-description">{event.description}</p>
-                { user.id !== event.createdBy && ( 
+                { user.userId !== event.createdBy && ( 
                     <div className="user-button">
                         <button className="edit-button" onClick={() => {setButtonEvent(true);}}>{!eventUserId ? "Join" : "Decline"}</button>
                     </div>
