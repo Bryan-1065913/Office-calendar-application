@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import NotFound from '../common/NotFound/NotFound';
 // useState, useEffect hooks 
 import { useState, useEffect} from 'react';
-import '../../styles/Event/EventDetail.scss';
+import '../../styles/Event/EventDetail.css';
 // custom hook one
 import { useFetch} from '../../hooks/useFetchGet';
 // custom hook two
@@ -13,8 +13,9 @@ import {useFetchThird} from '../../hooks/useFetchThird';
 import { Navigate} from "react-router";
 // Defines the structure of an event object and its attributes
 import { useAuth } from "../../authentication/AuthContext";
-import Aanwezigen from '../common/aanwezigen/aanwezigen';
-import Revieuws from '../common/Revieuws/Revieuws';
+import Aanwezigen from '../common/Attendees/Attendees';
+import Revieuws from '../common/Reviews/Reviews';
+import '../../assets/fonts/sen.css';
 
 interface Room {
     name: string;

@@ -1,5 +1,6 @@
-import "../../../styles/Revieuws/Revieuws.scss";
+import "../../../styles/Reviews/Reviews.css";
 import { useAuth } from "../../../authentication/AuthContext";
+import '../../../assets/fonts/sen.css';
 
 interface revieuwProps {
     text: string;

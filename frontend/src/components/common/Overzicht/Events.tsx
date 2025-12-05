@@ -5,6 +5,7 @@ import { useFetch } from "../../../hooks/useFetchGet";
 import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
 import EventCardRender from "../EventCards/EventCard";
 import Chevron from "../../../assets/icons/chevron.svg?react";
+import '../../../assets/fonts/sen.css';
 
 // Room interface toevoegen
 interface Room {

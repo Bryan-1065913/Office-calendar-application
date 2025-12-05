@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import "../../../styles/Event/EventCard.css";
-
+import '../../../assets/fonts/sen.css'
 interface User {
     id: number;
     firstName: string;

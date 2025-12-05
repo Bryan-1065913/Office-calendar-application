@@ -1,0 +1,105 @@
+/* // Global box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* // Main wrapper for the input form */
+.Main-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--white);
+}
+
+/* // Form and input area */
+.formulier-Revieuw {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  max-width: 900px;
+}
+
+.revieuw-textarea {
+  flex: 1;
+  height: 120px;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 15px;
+  border: 1px solid var(--platnum);
+  resize: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  overflow: auto;
+  word-wrap: break-word;
+  transform: translate(0%, 100%);
+}
+
+.revieuw-textarea:focus {
+  border-color: var(--nonphoto); 
+  box-shadow: 0 0 8px rgba(76, 110, 245, 0.3);
+  outline: none;
+}
+
+/* // Submit button */
+.submit-button {
+  margin-left: 10px;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--platnum);
+  transform: translate(20%, 116%);
+
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    object-fit: cover;
+  }
+}
+
+/* // Wrapper for all reviews */
+.Main-Revieuw-Render-Wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  max-height: 200px; /* maximale hoogte voor scroll */
+  overflow-y: auto; /* scroll bij overflow */
+  gap: 20px; /* ruimte tussen reviews */
+}
+
+.Main-Revieuw-Render-Wrapper::-webkit-scrollbar {
+  display: none; /* Chrome/Safari scrollbar verbergen */
+}
+
+.Main-Revieuw-Render-Wrapper {
+  scrollbar-width: none; /* Firefox scrollbar verbergen */
+}
+
+/* // Individual review styling */
+.Revieuw {
+  width: 90%;
+  max-width: 900px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 2px solid var(--gunmetal);
+  background-color: var(--white);
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.Revieuws-text {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "sen" sans-serif;
+  color: var(--gunmetal);
+}

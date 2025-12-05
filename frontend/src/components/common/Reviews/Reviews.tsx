@@ -1,8 +1,9 @@
-import "../../../styles/Revieuws/Revieuws.scss";
+import "../../../styles/Reviews/Reviews.css";
 import { useState } from "react";
 import {useAuth} from "../../../authentication/AuthContext";
 import NotFound from "../NotFound/NotFound";
-import RevieuwsRender from "./RevieuwsRedering";
+import RevieuwsRender from "./ReviewsRedering";
+import '../../../assets/fonts/sen.css';
 
 const Revieuws = () => {
     const {user} = useAuth();

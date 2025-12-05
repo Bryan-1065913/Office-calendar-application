@@ -59,6 +59,8 @@
     gap: 22px;
     height: 400px;
     overflow-y: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .events-list::-webkit-scrollbar {
