@@ -217,7 +217,7 @@ const Event = () => {
                         {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
                         {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
                         { user != null && user.role === "user" && !eventUserId && (
-                            <form className="form-join-event" >
+                            <form className="form-join-event" onSubmit={(e) => e.preventDefault()}>
                                 <button type="submit" className="button-join" onClick={() => {
                                     joinButtonHandler(); setButtonEvent(false);}}>Join</button>
                                 <button type="submit" className="button-cancel" onClick={() => {
