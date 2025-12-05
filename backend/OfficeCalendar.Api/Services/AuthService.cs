@@ -21,7 +21,7 @@ namespace OfficeCalendar.Api.Services
             _configuration = configuration;
         }
 
-        public async Task<AuthResponse> LoginAsync(LoginRequest request)
+        public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
             try
             {
@@ -34,30 +34,29 @@ namespace OfficeCalendar.Api.Services
                 {
                     throw new UnauthorizedAccessException("Invalid email or password");
                 }
-
-                Console.WriteLine($"PasswordHash: {user.PasswordHash}");
-                Console.WriteLine($"PasswordHash is null or empty: {string.IsNullOrEmpty(user.PasswordHash)}");
-
+                
                 if (!VerifyPassword(request.Password, user.PasswordHash))
                 {
                     throw new UnauthorizedAccessException("Invalid email or password");
                 }
 
                 var token = GenerateJwtToken(user);
-        
-                var response = new AuthResponse
+
+                return new LoginResponse
                 {
                     Token = token,
-                    UserId = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Role = user.Role
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        JobTitle = user.JobTitle,
+                        Role = user.Role
+                    }
                 };
-
-                Console.WriteLine($"Response: {System.Text.Json.JsonSerializer.Serialize(response)}");
         
-                return response;
             }
             catch (Exception ex)
             {
@@ -66,7 +65,7 @@ namespace OfficeCalendar.Api.Services
             }
         }
 
-        public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
             try
             {
@@ -89,8 +88,13 @@ namespace OfficeCalendar.Api.Services
                     LastName = request.LastName,
                     Email = request.Email,
                     PasswordHash = passwordHash,
-                    Role = "user",
-                    CreatedAt = DateTime.UtcNow
+                    PhoneNumber = request.PhoneNumber,
+                    JobTitle = request.JobTitle,
+                    Role = request.Role ?? "user",
+                    CreatedAt = DateTime.UtcNow,
+                    CompanyId = request.CompanyId,
+                    DepartmentId = request.DepartmentId,
+                    WorkplaceId = request.WorkplaceId
                 };
 
                 _context.Users.Add(user);
@@ -99,14 +103,19 @@ namespace OfficeCalendar.Api.Services
                 // Genereer JWT token
                 var token = GenerateJwtToken(user);
 
-                return new AuthResponse
+                return new RegisterResponse
                 {
                     Token = token,
-                    UserId = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Role = user.Role
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        JobTitle = user.JobTitle,
+                        Role = user.Role
+                    }
                 };
             }
             catch (InvalidOperationException)
@@ -167,28 +176,4 @@ namespace OfficeCalendar.Api.Services
         }
     }
 
-    // DTOs
-    public class LoginRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class RegisterRequest
-    {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class AuthResponse
-    {
-        public string Token { get; set; } = string.Empty;
-        public int UserId { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
-    }
 }

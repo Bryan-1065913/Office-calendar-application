@@ -1,6 +1,7 @@
 // Controllers/AuthController.cs
 using Microsoft.AspNetCore.Mvc;
 using OfficeCalendar.Api.Services;
+using OfficeCalendar.Api.Models;
 
 namespace OfficeCalendar.Api.Controllers
 {
@@ -16,7 +17,7 @@ namespace OfficeCalendar.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
         {
             try
             {
@@ -34,7 +35,7 @@ namespace OfficeCalendar.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
+        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest request)
         {
             try
             {

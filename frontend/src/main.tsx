@@ -42,7 +42,7 @@ const router = createBrowserRouter([
                             // dit worden de nieuwe children die moet je aanmaken
                             // { path: 'profile', element: <Agenda />},
                             // { path: 'profile', element: <Taks />},
-                            // { path: 'profile', element: <Team />},
+                            // { path: 'profile', element: <Team />},p
                             // { path: 'profile', element: <Settings />},
                             
                         ],
