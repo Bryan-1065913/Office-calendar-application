@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import NotFound from '../common/NotFound/NotFound';
 // useState, useEffect hooks 
 import { useState, useEffect} from 'react';
-import '/src/components/event/EventDetail.scss';
+import '../../styles/Event/EventDetail.scss';
 // custom hook one
 import { useFetch} from '../../hooks/useFetchGet';
 // custom hook two
@@ -14,6 +14,8 @@ import { Navigate} from "react-router";
 // Defines the structure of an event object and its attributes
 import { useAuth } from "../../authentication/AuthContext";
 import Aanwezigen from '../common/aanwezigen/aanwezigen';
+import Revieuws from '../common/Revieuws/Revieuws';
+
 interface Room {
     name: string;
     roomNumber?: string;
@@ -195,6 +197,11 @@ const Event = () => {
                     <p className="attendees">Attendees</p> 
                     <div className="attendees-overzicht">
                         <Aanwezigen eventUsers={eventUsers} />  
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <Revieuws/>
                     </div>
                 </section>
             </div>

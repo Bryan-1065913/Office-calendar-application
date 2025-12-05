@@ -83,6 +83,18 @@ $Color-Pallette-5: #263d42;
     gap: 50px;
     grid-template-columns: 1fr 1fr;
     margin-top: 50px;
+    height: 100px;
+    border-radius: 25px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.attendees-overzicht::-webkit-scrollbar {
+  display: none; /* Chrome/Safari scrollbar verbergen */
+}
+
+.attendees-overzicht {
+  scrollbar-width: none; /* Firefox scrollbar verbergen */
 }
 
 .user-button {
