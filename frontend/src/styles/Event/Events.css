@@ -57,6 +57,16 @@
     flex-direction: column;
     align-items: center;
     gap: 22px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.events-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari scrollbar verbergen */
+}
+
+.events-list {
+  scrollbar-width: none; /* Firefox scrollbar verbergen */
 }
 
 /* ===== Empty state ===== */

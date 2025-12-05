@@ -1,6 +1,6 @@
 import {useAuth} from "../../../authentication/AuthContext";
 import NotFound from "../NotFound/NotFound";
-import '../aanwezigen/Aanwezigen.scss'
+import '../../../styles/aanwezigen/Aanwezigen.scss'
 
 interface User {
   id: number;
