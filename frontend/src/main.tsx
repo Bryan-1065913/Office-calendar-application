@@ -16,8 +16,8 @@ import Layout from './components/common/Layout/Layout.tsx';
 import Overview from './components/common/Dashboard/Overview';
 import Profile from './components/common/Profile/Profile.tsx';
 import Calendar from './components/common/Calendar/Calendar.tsx';
-import EventOverzicht from './components/common/Overzicht/Events.tsx';
-import EventDetails from './components/event/EventDetail.tsx';
+import EventOverzicht from './components/common/Event/Events.tsx';
+import EventDetails from './components/common/Event/EventDetail.tsx';
 
 const router = createBrowserRouter([
     {

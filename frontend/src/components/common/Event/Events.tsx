@@ -3,7 +3,7 @@ import "../../../styles/Event/Events.css";
 import { useState, useEffect, useMemo } from "react";
 import { useFetch } from "../../../hooks/useFetchGet";
 import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
-import EventCardRender from "../EventCards/EventCard";
+import EventCardRender from "./EventCard";
 import Chevron from "../../../assets/icons/chevron.svg?react";
 import '../../../assets/fonts/sen.css';
 
@@ -54,7 +54,7 @@ const Events = () => {
         const m = currentDate.getMonth();
         const y = currentDate.getFullYear();
         return events
-            .filter(e => e.startsAt && isUpcoming(e.startsAt))
+            .filter(e => e.startsAt)
             .filter(e => {
                 const d = parseDate(e.startsAt);
                 return d.getMonth() === m && d.getFullYear() === y;
