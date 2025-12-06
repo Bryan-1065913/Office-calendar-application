@@ -3,6 +3,46 @@
     border-radius: var(--border-radius);
     padding: 20px;
     box-shadow: var(--shadow);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tasks-overview-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    /* NIEUW: De lijst moet scrollen en de ruimte vullen */
+    overflow-y: auto;
+    flex-grow: 1; /* Vult de overgebleven ruimte onder de titel */
+    min-height: 0; /* Belangrijk voor Firefox flex containers */
+
+    /* Optioneel: extra ruimte tussen tekst en scrollbar */
+    padding-right: 10px;
+
+    /* Firefox Scrollbar styling hierheen verplaatst */
+    scrollbar-width: thin;
+    scrollbar-color: var(--tiffany) #f1f1f1;
+}
+
+/* Webkit scrollbar styles nu gekoppeld aan de LIJST i.p.v. de kaart */
+.tasks-overview-list::-webkit-scrollbar {
+    width: 6px; /* Iets dunner oogt vaak mooier binnenin */
+}
+
+.tasks-overview-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb {
+    background: var(--tiffany);
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb:hover {
+    background: var(--gunmetal);
 }
 
 .tasks-overview-title {
@@ -10,12 +50,6 @@
     font-weight: 700;
     margin-bottom: 16px;
     color: var(--gunmetal);
-}
-
-.tasks-overview-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 .task-overview-row {
@@ -76,6 +110,12 @@
 
 .task-overview-text.completed {
     text-decoration: line-through;
-    opacity: 0.5;
-    color: #999;
+    color: var(--platinum);
+}
+
+.no-tasks-overview {
+    text-align: center;
+    color: var(--gunmetal);
+    padding: 20px 0;
+    font-size: 14px;
 }
