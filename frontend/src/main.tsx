@@ -18,6 +18,7 @@ import Profile from './components/common/Profile/Profile.tsx';
 import Calendar from './components/common/Calendar/Calendar.tsx';
 import EventOverzicht from './components/common/Event/Events.tsx';
 import EventDetails from './components/common/Event/EventDetail.tsx';
+import Tasks from './components/common/Task/Tasks.tsx';
 
 const router = createBrowserRouter([
     {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
                     { path: 'events', element: <EventOverzicht /> },
                     { path: 'events/:id', element: <EventDetails /> },
                     { path: 'agenda', element: <Calendar /> },
-                    { path: 'tasks', element: <div>Tasks - Coming soon</div> },   // ← Voeg deze toe
+                    { path: 'tasks', element: <Tasks /> },
                     { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
                     { path: 'profile', element: <Profile /> },
                     { path: 'eventform', element: <EventForm /> },
