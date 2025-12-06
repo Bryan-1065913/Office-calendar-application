@@ -4,42 +4,50 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
-import App from './App';
-import Home from './pages/Home/Home';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Events from './pages/Events/Events';
-import EventDetails from './pages/Events/EventDetail';
+import './assets/fonts/sen.css';
+
+// import EventDetails from './components/event/EventDetail.tsx';
 import EventForm from './pages/Forms/EventForms';
 import ProtectedRoute from './authentication/ProtectedRoute';
 import LoginPage from './components/common/login-register/Login';
 import RegisterPage from './components/common/login-register/Register';
+import { AuthProvider } from './authentication/AuthContext';
+import Layout from './components/common/Layout/Layout.tsx';
+import Overview from './components/common/Dashboard/Overview';
+import Profile from './components/common/Profile/Profile.tsx';
+import Calendar from './components/common/Calendar/Calendar.tsx';
+import EventOverzicht from './components/common/Event/Events.tsx';
+import EventDetails from './components/common/Event/EventDetail.tsx';
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App />,
+        element: <ProtectedRoute />,
         children: [
-            { index: true, element: <Home /> },
-
             {
-                element: <ProtectedRoute role="Admin" />,
+                path: '/',
+                element: <Layout />,
                 children: [
-                    { path: 'dashboard', element: <Dashboard /> },
+                    { index: true, element: <Overview /> },
+                    { path: 'events', element: <EventOverzicht /> },
+                    { path: 'events/:id', element: <EventDetails /> },
+                    { path: 'agenda', element: <Calendar /> },
+                    { path: 'tasks', element: <div>Tasks - Coming soon</div> },   // ← Voeg deze toe
+                    { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
+                    { path: 'profile', element: <Profile /> },
                     { path: 'eventform', element: <EventForm /> },
                 ],
             },
-
-            { path: 'events', element: <Events /> },
-            { path: 'events/:id', element: <EventDetails /> },
-            { path: 'login', element: <LoginPage /> },
-            { path: 'register', element: <RegisterPage />}
         ],
     },
-    
+    { path: 'login', element: <LoginPage /> },
+    { path: 'register', element: <RegisterPage /> },
 ]);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <AuthProvider>
+            <RouterProvider router={router} />
+        </AuthProvider>
     </StrictMode>
 );

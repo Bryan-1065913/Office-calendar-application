@@ -1,138 +1,115 @@
-using OfficeCalendar.Api.Models;
+// Services/AuthService.cs
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
+using OfficeCalendar.Api.Models;
+using OfficeCalendar.Api.Data;
 
 namespace OfficeCalendar.Api.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService
     {
-        private readonly SqlQueryService _sqlQueryService;
-        private readonly DatabaseService _databaseService;
+        private readonly ApplicationDbContext _context;  // Vervang DatabaseService door DbContext
         private readonly IConfiguration _configuration;
 
-        public AuthService(
-            SqlQueryService sqlQueryService, 
-            DatabaseService databaseService,
-            IConfiguration configuration)
+        public AuthService(ApplicationDbContext context, IConfiguration configuration)
         {
-            _sqlQueryService = sqlQueryService;
-            _databaseService = databaseService;
+            _context = context;
             _configuration = configuration;
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
         {
             try
             {
-                // Get user throug email
-                var query = await _sqlQueryService.GetQueryAsync("users_get_by_email");
-                var user = await _databaseService.QuerySingleOrDefaultAsync<UserDto>(
-                    query, 
-                    new { Email = request.Email }
-                );
-    
-                // Check if there is a user found
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == request.Email);
+
+                Console.WriteLine($"User found: {user != null}");
+        
                 if (user == null)
                 {
-                    throw new UnauthorizedAccessException("Invalid login data!");
+                    throw new UnauthorizedAccessException("Invalid email or password");
                 }
 
-                // Get hashed password
-                var passwordHashQuery = await _sqlQueryService.GetQueryAsync("users_get_password_hash");
-                var storedPasswordHash = await _databaseService.QuerySingleOrDefaultAsync<string>(
-                    passwordHashQuery,
-                    new { Id = user.Id }
-                );
+                Console.WriteLine($"PasswordHash: {user.PasswordHash}");
+                Console.WriteLine($"PasswordHash is null or empty: {string.IsNullOrEmpty(user.PasswordHash)}");
 
-                // Check password
-                if (string.IsNullOrEmpty(storedPasswordHash) || 
-                    !VerifyPassword(request.Password, storedPasswordHash))
+                if (!VerifyPassword(request.Password, user.PasswordHash))
                 {
-                    throw new UnauthorizedAccessException("Invalid login data!");
+                    throw new UnauthorizedAccessException("Invalid email or password");
                 }
 
-                // 4. Generate JWT token
                 var token = GenerateJwtToken(user);
-
-                // 5. Return response
-                return new LoginResponse
+        
+                var response = new AuthResponse
                 {
                     Token = token,
-                    User = user
+                    UserId = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber ?? string.Empty,
+                    JobTitle = user.JobTitle ?? string.Empty,
+                    Role = user.Role
                 };
-            }
-            catch (UnauthorizedAccessException)
-            {
-                throw;
+
+                Console.WriteLine($"Response: {System.Text.Json.JsonSerializer.Serialize(response)}");
+        
+                return response;
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(ex);
-                throw new Exception($"Something went wrong: {ex.Message}", ex);
+                Console.WriteLine($"Login error: {ex.Message}");
+                throw;
             }
         }
 
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
+        public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
         {
             try
             {
-                // Check if email exists
-                var checkQuery = await _sqlQueryService.GetQueryAsync("users_check_email_exists");
-                var existsResult = await _databaseService.QuerySingleOrDefaultAsync<int>(
-                    checkQuery, 
-                    new { Email = request.Email }
-                );
+                // Check of email al bestaat
+                var existingUser = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-                if (existsResult > 0)
+                if (existingUser != null)
                 {
-                    throw new InvalidOperationException("Email is already in use!");
+                    throw new InvalidOperationException("Email already exists");
                 }
 
-                // Hash the password
+                // Hash wachtwoord
                 var passwordHash = HashPassword(request.Password);
 
-                // Create user in database
-                var createQuery = await _sqlQueryService.GetQueryAsync("users_create");
-                var userId = await _databaseService.ExecuteScalarAsync<int>(
-                    createQuery,
-                    new 
-                    { 
-                        Email = request.Email,
-                        PasswordHash = passwordHash,
-                        FirstName = request.FirstName,
-                        LastName = request.LastName,
-                        PhoneNumber = request.PhoneNumber,
-                        JobTitle = request.JobTitle,
-                        Role = request.Role,
-                        CompanyId = request.CompanyId,
-                        DepartmentId = request.DepartmentId,
-                        WorkplaceId = request.WorkplaceId,
-                        CreatedAt = DateTime.UtcNow
-                    }
-                );
-
-                // Get the new user
-                var getUserQuery = await _sqlQueryService.GetQueryAsync("users_get_by_id");
-                var user = await _databaseService.QuerySingleOrDefaultAsync<UserDto>(
-                    getUserQuery,
-                    new { Id = userId }
-                );
-
-                if (user == null)
+                // Maak nieuwe user
+                var user = new User
                 {
-                    throw new Exception("Error fetching new user!");
-                }
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PasswordHash = passwordHash,
+                    Role = "user",
+                    CreatedAt = DateTime.UtcNow
+                };
 
-                // Generate JWT token
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                // Genereer JWT token
                 var token = GenerateJwtToken(user);
 
-                // 6. Return response
-                return new RegisterResponse
-                {
+                return new AuthResponse {
                     Token = token,
-                    User = user
+                    UserId = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber ?? string.Empty,
+                    JobTitle = user.JobTitle ?? string.Empty,
+                    Role = user.Role
                 };
             }
             catch (InvalidOperationException)
@@ -141,42 +118,33 @@ namespace OfficeCalendar.Api.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($" Test Registration error: {ex.Message}", ex);
+                throw new Exception($"Something went wrong: {ex.Message}", ex);
             }
         }
 
-        // ===== PRIVATE HELPER METHODS =====
-
-        private string GenerateJwtToken(UserDto user)
+        private string GenerateJwtToken(User user)
         {
-            // Haal JWT settings uit appsettings.json
             var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"] ?? "your-super-secret-key-must-be-at-least-32-characters-long!";
-            var issuer = jwtSettings["Issuer"] ?? "OfficeCalendarApi";
-            var audience = jwtSettings["Audience"] ?? "OfficeCalendarClient";
+            var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // Maak security key
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            // Claims (user info in token)
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.Role, user.Role ?? "User"),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("userId", user.Id.ToString()),
+                new Claim("email", user.Email),
+                new Claim("role", user.Role),
                 new Claim("firstName", user.FirstName),
-                new Claim("lastName", user.LastName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim("lastName", user.LastName)
             };
 
-            // Maak token
             var token = new JwtSecurityToken(
-                issuer: issuer,
-                audience: audience,
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(24), // Token geldig voor 24 uur
+                expires: DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings["ExpirationMinutes"] ?? "1440")),
                 signingCredentials: credentials
             );
 
@@ -185,12 +153,47 @@ namespace OfficeCalendar.Api.Services
 
         private string HashPassword(string password)
         {
-            return BCrypt.Net.BCrypt.HashPassword(password);
+            return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
         }
 
         private bool VerifyPassword(string password, string storedHash)
         {
-            return BCrypt.Net.BCrypt.Verify(password, storedHash);
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(password, storedHash);
+            }
+            catch (BCrypt.Net.SaltParseException)
+            {
+                // Hash is niet in BCrypt formaat
+                return false;
+            }
         }
+    }
+
+    // DTOs
+    public class LoginRequest
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class RegisterRequest
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class AuthResponse
+    {
+        public string Token { get; set; } = string.Empty;
+        public int UserId { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty; 
+        public string JobTitle { get; set; } = string.Empty;  
+        public string Role { get; set; } = string.Empty;
     }
 }

@@ -1,6 +1,6 @@
-using MySqlConnector;
-using Dapper;
+// Services/DatabaseService.cs
 using Npgsql;
+using Microsoft.Extensions.Configuration;
 
 namespace OfficeCalendar.Api.Services
 {
@@ -10,41 +10,20 @@ namespace OfficeCalendar.Api.Services
 
         public DatabaseService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
+            _connectionString = configuration.GetConnectionString("DefaultConnection") 
+                                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         }
 
-        public async Task<NpgsqlConnection> GetConnectionAsync()
+        public NpgsqlConnection GetConnection()
         {
-            var connection = new NpgsqlConnection(_connectionString);
-            await connection.OpenAsync();
-            return connection;
+            return new NpgsqlConnection(_connectionString);
         }
 
         public async Task TestConnectionAsync()
         {
-            using var connection = await GetConnectionAsync();
-            Console.WriteLine("PostgreSQL database verbinding succesvol!");
-        }
-    
-
-
-        // Methods for queries login registe
-        public async Task<T?> QuerySingleOrDefaultAsync<T>(string sql, object? parameters = null)
-        {
-            using var connection = await GetConnectionAsync();
-            return await connection.QuerySingleOrDefaultAsync<T>(sql, parameters);
-        }
-
-        public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object? parameters = null)
-        {
-            using var connection = await GetConnectionAsync();
-            return await connection.QueryAsync<T>(sql, parameters);
-        }
-
-        public async Task<T> ExecuteScalarAsync<T>(string sql, object? parameters = null)
-        {
-            using var connection = await GetConnectionAsync();
-            return await connection.ExecuteScalarAsync<T>(sql, parameters);
+            using var connection = GetConnection();
+            await connection.OpenAsync();
+            await connection.CloseAsync();
         }
     }
 }

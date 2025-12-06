@@ -1,22 +1,50 @@
-// src/components/common/Header/Header.tsx
+import { useState, useRef, useEffect } from "react";
+import { useAuth } from "../../../authentication/AuthContext";
+import "../../../styles/General/Header.css";
+import Logo from "../../../assets/images/logo.png";
+import UserIcon from "../../../assets/icons/default-user.svg?react";
+import Chevron from "../../../assets/icons/chevron.svg?react";
+import { Link } from "react-router";
 
 const Header = () => {
+    const { user, logout } = useAuth();
+    const [open, setOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     return (
-        <header
-            className="d-flex fixed-top bg-white flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom mb-5">
-            <div className="col-md-3 mb-2 mb-md-0">
-                <a href="/" className="d-inline-flex link-body-emphasis text-decoration-none">
-                    <img src="/src/assets/images/logo.png" alt="Logo" width="105" height="50" />
-                </a></div>
-            <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="/dashboard" className="nav-link px-2">Dashboard</a></li>
-                <li><a href="#" className="nav-link px-2">Calendar</a></li>
-                <li><a href="/events" className="nav-link px-2">Events</a></li>
-            </ul>
-            <div className="col-md-3 text-end">
-                <a className="btn btn-outline-primary me-2" href="/login">Login</a>
-                <a className="btn btn-primary" href="/register">Sign-up</a>
+        <header className="header">
+            <div className="header-left">
+                <img src={Logo} alt="Office Calendar" className="header-logo" />
+            </div>
+
+            <div className="header-right">
+                {user ? (
+                    <div ref={dropdownRef} className="profile-area" onClick={() => setOpen(o => !o)}>
+                        <UserIcon className="profile-icon" />
+                        <Chevron className={`chevron-profile ${open ? "rotated" : ""}`} />
+
+                        {open && (
+                            <div className="profile-dropdown open">
+                                <button onClick={logout}>Sign out</button>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className="auth-buttons">
+                        <Link to="/login" className="btn-login">Login</Link>
+                        <Link to="/register" className="btn-register">Register</Link>
+                    </div>
+                )}
             </div>
         </header>
     );

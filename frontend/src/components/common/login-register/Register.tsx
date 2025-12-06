@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { authService } from '../../../services/authService';
+import { useAuth } from '../../../authentication/AuthContext';
 
 
 
@@ -16,13 +16,14 @@ const RegisterPage = () => {
         lastName: '',
         phoneNumber: '',
         jobTitle: '',
-        role: 'Employee',
+        role: 'user',
     });
     const [companyId] = useState<number | null>(null);  
     const [departmentId] = useState<number | null>(null);
     const [workplaceId] = useState<number | null>(null); 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { register } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -50,7 +51,7 @@ const RegisterPage = () => {
 
         try {
             // Gebruik authService in plaats van fetch!
-            const response = await authService.register({
+            const response = await register({
                 email: formData.email,
                 password: formData.password,
                 firstName: formData.firstName,
@@ -66,7 +67,7 @@ const RegisterPage = () => {
             console.log('Registratie succesvol!', response);
 
             // Redirect naar dashboard
-            navigate('/dashboard');
+            navigate('/');
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);

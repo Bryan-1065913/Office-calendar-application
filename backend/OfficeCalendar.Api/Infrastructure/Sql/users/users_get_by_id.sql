@@ -1,0 +1,1 @@
+SELECT * FROM users, event_participations WHERE event_participations.event_id = @id AND users.id = event_participations.user_id;

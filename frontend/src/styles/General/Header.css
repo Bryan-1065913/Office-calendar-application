@@ -1,0 +1,123 @@
+.header {
+    width: 100%;
+    height: 70px;
+    background: var(--gunmetal);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 30px;
+    box-shadow: var(--shadow);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 50px;
+    width: auto;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ------ Logged-in variant ------ */
+.profile-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.profile-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--white);
+}
+
+.chevron-profile {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+    transform: rotate(270deg);
+    color: var(--tiffany);
+}
+
+.chevron-profile.rotated {
+    transform: rotate(90deg);
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--white);
+    border-radius: var(--small-border-radius);
+    box-shadow: var(--shadow);
+    padding: 12px;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.profile-dropdown.open {
+    display: flex;
+}
+
+.profile-area:hover .profile-dropdown, .profile-dropdown:hover {
+    display: flex;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+    text-align: left;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: var(--gunmetal);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.profile-dropdown button:hover,
+.profile-dropdown a:hover {
+    border-radius: var(--small-border-radius);
+    background: var(--platinum);
+}
+
+/* ------ Logged-out variant ------ */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-login {
+    padding: 6px 16px;
+    background: var(--tiffany);
+    border-radius: 10px;
+    color: var(--gunmetal);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-register {
+    padding: 6px 16px;
+    border: 2px solid var(--tiffany);
+    border-radius: 10px;
+    color: var(--tiffany);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    opacity: 0.8;
+}
