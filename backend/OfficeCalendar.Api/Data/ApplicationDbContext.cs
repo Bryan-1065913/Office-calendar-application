@@ -21,7 +21,7 @@ namespace OfficeCalendar.Api.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<RoomBooking> RoomBookings { get; set; }
         public DbSet<WorkStatus> WorkStatuses { get; set; }
-
+        public DbSet<TaskItem> Tasks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
