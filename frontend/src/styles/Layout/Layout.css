@@ -20,7 +20,7 @@
 .dashboard-sidebar {
     background: var(--gunmetal);
     padding: 32px 28px;
-    border-radius: 28px 0 28px 28px;
+    border-radius: 28px;
     color: var(--white);
     height: 100%;
     position: relative;
