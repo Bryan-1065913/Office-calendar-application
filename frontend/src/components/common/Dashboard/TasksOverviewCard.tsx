@@ -20,20 +20,22 @@ const TasksOverviewCard = () => {
     };
 
     return (
-        <div className="tasks-card shadow-sm">
-            <h5 className="tasks-title">My tasks</h5>
+        <div className="tasks-overview-card shadow-sm">
+            <h5 className="tasks-overview-title">My tasks</h5>
 
-            <ul className="tasks-list">
+            <ul className="tasks-overview-list">
                 {tasks.map((t) => (
-                    <li key={t.id} className="task-row">
-                        <label className="task-item">
+                    <li key={t.id} className="task-overview-row">
+                        <label className="task-overview-item">
                             <input
                                 type="checkbox"
                                 checked={t.completed}
                                 onChange={() => toggleTask(t.id)}
                             />
                             <span className="checkbox-custom" />
-                            <span className="task-text">{t.label}</span>
+                            <span className={`task-overview-text ${t.completed ? 'completed' : ''}`}>
+                                {t.label}
+                            </span>
                         </label>
                     </li>
                 ))}
