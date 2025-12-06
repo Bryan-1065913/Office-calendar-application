@@ -2,7 +2,7 @@
 import "../../../styles/UI/Button.css";
 import Chevron from "../../../assets/icons/chevron.svg?react";
 
-type ButtonVariant = "primary" | "secondary" | "filter";
+type ButtonVariant = "primary" | "secondary" | "dropdown";
 
 type Props = {
     children?: React.ReactNode;
@@ -19,7 +19,7 @@ const Button = ({ children, variant = "primary", onClick, className }: Props) =>
         >
             {children}
 
-            {variant === "filter" && (
+            {variant === "dropdown" && (
                 <Chevron className="oc-btn-icon" />
             )}
         </button>
