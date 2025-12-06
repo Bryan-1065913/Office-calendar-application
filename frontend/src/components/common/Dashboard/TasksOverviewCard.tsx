@@ -33,7 +33,9 @@ const TasksOverviewCard = () => {
                                 onChange={() => toggleTask(t.id)}
                             />
                             <span className="checkbox-custom" />
-                            <span className="task-text">{t.label}</span>
+                            <span className={`task-text ${t.completed ? 'completed' : ''}`}>
+                                {t.label}
+                            </span>
                         </label>
                     </li>
                 ))}
