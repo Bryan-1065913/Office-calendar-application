@@ -43,13 +43,13 @@ const ScheduleOverviewCard = () => {
     const [evenementen, setEvenementen] = useState<Evenement[]>([]);
     const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
     const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `http://localhost:5017/api/EventParticipations` });
-    
+
     useEffect(() => {
         if (data) {
             setEvenementen(data);
         }
     }, [data]);
-    
+
     useEffect(() => {
         if (data2) {
             setEventParticipations(data2);
@@ -68,21 +68,25 @@ const ScheduleOverviewCard = () => {
         eventUserParticipations.some(ep => ep.eventId === ev.id)
     );
     const today = new Date();
-    const items = events.filter(e => Number(e.startsAt.split("T")[0].split("-")[2]) == today.getDay() && Number(e.startsAt.split("T")[0].split("-")[0]) == today.getFullYear())
-                .map(e => e.title);
+    const items = events.filter(e => Number(e.startsAt.split("T")[0].split("-")[2]) == today.getDate() && Number(e.startsAt.split("T")[0].split("-")[0]) == today.getFullYear())
+        .map(e => e.title);
     //*
     return (
         <div className="schedule-card">
             <h5 className="schedule-title">Today</h5>
 
-            <ul className="schedule-list">
-                {items.map((item) => (
-                    <li key={item} className="schedule-item">
-                        <span className="dot" />
-                        <span className="text">{item}</span>
-                    </li>
-                ))}
-            </ul>
+            {items.length > 0 ? (
+                <ul className="schedule-list">
+                    {items.map((item) => (
+                        <li key={item} className="schedule-item">
+                            <span className="dot" />
+                            <span className="text">{item}</span>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No events scheduled for today</p>
+            )}
         </div>
     );
 };
