@@ -52,7 +52,7 @@ export default function EventCardRender({
             <div className="event-card-image"></div>
 
             <div className="event-card-content">
-                <h3 className="event-title">{title}</h3>
+                <h3 className="event-card-title">{title}</h3>
 
                 <p className="event-date">
                     {day} {StartsAtMonth.toLowerCase()} {StartsAtYear}
