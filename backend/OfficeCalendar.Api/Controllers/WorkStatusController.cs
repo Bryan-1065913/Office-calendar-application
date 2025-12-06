@@ -84,6 +84,41 @@ namespace OfficeCalendar.Api.Controllers
                 return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
             }
         }
+        
+        [HttpGet("month")]
+        public async Task<ActionResult<List<WorkStatus>>> GetMonthWorkStatus(
+            [FromQuery] string startDate,
+            [FromQuery] int userId)
+        {
+            if (!DateTime.TryParse(startDate, out var start))
+                return BadRequest(new { message = "Invalid startDate format. Expected yyyy-MM-dd" });
+
+            var firstDay = new DateTime(start.Year, start.Month, 1);
+            var lastDay = firstDay.AddMonths(1).AddDays(-1);
+
+            var statuses = await _repository.QueryAsync(
+                @"SELECT 
+            id as Id,
+            user_id as UserId,
+            date as Date,
+            status as Status,
+            note as Note,
+            created_at as CreatedAt,
+            updated_at as UpdatedAt
+        FROM work_status
+        WHERE user_id = @UserId
+        AND date >= @StartDate::date
+        AND date <= @EndDate::date
+        ORDER BY date",
+                new {
+                    UserId = userId,
+                    StartDate = firstDay,
+                    EndDate = lastDay
+                }
+            );
+
+            return Ok(statuses);
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<WorkStatus>>> GetAll()
