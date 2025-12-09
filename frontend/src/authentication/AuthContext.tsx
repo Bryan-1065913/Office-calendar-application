@@ -1,15 +1,30 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { authApi, type UserDto, type RegisterPayload, type UpdateProfilePayload } from '../services/authApi';
 
-interface User {
-    id: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-    fullName: string;
-    phoneNumber: string;
-    jobTitle: string;
-    role: string;
-}
+
+interface User extends UserDto { }
+
+// interface UpdateProfileData {
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     phoneNumber: string;
+//     location: string;
+//     jobTitle: string;
+// }
+// interface RegisterData {
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     password: string;
+//     phoneNumber: string;
+//     jobTitle: string;
+//     role: string;
+//     companyId: number | null;
+//     departmentId: number | null;
+//     workplaceId: number | null;
+// }
+
 
 interface AuthContextType {
     user: User | null;
@@ -17,24 +32,12 @@ interface AuthContextType {
     isLoading: boolean;
     isAuthenticated: boolean;
     login: (email: string, password: string) => Promise<void>;
-    register: (data: RegisterData) => Promise<void>;
+    register: (data: RegisterPayload) => Promise<void>;
     logout: () => void;
+    updateProfile: (profileData: UpdateProfilePayload) => Promise<void>;
+    refreshUser: () => Promise<void>;
 }
 
-interface RegisterData {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    phoneNumber: string;
-    jobTitle: string;
-    role: string;
-    companyId: number | null;
-    departmentId: number | null;
-    workplaceId: number | null;
-}
-
-const API_URL = "http://localhost:5017/api";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -43,86 +46,57 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Bij mount: check of user nog ingelogd is
+    // On mount: check if user is logged in
     useEffect(() => {
-        const checkAuth = () => {
-            const storedToken = localStorage.getItem('token');
-            const storedUser = localStorage.getItem('user');
+        const storedToken = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
 
-            if (storedToken && storedUser) {
-                try {
-                    setToken(storedToken);
-                    setUser(JSON.parse(storedUser));
-                } catch (error) {
-                    console.error('Failed to parse user data:', error);
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                }
+        if (storedToken && storedUser) {
+            try {
+                setToken(storedToken);
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error('Failed to parse user data:', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             }
-            setIsLoading(false);
-        };
-
-        checkAuth();
+        }
+        setIsLoading(false);
     }, []);
+
+    // after token set refresh profile
+    useEffect(() => {
+        if (token && user) {
+            refreshUser();
+        }
+    }, [token]);
 
     const login = async (email: string, password: string) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
+            const loginData = await authApi.login(email, password);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                throw new Error(
-                    errorData?.message || 
-                    errorData?.detail ||  
-                    'Login mislukt, controleer je gegevens.'
-                );
-            }
+            localStorage.setItem('token', loginData.token);
+            localStorage.setItem('user', JSON.stringify(loginData.user));
 
-            const data = await response.json();
-
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data));
-            
-            setToken(data.token);
-            setUser(data);
-        } catch (error) {
-            throw error;
-        } finally {
+            setToken(loginData.token);
+            setUser(loginData.user);
+        } 
+        finally {
             setIsLoading(false);
         }
     };
 
-    const register = async (formData: RegisterData) => {
+    const register = async (formData: RegisterPayload) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${API_URL}/auth/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
+            
+            const registerData = await authApi.register(formData);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                throw new Error(
-                    errorData?.message || 
-                    errorData?.detail || 
-                    'Registratie mislukt, probeer het later opnieuw.'
-                );
-            }
-
-            const data = await response.json();
-
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            setToken(data.token);
-            setUser(data.user);
-        } catch (error) {
-            throw error;
+            localStorage.setItem('token', registerData.token);
+            localStorage.setItem('user', JSON.stringify(registerData.user));
+            setToken(registerData.token);
+            setUser(registerData.user);
         } finally {
             setIsLoading(false);
         }
@@ -135,6 +109,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
     };
 
+    const refreshUser = async () => {
+        const storedToken = localStorage.getItem('token');
+
+        if (!storedToken) return;
+        try {
+            const userData = await authApi.getProfile(storedToken);
+            setUser(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+        } catch (error) {
+            console.error("Failed to refresh userr (authcontext):", error);
+        }
+    };
+
+    const updateProfile = async (profileData: UpdateProfilePayload) => {
+        const storedToken = localStorage.getItemn('token');
+
+        if (!storedToken) {
+            throw new Error('Not authenticated, log in to continue');
+        }
+        setIsLoading(true);
+        
+        try {
+            const updatedUser = await authApi.updateProfile(storedToken, profileData);
+            setUser(updatedUser)
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -145,6 +149,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 login,
                 register,
                 logout,
+                updateProfile,
+                refreshUser,
             }}
         >
             {children}

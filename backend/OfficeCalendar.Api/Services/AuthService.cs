@@ -51,9 +51,9 @@ namespace OfficeCalendar.Api.Services
                         Email = user.Email,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        PhoneNumber = user.PhoneNumber,
-                        JobTitle = user.JobTitle,
-                        Role = user.Role
+                        PhoneNumber = user.PhoneNumber ?? string.Empty,
+                        JobTitle = user.JobTitle ?? string.Empty,
+                        Role = user.Role 
                     }
                 };
         
@@ -112,8 +112,8 @@ namespace OfficeCalendar.Api.Services
                         Email = user.Email,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        PhoneNumber = user.PhoneNumber,
-                        JobTitle = user.JobTitle,
+                        PhoneNumber = user.PhoneNumber ?? string.Empty,
+                        JobTitle = user.JobTitle ?? string.Empty,
                         Role = user.Role
                     }
                 };

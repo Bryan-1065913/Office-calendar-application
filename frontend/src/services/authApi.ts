@@ -41,7 +41,7 @@ export interface UpdateProfilePayload {
     confirmNewPassword?: string;
 }
 
-export const authAPi = {
+export const authApi = {
     async login(email: string, password: string): Promise<AuthResponse> {
         const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
@@ -84,7 +84,7 @@ export const authAPi = {
     },
 
     // update profile with bearer token
-    async updateProlfe(token: string, payload: UpdateProfilePayload): Promise<UserDto> {
+    async updateProfile(token: string, payload: UpdateProfilePayload): Promise<UserDto> {
         const response = await fetch(`${API_URL}/profile`, {
             method: "PUT",
             headers: {
