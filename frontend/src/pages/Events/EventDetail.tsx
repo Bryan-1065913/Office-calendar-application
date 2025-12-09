@@ -1,7 +1,7 @@
 // src/App.tsx
 import Layout from '../../components/common/Layout/Layout.tsx';
 import Hero from '../../components/common/Hero/Hero.tsx';
-import EventsDetail from '../../components/events/EventDetailComponent.tsx';
+import EventsDetail from '../../components/common/Event/EventDetail.tsx';
 
 function EventDetail() {
     return (

@@ -8,6 +8,7 @@ namespace OfficeCalendar.Api.Models
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public int Id { get; set; }
 
@@ -44,12 +45,19 @@ namespace OfficeCalendar.Api.Models
         [MaxLength(255)]
         public string? JobTitle { get; set; }
 
+        [Column("location")]
+        [MaxLength(255)]
+        public string? Location { get; set; }
+        
         [Column("role")]
         [MaxLength(50)]
         public string Role { get; set; } = "user";
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
 
         // Navigation properties
         [ForeignKey("CompanyId")]

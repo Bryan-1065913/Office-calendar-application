@@ -1,0 +1,98 @@
+/* ===== Dashboard Layout Wrapper ===== */
+.layout {
+    min-height: 100vh;
+    background: var(--platinum);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Dashboard Body (sidebar + content) ===== */
+.dashboard-body {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    grid-template-rows: 1fr;
+    padding: 30px;
+    flex: 1;
+    position: relative; /* Nodig voor z-index layering */
+}
+
+/* ===== Sidebar ===== */
+.dashboard-sidebar {
+    background: var(--gunmetal);
+    padding: 32px 28px;
+    border-radius: 28px;
+    color: var(--white);
+    height: 100%;
+    position: relative;
+    z-index: 2; /* Sidebar ligt bovenop */
+}
+
+.sidebar-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--platinum);
+}
+
+/* Links */
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: var(--platinum);
+    transition: background 0.2s ease;
+    margin: 5px 0;
+}
+
+.nav-link .nav-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--tiffany);
+}
+
+/* Active link */
+.sidebar-nav .nav-link.active {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+}
+
+.sidebar-nav .nav-link.active .nav-icon {
+    color: var(--gunmetal);
+}
+
+/* Hover */
+.sidebar-nav .nav-link:hover {
+    background: var(--platinum);
+    color: var(--gunmetal);
+}
+
+.sidebar-nav .nav-link:hover .nav-icon {
+    color: var(--gunmetal);
+}
+
+/* ===== Main Content ===== */
+.dashboard-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1; /* Content ligt onder sidebar */
+}
+
+/* Grote ronde container */
+.content-card {
+    background: var(--platinum);
+    height: 100%;
+    border-radius: var(--border-radius);
+    padding: 20px 20px 20px 80px;
+    border: 2px solid var(--gunmetal);
+    box-shadow: var(--shadow);
+    margin-left: -80px; /* Vergroot de overlap van -60px naar -80px */
+    padding-left: 100px; /* Verhoog padding zodat content niet onder sidebar komt */
+    overflow-y: auto;
+    display: flex;
+}

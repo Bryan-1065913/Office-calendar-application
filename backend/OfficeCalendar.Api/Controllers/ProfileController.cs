@@ -18,8 +18,6 @@ namespace OfficeCalendar.Api.Controllers
             _context = context;
         }
 
-        
-
         // Get user Id from JWT Token
         private int? GetUserIdFromToken()
         {
@@ -30,7 +28,6 @@ namespace OfficeCalendar.Api.Controllers
             }
             return null;
         }
-
 
         // get current user
         [HttpGet]
@@ -46,8 +43,6 @@ namespace OfficeCalendar.Api.Controllers
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
                 return NotFound("User not found");
-            
-            Console.WriteLine($"User: {user.FirstName}, Phone: {user.PhoneNumber}, JobTitle: {user.JobTitle}");
 
             return Ok(MapToUserDto(user));
         }
@@ -57,7 +52,8 @@ namespace OfficeCalendar.Api.Controllers
         public async Task<ActionResult<UserDto>> UpdateProfile([FromBody] UpdateUserDto updateDto)
         {
             var userId = GetUserIdFromToken();
-            if (userId == null){
+            if (userId == null)
+            {
                 return Unauthorized("User not found in token");
             }
 
@@ -65,7 +61,7 @@ namespace OfficeCalendar.Api.Controllers
             if (user == null) 
                 return NotFound("User not found");
 
-            // validation iinput
+            // validation input
             if(string.IsNullOrWhiteSpace(updateDto.FirstName))
                 return BadRequest("Firstname can not be empty");
 
@@ -75,6 +71,9 @@ namespace OfficeCalendar.Api.Controllers
             if(string.IsNullOrWhiteSpace(updateDto.Email))
                 return BadRequest("Email can not be empty");
 
+            if(string.IsNullOrWhiteSpace(updateDto.Location))
+                return BadRequest("Location can not be empty");
+
             // check if email already exists
             var emailExists = await _context.Users
                 .AnyAsync(usr => usr.Email == updateDto.Email.ToLower() && usr.Id != userId);
@@ -82,41 +81,35 @@ namespace OfficeCalendar.Api.Controllers
             if (emailExists)
                 return BadRequest("The email adress is already in use");
 
-            // user.FirstName = updateDto.FirstName.Trim();
-            // user.LastName = updateDto.LastName.Trim();
-            // user.Email = updateDto.Email.ToLower().Trim();
-      
-
-            // make sure that the created at is not udpated
-       
             try
             {
                 var phoneNumber = updateDto.PhoneNumber?.Trim();
                 var jobTitle = updateDto.JobTitle?.Trim();
+                var location = updateDto.Location?.Trim();
 
                 await _context.Users.Where(u => u.Id == userId).ExecuteUpdateAsync(setters => setters
-                .SetProperty(u => u.FirstName, updateDto.FirstName.Trim())
-                .SetProperty(u => u.LastName, updateDto.LastName.Trim())
-                .SetProperty(u => u.Email, updateDto.Email.ToLower().Trim())
-                .SetProperty(u => u.PhoneNumber, phoneNumber)
-                .SetProperty(u => u.JobTitle, jobTitle)
+                    .SetProperty(u => u.FirstName, updateDto.FirstName.Trim())
+                    .SetProperty(u => u.LastName, updateDto.LastName.Trim())
+                    .SetProperty(u => u.Email, updateDto.Email.ToLower().Trim())
+                    .SetProperty(u => u.Location, location)
+                    .SetProperty(u => u.PhoneNumber, phoneNumber)
+                    .SetProperty(u => u.JobTitle, jobTitle)
+                    .SetProperty(u => u.UpdatedAt, DateTime.UtcNow)
                 );
 
+                // Haal bijgewerkte user op
                 user = await _context.Users.FindAsync(userId);
-                Console.WriteLine(user);
-                // _context.Users.Update(user);
-                // await _context.SaveChangesAsync();
-
+                
                 return Ok(new
                 {
                     message = "Profile has been updated!",
-                    // user = MapToUserDto(user)
+                    user = MapToUserDto(user!)
                 });
             }
             catch (DbUpdateException ex)
             {
                 return StatusCode(500, new { 
-                    message = " error w updating" + (ex.InnerException?.Message ?? "Unknown error")
+                    message = "Error updating profile: " + (ex.InnerException?.Message ?? "Unknown error")
                 });
             }
         }
@@ -129,9 +122,12 @@ namespace OfficeCalendar.Api.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Location = user.Location ?? string.Empty,
                 PhoneNumber = user.PhoneNumber ?? string.Empty,
                 JobTitle = user.JobTitle ?? string.Empty,
-                Role = user.Role
+                Role = user.Role,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
             };
         }
     }

@@ -1,5 +1,6 @@
 // src/App.tsx
-import './NotFound.scss';
+import "../../../styles/NotFound/NotFound.css";
+import '../../../assets/fonts/sen.css'
 // useEffect hook from react component
 import { useEffect } from 'react';
 // 404 NotFound component

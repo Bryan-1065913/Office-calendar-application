@@ -1,3 +1,4 @@
+// AuthContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { authApi, type UserDto, type RegisterPayload, type UpdateProfilePayload } from '../services/authApi';
 
@@ -164,4 +165,4 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within AuthProvider');
     }
     return context;
-}; 
+};
