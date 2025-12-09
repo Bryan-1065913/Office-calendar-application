@@ -2,7 +2,7 @@
 import "/src/styles/Dashboard/overview.css";
 // import {currentUser} from "../../../authentication/auth";
 import GreetingMessage from "./GreetingMessage";
-import ActivityModal from "./ActivityModal";
+import CalendarModal from "../Calendar/CalendarModal.tsx";
 import TeamOverviewCard from "./TeamOverviewCard.tsx";
 import WeekOverviewCard from "./WeekOverviewCard";
 import ScheduleOverviewCard from "./ScheduleOverviewCard.tsx";
@@ -10,7 +10,7 @@ import TasksOverviewCard from "./TasksOverviewCard.tsx";
 import ProfileOverviewCard from "./ProfileOverviewCard.tsx";
 
 //*
-import { useEffect, useState} from "react";  
+import { useEffect, useState} from "react";
 import { useFetchSecond } from '../../../hooks/useFetchSecondGet';
 import {useAuth} from "../../../authentication/AuthContext";
 import NotFound from "../NotFound/NotFound.tsx";
@@ -68,7 +68,7 @@ const Overview = () => {
                 </div>
             </div>
 
-            <ActivityModal />
+            <CalendarModal />
         </div>
     );
 };
