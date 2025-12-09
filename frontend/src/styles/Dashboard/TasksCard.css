@@ -1,33 +1,67 @@
-.tasks-card {
+.tasks-overview-card {
     background: var(--white);
     border-radius: var(--border-radius);
     padding: 20px;
     box-shadow: var(--shadow);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
 }
 
-.tasks-title {
+.tasks-overview-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    /* NIEUW: De lijst moet scrollen en de ruimte vullen */
+    overflow-y: auto;
+    flex-grow: 1; /* Vult de overgebleven ruimte onder de titel */
+    min-height: 0; /* Belangrijk voor Firefox flex containers */
+
+    /* Optioneel: extra ruimte tussen tekst en scrollbar */
+    padding-right: 10px;
+
+    /* Firefox Scrollbar styling hierheen verplaatst */
+    scrollbar-width: thin;
+    scrollbar-color: var(--tiffany) #f1f1f1;
+}
+
+/* Webkit scrollbar styles nu gekoppeld aan de LIJST i.p.v. de kaart */
+.tasks-overview-list::-webkit-scrollbar {
+    width: 6px; /* Iets dunner oogt vaak mooier binnenin */
+}
+
+.tasks-overview-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb {
+    background: var(--tiffany);
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb:hover {
+    background: var(--gunmetal);
+}
+
+.tasks-overview-title {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 16px;
     color: var(--gunmetal);
 }
 
-.tasks-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.task-row {
+.task-overview-row {
     padding: 12px 0;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.task-row:last-child {
+.task-overview-row:last-child {
     border-bottom: none;
 }
 
-.task-item {
+.task-overview-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -35,7 +69,7 @@
     position: relative;
 }
 
-.task-item input[type="checkbox"] {
+.task-overview-item input[type="checkbox"] {
     opacity: 0;
     position: absolute;
     width: 18px;
@@ -56,26 +90,32 @@
     transition: all 0.15s ease;
 }
 
-.task-item input:checked + .checkbox-custom {
+.task-overview-item input:checked + .checkbox-custom {
     background: var(--tiffany);
     border-color: var(--tiffany);
 }
 
-.task-item input:checked + .checkbox-custom::after {
+.task-overview-item input:checked + .checkbox-custom::after {
     content: "✓";
     font-size: 13px;
     color: var(--white);
 }
 
 /* Tekst */
-.task-text {
+.task-overview-text {
     font-size: 15px;
     font-weight: 500;
     color: var(--gunmetal);
 }
 
-.task-text.completed {
+.task-overview-text.completed {
     text-decoration: line-through;
-    opacity: 0.5;
-    color: #999;
+    color: var(--platinum);
+}
+
+.no-tasks-overview {
+    text-align: center;
+    color: var(--gunmetal);
+    padding: 20px 0;
+    font-size: 14px;
 }
