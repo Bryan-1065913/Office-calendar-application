@@ -11,15 +11,24 @@ type Props = {
     className?: string;
     type?: "button" | "submit" | "reset";
     disabled?: boolean;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ children, variant = "primary", onClick, className, type = "button", disabled }: Props) => {
+const Button = ({
+                    children,
+                    variant = "primary",
+                    onClick,
+                    className,
+                    type = "button",
+                    disabled,
+                    ...rest
+                }: Props) => {
     return (
         <button
             className={`oc-btn oc-btn-${variant} ${className ?? ""}`}
             onClick={onClick}
             type={type}
             disabled={disabled}
+            {...rest}
         >
             {children}
 
