@@ -4,6 +4,7 @@ import { workStatusService, type WorkStatus } from "../../../services/workStatus
 import { StatusBadge } from "../UI/StatusBadge";
 import Chevron from "../../../assets/icons/chevron.svg?react";
 import "../../../styles/Calendar/Calendar.css";
+import Button from "../UI/Buttons.tsx";
 
 interface DayCell {
     date: Date | null;
@@ -16,7 +17,6 @@ interface DayCell {
 
 const Calendar = () => {
     const { user } = useAuth();
-
     const [month, setMonth] = useState(new Date());
     const [days, setDays] = useState<DayCell[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -24,9 +24,17 @@ const Calendar = () => {
     useEffect(() => {
         if (!user?.userId) return;
         loadMonth();
+
+        // Luister naar refresh events van modal saves
+        const handleRefresh = () => {
+            console.log("🔄 Calendar refresh triggered");
+            loadMonth();
+        };
+
+        window.addEventListener('calendarRefresh', handleRefresh);
+        return () => window.removeEventListener('calendarRefresh', handleRefresh);
     }, [month, user]);
 
-    // ===== FIX: correcte weekday mapping (week start op maandag) =====
     function getWeekdayLabel(date: Date) {
         const map = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
         return map[date.getDay()];
@@ -46,16 +54,12 @@ const Calendar = () => {
 
             const startDateStr = `${first.getFullYear()}-${String(first.getMonth() + 1).padStart(2, "0")}-01`;
 
-            console.log("📅 Correct startDateStr:", startDateStr);
-
             const statuses = await workStatusService.getMonthWorkStatus(startDateStr, user.userId);
             const allDays: DayCell[] = [];
 
-            // ===== FIX: padding berekend op maandag-start =====
             const weekday = first.getDay() === 0 ? 7 : first.getDay();
             const pad = weekday - 1;
 
-            // leegvakken vóór maand
             for (let i = 0; i < pad; i++) {
                 allDays.push({
                     date: null,
@@ -66,7 +70,6 @@ const Calendar = () => {
                 });
             }
 
-            // echte dagen
             for (let d = 1; d <= last.getDate(); d++) {
                 const dateObj = new Date(year, m, d);
                 const iso = formatDate(dateObj);
@@ -75,7 +78,7 @@ const Calendar = () => {
                 allDays.push({
                     date: dateObj,
                     day: d,
-                    weekday: getWeekdayLabel(dateObj), // 👈 FIX
+                    weekday: getWeekdayLabel(dateObj),
                     isCurrentMonth: true,
                     chips: status ? [mapStatusLabel(status.status)] : []
                 });
@@ -89,7 +92,7 @@ const Calendar = () => {
     };
 
     function formatDate(date: Date) {
-        return date.toLocaleDateString("sv-SE"); // yyyy-mm-dd, geen UTC shift
+        return date.toLocaleDateString("sv-SE");
     }
 
     function mapStatusLabel(status: string) {
@@ -123,8 +126,6 @@ const Calendar = () => {
 
     return (
         <div className="week-overview-card">
-
-            {/* HEADER */}
             <div className="week-overview-header d-flex justify-content-between align-items-center mb-2 px-1">
                 <button className="week-nav-button btn btn-link p-0" onClick={prevMonth}>
                     <Chevron className="chevron chevron-left" />
@@ -141,7 +142,6 @@ const Calendar = () => {
 
             {error && <div className="alert alert-danger">{error}</div>}
 
-            {/* GRID */}
             <div className="week-days-grid calendar-grid">
                 {days.map((day, i) => (
                     <div key={i} className={`day-item ${!day.isCurrentMonth ? "empty" : ""}`}>
@@ -163,6 +163,15 @@ const Calendar = () => {
                         )}
                     </div>
                 ))}
+            </div>
+
+            <div className="button-row d-flex justify-content-end mt-3">
+                <Button
+                    data-bs-toggle="modal"
+                    data-bs-target="#calendarModal"
+                >
+                    Aanwezigheid toevoegen
+                </Button>
             </div>
         </div>
     );
