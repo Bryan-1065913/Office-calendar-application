@@ -39,8 +39,8 @@ namespace OfficeCalendar.Api.Controllers
                var reviews = await _repository.QueryAsync(
                     @"SELECT 
                         r.id AS Id,
+                        r.user_id AS UserId,
                         r.event_id AS EventId,
-                        r.title_review AS Title,
                         r.text_review AS TextReview,
                         r.created_at AS CreatedAt,
                         r.updated_at AS UpdatedAt
@@ -78,8 +78,6 @@ namespace OfficeCalendar.Api.Controllers
                 {
                     UserId = dto.UserId,
                     EventId = dto.EventId,
-                    Date = DateTime.Parse(dto.Date),
-                    Title = dto.Title,
                     TextReview = dto.TextReview,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = null
@@ -104,9 +102,6 @@ namespace OfficeCalendar.Api.Controllers
             {
                 var existing = await _repository.GetByIdAsync(id);
                 if (existing == null) return NotFound();
-
-                existing.Date = DateTime.Parse(dto.Date);
-                existing.Title = dto.Title;
                 existing.TextReview = dto.TextReview;
                 existing.UpdatedAt = DateTime.UtcNow;
 

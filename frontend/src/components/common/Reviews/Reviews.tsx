@@ -2,33 +2,39 @@ import "../../../styles/Reviews/Reviews.css";
 import { useState } from "react";
 import {useAuth} from "../../../authentication/AuthContext";
 import NotFound from "../NotFound/NotFound";
-import RevieuwsRender from "./ReviewsRedering";
+import ReviewsRender from "./ReviewsRedering";
 import '../../../assets/fonts/sen.css';
 import Button from "../UI/Buttons";
 import { useNavigate } from "react-router";
 import { useFetch } from "../../../hooks/useFetchGet";
+import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
 
 interface Review {
-    user_id: number;
-    event_id: number;
-    date: string;
-    title: string;
-    text: string;
-    created_at: string;
-    updated_at?: string;
+    id: number;
+    userId: number;
+    eventId: number;
+    textReview: string;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 interface propsReview {
     id: number;
 }
 
+interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_API || "http://localhost:5017/api";
 
-const Revieuws = (props: propsReview) => {
+const Reviews = (props: propsReview) => {
     const {user} = useAuth();
     const [input, setInput] = useState("");
-    const [titleReview, setTitle] = useState("");
     const [textLength, setTextLength] = useState(0);
+    const { data2: users } = useFetchSecond<User[]>({ url: `${API_BASE_URL}/users` });
     const navigate = useNavigate();
     if(user == null)
     {
@@ -55,8 +61,6 @@ const Revieuws = (props: propsReview) => {
             return;
         }
         e.preventDefault();
-        const titleInputValue = titleInput(input);
-        setTitle(titleInputValue);
         const response = await fetch("http://localhost:5017/api/Review", {
             method: 'POST',
             headers : {
@@ -65,8 +69,7 @@ const Revieuws = (props: propsReview) => {
             body: JSON.stringify({
                 userId: user.userId,
                 eventId:  props.id,
-                date: new Date().toISOString(),
-                Title: titleInputValue,     // Make sure to use your local transformed variable
+                createdAt: new Date().toISOString(),
                 TextReview: input           // Correct property name
             }),
         });
@@ -74,21 +77,20 @@ const Revieuws = (props: propsReview) => {
             console.log("Successfully made Review");
         }
         setTextLength(0);
-        setTitle("");
         setInput("");
     }   
     const { data: review } = useFetch<Review[]>({ url: `${API_BASE_URL}/Review/reviewPerEvent/${props.id}` });
-
+    console.log(review?.[1]?.id);
     return(
         <>
             <div className="Main-wrapper">
                 <Button className="Main-Button" variant="primary" onClick={() => navigate(`/events/`)}>&nbsp;&nbsp;&nbsp;&nbsp;Terug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>
-                <form className="formulier-Revieuw">  
+                <form className="formulier-Review">  
                     <textarea
                         value={input}
                         onChange={(e) => { setInput(e.target.value); setTextLength(e.target.value.length); }}
-                        placeholder="Type here your revieuw"
-                        className="revieuw-textarea"
+                        placeholder="Type here your review"
+                        className="review-textarea"
                     />
                     {textLength > 500 || textLength < 150 ? (
                         <div className="Warning-Message">Warning you either cant have less than 150 or more than 500 characters</div>
@@ -98,16 +100,18 @@ const Revieuws = (props: propsReview) => {
                 </form>
             </div>
             {review && review.length > 0 && ( 
-            <div className="Main-Revieuw-Render-Wrapper">
+            <div className="Main-Review-Render-Wrapper">
             {review.map(
-                (revieuw) => <RevieuwsRender 
-                    user_id={revieuw.user_id}
-                    event_id={revieuw.event_id}
-                    date={revieuw.date}
-                    title={revieuw.title}
-                    text={revieuw.text}
-                    created_at={revieuw.created_at}
-                    updated_at={revieuw.updated_at}
+                (review) => <ReviewsRender 
+                    key={review.id}
+                    id={review.id}
+                    firstName={users?.find(u => u.id === review.userId)?.firstName || "Unknown"}
+                    lastName={users?.find(u => u.id === review.userId)?.lastName || "Unknown"}
+                    userId={review.userId}
+                    event_id={review.eventId}
+                    text={review.textReview}
+                    created_at={review.createdAt}
+                    updated_at={review.updatedAt}
                 />
             )}
             </div>
@@ -115,4 +119,4 @@ const Revieuws = (props: propsReview) => {
         </>
     );
 }
-export default Revieuws;
+export default Reviews;

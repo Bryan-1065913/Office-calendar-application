@@ -20,14 +20,6 @@ namespace OfficeCalendar.Api.Models
         public int UserId { get; set; }
 
         [Required]
-        [Column("date")]
-        public DateTime Date { get; set; }
-        
-        [Required]
-        [Column("title_review")]
-        public string Title { get; set; }
-
-        [Required]
         [Column("text_review")]
         public string TextReview { get; set; }
 
