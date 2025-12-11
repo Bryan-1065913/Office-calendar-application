@@ -21,9 +21,9 @@ namespace OfficeCalendar.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("reviewPerEvent")]
+        [HttpGet("reviewPerEvent/{eventId}")]
         public async Task<ActionResult<List<Review>>> GetReviewPerEvent(
-            [FromQuery] int? eventId)
+            [FromRoute] int? eventId)
         {
             try
             {
@@ -36,22 +36,19 @@ namespace OfficeCalendar.Api.Controllers
 
                 _logger.LogInformation("Querying work status for event {EventId}", eventId);
 
-                var reviews = await _repository.QueryAsync(
+               var reviews = await _repository.QueryAsync(
                     @"SELECT 
-                id as Id,
-                Event_id as EventId,
-                Title as Title,
-                TextReview as TextReview,
-                created_at as CreatedAt,
-                updated_at as UpdatedAt
-              FROM Review 
-              jOIN Events ON Review.event_id = @Events.id
-              WHERE event_id = @EventId && Events.id = @EventId
-              ORDER BY Review.Created_At DESC",
-                    new
-                    {
-                        EventId = eventId,
-                    }
+                        r.id AS Id,
+                        r.event_id AS EventId,
+                        r.title_review AS Title,
+                        r.text_review AS TextReview,
+                        r.created_at AS CreatedAt,
+                        r.updated_at AS UpdatedAt
+                    FROM Review r
+                    JOIN Events e ON r.event_id = e.id
+                    WHERE r.event_id = @EventId AND e.id = @EventId
+                    ORDER BY r.created_at DESC",
+                    new { EventId = eventId }
                 );
 
                 _logger.LogInformation("Found {Count} reviews", reviews.Count);
@@ -64,6 +61,7 @@ namespace OfficeCalendar.Api.Controllers
                 return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
             }
         }
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Review>> GetById(int id)
         {

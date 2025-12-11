@@ -202,7 +202,7 @@ const Event = () => {
                 </section>
                 <section>
                     <div>
-                        <Revieuws/>
+                        <Revieuws id={event.id}/>
                     </div>
                 </section>
             </div>
