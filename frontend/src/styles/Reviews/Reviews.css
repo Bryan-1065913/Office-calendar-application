@@ -11,6 +11,21 @@
   background-color: var(--white);
 }
 
+.Main-Button{
+  position: absolute;
+  transform: translate(-346%, -873%);
+  padding: 20px;
+
+}
+
+.text-length{
+  position: absolute;
+  transform: translate(900%, 750%);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gunmetal);
+}
+
 /* // Form and input area */
 .formulier-Revieuw {
   display: flex;
@@ -102,4 +117,13 @@
   font-weight: 700;
   font-family: "sen" sans-serif;
   color: var(--gunmetal);
+}
+
+.Warning-Message {
+  position: absolute;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--violet);
+  margin-top: 0px;
 }
