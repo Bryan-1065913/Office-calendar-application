@@ -58,10 +58,10 @@
 
 /* ===== Events List ===== */
 .events-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    gap: 22px;
+    margin-left: 100px;
     height: 400px;
     overflow-y: auto;
     padding-bottom: 10px;
@@ -69,11 +69,13 @@
 }
 
 .events-list::-webkit-scrollbar {
-  display: none; /* Chrome/Safari scrollbar verbergen */
+    padding: 10px;
+    display: none; /* Chrome/Safari scrollbar verbergen */
 }
 
 .events-list {
-  scrollbar-width: none; /* Firefox scrollbar verbergen */
+    padding: 10px;
+    scrollbar-width: none; /* Firefox scrollbar verbergen */
 }
 
 /* ===== Empty state ===== */
@@ -85,4 +87,12 @@
     font-weight: 600;
     color: var(--gunmetal);
     width: fit-content;
+;
+}
+
+.no-events-wrapper {
+    margin-left: 160px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

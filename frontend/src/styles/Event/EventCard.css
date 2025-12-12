@@ -2,7 +2,7 @@
    Event Card Wrapper
    ============================================ */
 .event-card-wrapper {
-    width: 100%;
+    width: 80%;
     max-width: 620px;
     background: var(--white);
     border-radius: 20px;
