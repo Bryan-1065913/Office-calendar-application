@@ -13,7 +13,13 @@
 
 .Main-Button{
   position: absolute;
-  transform: translate(-346%, -795%);
+  transform: translate(-346%, -875%);
+  padding: 20px;
+}
+
+.Main-Button-With-Review{
+  position: absolute;
+  transform: translate(-346%, -875%);
   padding: 20px;
 }
 

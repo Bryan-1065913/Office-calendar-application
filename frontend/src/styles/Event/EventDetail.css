@@ -105,12 +105,14 @@
 .pop-up {
     position: fixed;
     background-color: var(--white);
+    border: 1px solid var(--gunmetal);
     width: 900px;
     height: 500px;
     padding: 250px;
     padding-left: 0px;
     padding-right: 0px;
     justify-content: center;
+    transform: translate(0%, -90%);
     text-align: center;
     margin-top: -850px;
     margin-left: 50px;
