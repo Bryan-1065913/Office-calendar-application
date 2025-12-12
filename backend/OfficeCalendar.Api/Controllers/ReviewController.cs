@@ -44,7 +44,7 @@ namespace OfficeCalendar.Api.Controllers
                         r.text_review AS TextReview,
                         r.created_at AS CreatedAt,
                         r.updated_at AS UpdatedAt
-                    FROM Review r
+                    FROM Reviews r
                     JOIN Events e ON r.event_id = e.id
                     WHERE r.event_id = @EventId AND e.id = @EventId
                     ORDER BY r.created_at DESC",

@@ -80,7 +80,6 @@ const Reviews = (props: propsReview) => {
         setInput("");
     }   
     const { data: review } = useFetch<Review[]>({ url: `${API_BASE_URL}/Review/reviewPerEvent/${props.id}` });
-    console.log(review?.[1]?.id);
     return(
         <>
             <div className="Main-wrapper">
