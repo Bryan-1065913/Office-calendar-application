@@ -14,7 +14,7 @@ import { Navigate} from "react-router";
 // Defines the structure of an event object and its attributes
 import { useAuth } from "../../../authentication/AuthContext";
 import Aanwezigen from '../Attendees/Attendees';
-import Revieuws from '../Reviews/Reviews';
+import Reviews from '../Reviews/Reviews';
 import '../../../assets/fonts/sen.css';
 
 interface Room {
@@ -195,14 +195,14 @@ const Event = () => {
                     </div>
                 )}
                 <section className="attendees-content">
-                    <p className="attendees">Attendees</p> 
+                    <p className="attendees">Attendees</p>
                     <div className="attendees-overzicht">
                         <Aanwezigen eventUsers={eventUsers} />  
                     </div>
                 </section>
                 <section>
                     <div>
-                        <Revieuws/>
+                        <Reviews id={event.id}/>
                     </div>
                 </section>
             </div>

@@ -11,15 +11,29 @@
   background-color: var(--white);
 }
 
+.Main-Button{
+  position: absolute;
+  transform: translate(-346%, -873%);
+  padding: 20px;
+}
+
+.text-length{
+  position: absolute;
+  transform: translate(900%, 750%);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gunmetal);
+}
+
 /* // Form and input area */
-.formulier-Revieuw {
+.formulier-Review {
   display: flex;
   align-items: center;
   width: 90%;
   max-width: 900px;
 }
 
-.revieuw-textarea {
+.review-textarea {
   flex: 1;
   height: 120px;
   padding: 12px;
@@ -34,7 +48,7 @@
   transform: translate(0%, 100%);
 }
 
-.revieuw-textarea:focus {
+.review-textarea:focus {
   border-color: var(--nonphoto); 
   box-shadow: 0 0 8px rgba(76, 110, 245, 0.3);
   outline: none;
@@ -63,43 +77,61 @@
 }
 
 /* // Wrapper for all reviews */
-.Main-Revieuw-Render-Wrapper {
+.Main-Review-Render-Wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 150px;
-  max-height: 200px; /* maximale hoogte voor scroll */
+  margin-top: 230px;
+  max-height: 310px; /* maximale hoogte voor scroll */
   overflow-y: auto; /* scroll bij overflow */
   gap: 20px; /* ruimte tussen reviews */
 }
 
-.Main-Revieuw-Render-Wrapper::-webkit-scrollbar {
+.Main-Review-Render-Wrapper::-webkit-scrollbar {
   display: none; /* Chrome/Safari scrollbar verbergen */
 }
 
-.Main-Revieuw-Render-Wrapper {
+.Main-Review-Render-Wrapper {
   scrollbar-width: none; /* Firefox scrollbar verbergen */
 }
 
 /* // Individual review styling */
-.Revieuw {
+.Review {
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 900px;
-  padding: 10px 20px;
+  padding: 20px;
   border-radius: 20px;
   border: 2px solid var(--gunmetal);
   background-color: var(--white);
-  text-align: left;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-.Revieuws-text {
-  margin: 0;
-  padding: 0;
+.Review-text {
+  margin-bottom: 10px;
   font-size: 16px;
   font-weight: 700;
-  font-family: "sen" sans-serif;
   color: var(--gunmetal);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.other-content-review {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray);
+}
+
+
+.Warning-Message {
+  position: absolute;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--violet);
+  margin-top: 0px;
 }
