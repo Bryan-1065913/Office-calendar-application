@@ -83,7 +83,8 @@ const Reviews = (props: propsReview) => {
     return(
         <>
             <div className="Main-wrapper">
-                <Button className="Main-Button" variant="primary" onClick={() => navigate(`/events/`)}>&nbsp;&nbsp;&nbsp;&nbsp;Terug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>
+                {review && review.length > 0 && ( <Button className="Main-Button-With-Review" variant="primary" onClick={() => navigate(`/events/`)}>&nbsp;&nbsp;&nbsp;&nbsp;Terug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>)}
+                {review && review.length <= 0 && (<Button className="Main-Button" variant="primary" onClick={() => navigate(`/events/`)}>&nbsp;&nbsp;&nbsp;&nbsp;Terug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>)}
                 <form className="formulier-Review">  
                     <textarea
                         value={input}
