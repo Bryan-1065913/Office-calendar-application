@@ -65,7 +65,9 @@ const RevieuwsRender = ({
                     {time[1]}:
                     {time[2].split(".")[0]}&nbsp;
                 </p>
-                <Button className="Delete-Button" variant="primary" onClick={Delete}>&nbsp;&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>
+                {user?.userId == userId && (
+                    <Button className="Delete-Button" variant="primary" onClick={Delete}>&nbsp;&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Button>
+                )}
             </div>
         </>
     );
