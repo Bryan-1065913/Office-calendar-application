@@ -36,7 +36,6 @@ const RevieuwsRender = ({
     const date = dateTime[0].split("-");
     const time = dateTime[1].split(":");
     const Delete = async () => {
-        console.log(`${userId}`);
         if(user?.userId == userId)
         {
             const response = await fetch(`http://localhost:5017/api/Review/${id}`, {

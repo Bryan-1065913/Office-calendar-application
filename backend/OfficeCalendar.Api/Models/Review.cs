@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OfficeCalendar.Api.Models
 {
-    [Table("Review")]
+    [Table("Reviews")]
     public class Review
     {
         [Key]
