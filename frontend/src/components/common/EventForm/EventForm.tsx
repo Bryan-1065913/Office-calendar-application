@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../../../styles/Event/EventForm.css";
 import Button from "../UI/Buttons";
 import Chevron from "../../../assets/icons/chevron.svg?react";
@@ -26,8 +26,28 @@ function EventForm({ embedded = false, onSuccess, onCancel }: EventFormProps = {
         date: "",
         startTime: "",
         endTime: "",
-        location: "",
+        location: "Home",
     });
+    const [locationOpen, setLocationOpen] = useState(false);
+    const locationRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (!locationOpen) return;
+
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                locationRef.current &&
+                !locationRef.current.contains(event.target as Node)
+            ) {
+                setLocationOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [locationOpen]);
 
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -135,18 +155,49 @@ function EventForm({ embedded = false, onSuccess, onCancel }: EventFormProps = {
                 <label className="event-form-label" htmlFor="location">
                     Location
                 </label>
-                <div className="event-form-location-wrapper">
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        className="event-form-input event-form-location-input"
-                        placeholder="Choose the location of the event"
-                        value={eventFormData.location}
-                        onChange={handleChange}
-                        required
+                <div
+                    className="event-form-location-wrapper"
+                    ref={locationRef}
+                    onClick={() => setLocationOpen((open) => !open)}
+                >
+                    <div className="event-form-input event-form-location-input event-form-location-display">
+                        {eventFormData.location || "Choose the location of the event"}
+                    </div>
+                    <Chevron
+                        className={`event-form-location-chevron ${
+                            locationOpen ? "event-form-location-chevron-open" : ""
+                        }`}
                     />
-                    <Chevron className="event-form-location-chevron" />
+                    {locationOpen && (
+                        <div className="event-form-location-dropdown">
+                            <button
+                                type="button"
+                                className="event-form-location-option"
+                                onClick={() => {
+                                    setEventFormData((prev) => ({
+                                        ...prev,
+                                        location: "Home",
+                                    }));
+                                    setLocationOpen(false);
+                                }}
+                            >
+                                Home
+                            </button>
+                            <button
+                                type="button"
+                                className="event-form-location-option"
+                                onClick={() => {
+                                    setEventFormData((prev) => ({
+                                        ...prev,
+                                        location: "Work",
+                                    }));
+                                    setLocationOpen(false);
+                                }}
+                            >
+                                Work
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
