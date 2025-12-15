@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import "../../../styles/Event/EventForm.css";
 import Button from "../UI/Buttons";
 import Chevron from "../../../assets/icons/chevron.svg?react";
+import api from "../../../services/api";
+import { useAuth } from "../../../authentication/AuthContext";
 
 interface EventFormData {
     name: string;
@@ -20,6 +22,7 @@ interface EventFormProps {
 }
 
 function EventForm({ embedded = false, onSuccess, onCancel }: EventFormProps = {}) {
+    const { user } = useAuth();
     const [eventFormData, setEventFormData] = useState<EventFormData>({
         name: "",
         description: "",
@@ -60,10 +63,35 @@ function EventForm({ embedded = false, onSuccess, onCancel }: EventFormProps = {
         }));
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(eventFormData);
-        onSuccess?.();
+
+        if (!user) {
+            console.error("Cannot create event: user not authenticated");
+            return;
+        }
+
+        try {
+            const { date, startTime, endTime, name, description } = eventFormData;
+
+            const startsAt = new Date(`${date}T${startTime}:00`);
+            const endsAt = new Date(`${date}T${endTime}:00`);
+
+            const payload = {
+                title: name,
+                description,
+                startsAt: startsAt.toISOString(),
+                endsAt: endsAt.toISOString(),
+                status: "Future",
+                createdBy: user.userId,
+            };
+
+            await api.post("/events", payload);
+
+            onSuccess?.();
+        } catch (err) {
+            console.error("Failed to create event", err);
+        }
     };
 
     const handleCancel = () => {
