@@ -6,6 +6,10 @@ import Chevron from "../../../assets/icons/chevron.svg?react";
 import "../../../styles/Calendar/Calendar.css";
 import Button from "../UI/Buttons.tsx";
 
+interface CalendarProps {
+    viewUserId?: number;
+}
+
 interface DayCell {
     date: Date | null;
     day: number | null;
@@ -15,14 +19,16 @@ interface DayCell {
     workStatus?: WorkStatus;
 }
 
-const Calendar = () => {
+const Calendar = ({ viewUserId }: CalendarProps) => {
     const { user } = useAuth();
     const [month, setMonth] = useState(new Date());
     const [days, setDays] = useState<DayCell[]>([]);
     const [error, setError] = useState<string | null>(null);
 
+    const effectiveUserId = viewUserId ?? user?.userId;
+
     useEffect(() => {
-        if (!user?.userId) return;
+        if (!effectiveUserId) return;
         loadMonth();
 
         // Luister naar refresh events van modal saves
@@ -33,7 +39,7 @@ const Calendar = () => {
 
         window.addEventListener('calendarRefresh', handleRefresh);
         return () => window.removeEventListener('calendarRefresh', handleRefresh);
-    }, [month, user]);
+    }, [month, effectiveUserId]);
 
     function getWeekdayLabel(date: Date) {
         const map = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -41,7 +47,7 @@ const Calendar = () => {
     }
 
     const loadMonth = async () => {
-        if (!user?.userId) return;
+        if (!effectiveUserId) return;
 
         try {
             setError(null);
@@ -54,7 +60,7 @@ const Calendar = () => {
 
             const startDateStr = `${first.getFullYear()}-${String(first.getMonth() + 1).padStart(2, "0")}-01`;
 
-            const statuses = await workStatusService.getMonthWorkStatus(startDateStr, user.userId);
+            const statuses = await workStatusService.getMonthWorkStatus(startDateStr, effectiveUserId);
             const allDays: DayCell[] = [];
 
             const weekday = first.getDay() === 0 ? 7 : first.getDay();
@@ -124,6 +130,8 @@ const Calendar = () => {
     const nextMonth = () =>
         setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1));
 
+    const canEditOwnPresence = !viewUserId || (user?.userId && viewUserId === user.userId);
+
     return (
         <div className="week-overview-card">
             <div className="week-overview-header d-flex justify-content-between align-items-center mb-2 px-1">
@@ -165,14 +173,16 @@ const Calendar = () => {
                 ))}
             </div>
 
-            <div className="button-row d-flex justify-content-end mt-3">
-                <Button
-                    data-bs-toggle="modal"
-                    data-bs-target="#calendarModal"
-                >
-                    Aanwezigheid toevoegen
-                </Button>
-            </div>
+            {canEditOwnPresence && (
+                <div className="button-row d-flex justify-content-end mt-3">
+                    <Button
+                        data-bs-toggle="modal"
+                        data-bs-target="#calendarModal"
+                    >
+                        Aanwezigheid toevoegen
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

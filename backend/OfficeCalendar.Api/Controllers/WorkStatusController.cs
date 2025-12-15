@@ -120,6 +120,36 @@ namespace OfficeCalendar.Api.Controllers
             return Ok(statuses);
         }
 
+        [HttpGet("day")]
+        public async Task<ActionResult<List<WorkStatus>>> GetDayWorkStatus(
+            [FromQuery] string date)
+        {
+            if (!DateTime.TryParse(date, out var day))
+            {
+                return BadRequest(new { message = "Invalid date format. Expected yyyy-MM-dd" });
+            }
+
+            var statuses = await _repository.QueryAsync(
+                @"SELECT 
+            id as Id,
+            user_id as UserId,
+            date as Date,
+            status as Status,
+            note as Note,
+            created_at as CreatedAt,
+            updated_at as UpdatedAt
+        FROM work_status
+        WHERE date = @Date::date
+        ORDER BY user_id",
+                new
+                {
+                    Date = day.Date
+                }
+            );
+
+            return Ok(statuses);
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<WorkStatus>>> GetAll()
         {

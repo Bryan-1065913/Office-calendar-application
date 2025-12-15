@@ -1,0 +1,46 @@
+.team-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.team-row-clickable {
+    border: none;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.team-row-clickable.active {
+    background: rgba(128, 206, 215, 0.08);
+    border-radius: 999px;
+}
+
+.team-row-clickable:hover {
+    cursor: pointer;
+    background: rgba(128, 206, 215, 0.12);
+    border-radius: 999px;
+}
+
+.team-page-calendar-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+.back-to-team {
+    background: transparent;
+    border: none;
+    color: var(--gunmetal);
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 0;
+}
+
+.back-to-team:hover {
+    cursor: pointer;
+    color: var(--tiffany);
+}
+
