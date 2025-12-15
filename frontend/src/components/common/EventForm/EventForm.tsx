@@ -1,95 +1,174 @@
-import type {ChangeEvent, FormEvent} from 'react';
-import { useState, useEffect} from 'react';
-import {Form, Button, FormControl} from 'react-bootstrap';
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import "../../../styles/Event/EventForm.css";
+import Button from "../UI/Buttons";
+import Chevron from "../../../assets/icons/chevron.svg?react";
 
-interface eventFormData {
-  name: string;
-  description: string;
-  place: string;
-  date: string
+interface EventFormData {
+    name: string;
+    description: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    location: string;
 }
 
-function EventForm() {
+interface EventFormProps {
+    embedded?: boolean;
+    onSuccess?: () => void;
+    onCancel?: () => void;
+}
 
-  useEffect(() => {
-          window.scrollTo(614, 614);
-      });
+function EventForm({ embedded = false, onSuccess, onCancel }: EventFormProps = {}) {
+    const [eventFormData, setEventFormData] = useState<EventFormData>({
+        name: "",
+        description: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        location: "",
+    });
 
-  const [eventFormData, setEventFormData] = useState<eventFormData>({
-    name: "",
-    description: "",
-    place: "",
-    date: "",
-  });
+    const handleChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const { name, value } = e.target;
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+        setEventFormData((previous) => ({
+            ...previous,
+            [name]: value,
+        }));
+    };
 
-    setEventFormData((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
-  };
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(eventFormData);
+        onSuccess?.();
+    };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(eventFormData);
-  }
+    const handleCancel = () => {
+        onCancel?.();
+    };
 
-  return (
-    <div className='d-flex flex-column gap-4  justify-content-center align-items-center'
-    style={{height: '100vh'}}>
-      <h2 >Event form</h2>
-      <div className='d-flex justify-content-center align-items-center' >
-        <form onSubmit={handleSubmit} style={{width: '600px', margin: '0 auto', backgroundColor: "#80CED7", padding: "10px", borderRadius: '5px'}}>
-          <div className="form-group mb-3">
-            <Form.Label>Name</Form.Label>
-            <FormControl
-              type="text"
-              name="name"
-              value={eventFormData.name}
-              onChange={handleChange}
-              placeholder="Enter the name of the event"
-              required/>
-          </div>
-          <div className="form-group mb-3">
-              <Form.Label>Description</Form.Label>
-              <FormControl
-                type="text"
-                name="description"
-                value={eventFormData.description}
-                onChange={handleChange}
-                placeholder="Enter the description of the event"
-                required/>
-          </div>
-          <div className="form-group mb-3">
-              <Form.Label>Place</Form.Label>
-              <FormControl
-                type="text"
-                name="place"
-                value={eventFormData.place}
-                onChange={handleChange}
-                placeholder="Enter the place of the event"
-                required/>
-          </div>
-          <div className="form-group mb-3">
-              <Form.Label>Date</Form.Label>
-              <FormControl
-                type="text"
-                name="date"
-                value={eventFormData.date}
-                onChange={handleChange}
-                placeholder="Enter the date of the event"
-                required/>
-          </div>
-          <Button type="submit" variant="primary" style={{backgroundColor: '#263D42', border: 'none'}}>
-            Submit
-          </Button>
+    return (
+        <form
+            className={`event-form ${embedded ? "event-form-embedded" : ""}`}
+            onSubmit={handleSubmit}
+        >
+            <div className="event-form-row">
+                <label className="event-form-label" htmlFor="name">
+                    Name
+                </label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    className="event-form-input"
+                    placeholder="Enter the name of the event"
+                    value={eventFormData.name}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+
+            <div className="event-form-row">
+                <label className="event-form-label" htmlFor="description">
+                    Description
+                </label>
+                <textarea
+                    id="description"
+                    name="description"
+                    className="event-form-input event-form-textarea"
+                    placeholder="Enter the description of the event"
+                    value={eventFormData.description}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+
+            <div className="event-form-row event-form-row-inline">
+                <div className="event-form-col">
+                    <label className="event-form-label" htmlFor="date">
+                        Date
+                    </label>
+                    <input
+                        id="date"
+                        name="date"
+                        type="date"
+                        className="event-form-input"
+                        value={eventFormData.date}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="event-form-col">
+                    <label className="event-form-label" htmlFor="startTime">
+                        Start time
+                    </label>
+                    <input
+                        id="startTime"
+                        name="startTime"
+                        type="time"
+                        className="event-form-input"
+                        value={eventFormData.startTime}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="event-form-col">
+                    <label className="event-form-label" htmlFor="endTime">
+                        End time
+                    </label>
+                    <input
+                        id="endTime"
+                        name="endTime"
+                        type="time"
+                        className="event-form-input"
+                        value={eventFormData.endTime}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+            </div>
+
+            <div className="event-form-row">
+                <label className="event-form-label" htmlFor="location">
+                    Location
+                </label>
+                <div className="event-form-location-wrapper">
+                    <input
+                        id="location"
+                        name="location"
+                        type="text"
+                        className="event-form-input event-form-location-input"
+                        placeholder="Choose the location of the event"
+                        value={eventFormData.location}
+                        onChange={handleChange}
+                        required
+                    />
+                    <Chevron className="event-form-location-chevron" />
+                </div>
+            </div>
+
+            <div className="event-form-actions">
+                <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={handleCancel}
+                    className="event-form-btn-cancel"
+                >
+                    Cancel
+                </Button>
+                <Button
+                    type="submit"
+                    variant="primary"
+                    className="event-form-btn-save"
+                >
+                    Save
+                </Button>
+            </div>
         </form>
-      </div>
-    </div>
-  )
-
+    );
 }
 
 export default EventForm;
