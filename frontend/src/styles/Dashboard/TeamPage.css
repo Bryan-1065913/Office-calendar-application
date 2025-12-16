@@ -201,3 +201,73 @@
     opacity: 0.7;
 }
 
+.team-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--platinum);
+}
+
+.pagination-button {
+    background: var(--white);
+    border: 2px solid var(--platinum);
+    border-radius: var(--small-border-radius);
+    color: var(--gunmetal);
+    font-weight: 600;
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background: var(--tiffany);
+    border-color: var(--tiffany);
+    color: var(--gunmetal);
+}
+
+.pagination-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pagination-page {
+    background: var(--white);
+    border: 2px solid var(--platinum);
+    border-radius: var(--small-border-radius);
+    color: var(--gunmetal);
+    font-weight: 600;
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-page:hover {
+    background: var(--platinum);
+    border-color: var(--platinum);
+}
+
+.pagination-page.active {
+    background: var(--tiffany);
+    border-color: var(--tiffany);
+    color: var(--gunmetal);
+}
+

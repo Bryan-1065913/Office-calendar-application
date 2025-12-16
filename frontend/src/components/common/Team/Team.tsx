@@ -59,7 +59,10 @@ const Team = () => {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>(""); // Empty = no filter
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const filterDropdownRef = useRef<HTMLDivElement>(null);
+
+  const ITEMS_PER_PAGE = 6;
 
   const today = useMemo(() => formatDate(new Date()), []);
 
@@ -126,6 +129,17 @@ const Team = () => {
     });
   }, [users, dayStatuses, statusFilter]);
 
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [statusFilter]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
   const handleSelectUser = (userId: number) => {
     setSelectedUserId(userId);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -151,7 +165,6 @@ const Team = () => {
     { value: "home", label: "Home" },
     { value: "leave", label: "Leave" },
     { value: "sick", label: "Sick" },
-    { value: "holiday", label: "Holiday" },
     { value: "other", label: "Other" },
   ];
 
@@ -208,36 +221,76 @@ const Team = () => {
                 No team members found with the selected status.
               </div>
             ) : (
-              filteredUsers.map((u) => {
-                const status = getStatusForUser(u.id);
-                const label = status ? mapStatusLabel(status) : "No status";
-                const badgeVariant = mapStatusToBadgeVariant(status);
+              <>
+                {paginatedUsers.map((u) => {
+                  const status = getStatusForUser(u.id);
+                  const label = status ? mapStatusLabel(status) : "No status";
+                  const badgeVariant = mapStatusToBadgeVariant(status);
 
-                return (
-                  <button
-                    key={u.id}
-                    className="team-member-row"
-                    type="button"
-                    onClick={() => handleSelectUser(u.id)}
-                  >
-                    <div className="team-member-left">
-                      <div className="avatar" />
-                      <div className="team-member-info">
-                        <span className="team-member-name">
-                          {u.firstName} {u.lastName}
-                        </span>
-                        <span className="team-member-department">
-                          {u.jobTitle || "Development"}
-                        </span>
+                  return (
+                    <button
+                      key={u.id}
+                      className="team-member-row"
+                      type="button"
+                      onClick={() => handleSelectUser(u.id)}
+                    >
+                      <div className="team-member-left">
+                        <div className="avatar" />
+                        <div className="team-member-info">
+                          <span className="team-member-name">
+                            {u.firstName} {u.lastName}
+                          </span>
+                          <span className="team-member-department">
+                            {u.jobTitle || "Development"}
+                          </span>
+                        </div>
                       </div>
+                      <div className="team-member-right">
+                        <StatusBadge label={label} variant={badgeVariant} />
+                        <Chevron className="team-member-chevron" />
+                      </div>
+                    </button>
+                  );
+                })}
+
+                {totalPages > 1 && (
+                  <div className="team-pagination">
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.max(1, prev - 1))
+                      }
+                      disabled={currentPage === 1}
+                    >
+                      &lt;
+                    </button>
+                    <div className="pagination-pages">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => (
+                          <button
+                            key={page}
+                            className={`pagination-page ${
+                              currentPage === page ? "active" : ""
+                            }`}
+                            onClick={() => setCurrentPage(page)}
+                          >
+                            {page}
+                          </button>
+                        )
+                      )}
                     </div>
-                    <div className="team-member-right">
-                      <StatusBadge label={label} variant={badgeVariant} />
-                      <Chevron className="team-member-chevron" />
-                    </div>
-                  </button>
-                );
-              })
+                    <button
+                      className="pagination-button"
+                      onClick={() =>
+                        setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                      }
+                      disabled={currentPage === totalPages}
+                    >
+                      &gt;
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
