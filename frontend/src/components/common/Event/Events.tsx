@@ -85,7 +85,9 @@ const Events = () => {
 
                 <div className="events-list">
                     {filteredEvents.length === 0 ? (
-                        <p className="no-events">No events this month</p>
+                        <div className="no-events-wrapper">
+                            <p className="no-events">No events this month</p>
+                        </div>
                     ) : (
                         filteredEvents.map(e => (
                             <EventCardRender

@@ -105,6 +105,7 @@
 .pop-up {
     position: fixed;
     background-color: var(--white);
+    border: 1px solid var(--gunmetal);
     width: 900px;
     height: 500px;
     padding: 250px;
@@ -112,8 +113,6 @@
     padding-right: 0px;
     justify-content: center;
     text-align: center;
-    margin-top: -850px;
-    margin-left: 50px;
     border-radius: 25px;
     box-shadow: 0px 6px 20px 0px rgba(var(--tiffany), 0.5);
 }
