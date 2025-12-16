@@ -145,7 +145,9 @@ namespace OfficeCalendar.Api.Services
                 new Claim("email", user.Email),
                 new Claim("role", user.Role),
                 new Claim("firstName", user.FirstName),
-                new Claim("lastName", user.LastName)
+                new Claim("lastName", user.LastName),
+                new Claim("phoneNumber", user.PhoneNumber ?? ""),     
+                new Claim("jobTitle", user.JobTitle ?? "")
             };
 
             var token = new JwtSecurityToken(
