@@ -112,10 +112,7 @@
     padding-left: 0px;
     padding-right: 0px;
     justify-content: center;
-    transform: translate(0%, -90%);
     text-align: center;
-    margin-top: -850px;
-    margin-left: 50px;
     border-radius: 25px;
     box-shadow: 0px 6px 20px 0px rgba(var(--tiffany), 0.5);
 }
