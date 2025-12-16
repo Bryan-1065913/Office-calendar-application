@@ -3,6 +3,7 @@ import "../../../styles/Dashboard/TeamOverviewCard.css";
 import { useEffect, useMemo, useState } from "react";
 import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
 import { workStatusService, type WorkStatus } from "../../../services/workStatusService";
+import { StatusBadge } from "../UI/StatusBadge";
 
 interface User {
     id: number;
@@ -22,13 +23,14 @@ function mapStatusLabel(status: string) {
         home: "Home",
         vacation: "Leave",
         sick: "Sick",
-        business_trip: "Business Trip",
+        business_trip: "Other",
         other: "Other"
     };
     return map[status] || status;
 }
 
-function mapStatusDotClass(status: string): "office" | "home" | "leave" | "sick" {
+function mapStatusBadgeVariant(status: string | null): "office" | "home" | "leave" | "sick" | "off" {
+    if (!status) return "off";
     switch (status) {
         case "home":
             return "home";
@@ -36,6 +38,8 @@ function mapStatusDotClass(status: string): "office" | "home" | "leave" | "sick"
             return "leave";
         case "sick":
             return "sick";
+        case "business_trip":
+            return "off";
         default:
             return "office";
     }
@@ -76,10 +80,10 @@ const TeamOverviewCard = () => {
             {error2 && <p>Error loading team: {error2}</p>}
 
             <div className="team-grid">
-                {users?.map((u) => {
+                {users?.slice(0, 3).map((u) => {
                     const status = getStatusForUser(u.id);
                     const label = status ? mapStatusLabel(status) : "No status";
-                    const dotClass = status ? mapStatusDotClass(status) : "office";
+                    const badgeVariant = mapStatusBadgeVariant(status);
 
                     return (
                         <div key={u.id} className="team-row">
@@ -89,8 +93,7 @@ const TeamOverviewCard = () => {
                             </span>
 
                             <div className="status">
-                                <span className={`dot ${dotClass}`} />
-                                <span className="status-text">{label}</span>
+                                <StatusBadge label={label} variant={badgeVariant} />
                             </div>
                         </div>
                     );

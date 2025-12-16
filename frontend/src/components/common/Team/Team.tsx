@@ -71,18 +71,25 @@ const Team = () => {
     url: `${API_BASE_URL}/users`,
   });
 
-  useEffect(() => {
-    const loadStatuses = async () => {
-      try {
-        const result = await workStatusService.getDayWorkStatus(today);
-        setDayStatuses(result);
-      } catch (e) {
-        console.error("Failed to load day work status", e);
-      }
-    };
+  const loadStatuses = async () => {
+    try {
+      const result = await workStatusService.getDayWorkStatus(today);
+      setDayStatuses(result);
+    } catch (e) {
+      console.error("Failed to load day work status", e);
+    }
+  };
 
+  useEffect(() => {
     loadStatuses();
   }, [today]);
+
+  // Refetch statuses when returning to team view (selectedUserId becomes null)
+  useEffect(() => {
+    if (selectedUserId === null) {
+      loadStatuses();
+    }
+  }, [selectedUserId, today]);
 
   const getStatusForUser = (userId: number) => {
     const status = dayStatuses.find((s) => s.userId === userId);
