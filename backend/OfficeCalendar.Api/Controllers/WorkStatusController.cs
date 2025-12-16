@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OfficeCalendar.Api.Models;
 using OfficeCalendar.Api.Repositories;
+using System.Security.Claims;
 
 namespace OfficeCalendar.Api.Controllers
 {
@@ -28,6 +29,14 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
+                // check if user is authenticated
+                var userIdClaim = User.FindFirst("userId");
+                if (userIdClaim == null) {
+                    return Unauthorized(new { message = "User not authenticated"});
+                }
+
+                var authenticatedUserId = int.Parse(userIdClaim.Value);
+
                 _logger.LogInformation("Received request - startDate: {StartDate}, userId: {UserId}", startDate,
                     userId);
 
@@ -39,6 +48,12 @@ namespace OfficeCalendar.Api.Controllers
                 if (!userId.HasValue || userId.Value <= 0)
                 {
                     return BadRequest(new { message = "Valid userId parameter is required" });
+                }
+
+                // verify that the authenticated user matches the requested userId
+                if(userId.Value != authenticatedUserId)
+                {
+                    return Forbid("You can only access your own work status");
                 }
 
                 if (!DateTime.TryParse(startDate, out var start))
@@ -90,6 +105,21 @@ namespace OfficeCalendar.Api.Controllers
             [FromQuery] string startDate,
             [FromQuery] int userId)
         {
+            // check if user is authenticated
+            var userIdClaim = User.FindFirst("userId");
+            if (userIdClaim == null) {
+                return Unauthorized(new { message = "User not authenticated"});
+            }
+
+            var authenticatedUserId = int.Parse(userIdClaim.Value);
+
+            // verify that the authenticated user matches the userId
+            if (userId != authenticatedUserId)
+            {
+                return Forbid("You can only acces your own work status");
+            }
+        
+
             if (!DateTime.TryParse(startDate, out var start))
                 return BadRequest(new { message = "Invalid startDate format. Expected yyyy-MM-dd" });
 
@@ -125,6 +155,13 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
+                // Check if user is authenticated
+                var userIdClaim = User.FindFirst("userId");
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
                 var statuses = await _repository.GetAllAsync();
                 return Ok(statuses);
             }
@@ -140,8 +177,23 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
+                // Check if user is authenticated
+                var userIdClaim = User.FindFirst("userId");
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
                 var status = await _repository.GetByIdAsync(id);
                 if (status == null) return NotFound();
+
+                // Verify that the authenticated user matches the work status userId
+                var authenticatedUserId = int.Parse(userIdClaim.Value);
+                if (status.UserId != authenticatedUserId)
+                {
+                    return Forbid("You can only access your own work status");
+                }
+
                 return Ok(status);
             }
             catch (Exception ex)
@@ -156,6 +208,21 @@ namespace OfficeCalendar.Api.Controllers
         {
             try
             {
+                // Check if user is authenticated
+                var userIdClaim = User.FindFirst("userId");
+                if (userIdClaim == null)
+                {
+                    return Unauthorized(new { message = "User not authenticated" });
+                }
+
+                var authenticatedUserId = int.Parse(userIdClaim.Value);
+
+                // Verify that the authenticated user matches the dto userId
+                if (dto.UserId != authenticatedUserId)
+                {
+                    return Forbid("You can only create work status for yourself");
+                }
+
                 var workStatus = new WorkStatus
                 {
                     UserId = dto.UserId,

@@ -17,7 +17,7 @@ const TasksOverviewCard = () => {
     const { data, isLoading, error } = useFetch<Task[]>({ url: "http://localhost:5017/api/tasks" });
 
     useEffect(() => {
-        if (data) {
+        if (data && Array.isArray(data)) {
             const today = new Date().toISOString().split('T')[0];
 
             const todayTasks = data.filter(task => {

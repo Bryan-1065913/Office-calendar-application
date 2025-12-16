@@ -118,7 +118,8 @@ namespace OfficeCalendar.Api.Controllers
         {
             return new UserDto
             {
-                Id = user.Id,       
+                Id = user.Id,      
+                UserId = user.Id, 
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OfficeCalendar.Api.Models;
 using OfficeCalendar.Api.Models.DTOs;
 using OfficeCalendar.Api.Repositories;
+using System.Security.Claims;
 using Dapper;
 using Npgsql;
 
@@ -158,6 +159,15 @@ namespace OfficeCalendar.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> Create([FromBody] Event evt)
         {
+            // check if user is logged in and the id is found
+            var userIdClaim = User.FindFirst("userId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User not authenticated (eventController)"});
+            }
+
+            // push the id from the person that made de event
+            evt.CreatedBy = int.Parse(userIdClaim.Value);
             evt.CreatedAt = DateTime.UtcNow;
             var id = await _eventRepository.InsertAsync(evt);
 

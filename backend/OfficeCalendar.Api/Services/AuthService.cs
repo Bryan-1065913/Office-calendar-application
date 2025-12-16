@@ -45,13 +45,17 @@ namespace OfficeCalendar.Api.Services
                 return new LoginResponse
                 {
                     Token = token,
-                    UserId = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber ?? string.Empty,
-                    JobTitle = user.JobTitle ?? string.Empty,
-                    Role = user.Role
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        UserId = user.Id,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber ?? string.Empty,
+                        JobTitle = user.JobTitle ?? string.Empty,
+                        Role = user.Role
+                    }
                 };
         
             }
@@ -100,15 +104,20 @@ namespace OfficeCalendar.Api.Services
                 // Genereer JWT token
                 var token = GenerateJwtToken(user);
 
-                return new AuthResponse {
+                return new RegisterResponse
+                {
                     Token = token,
-                    UserId = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber ?? string.Empty,
-                    JobTitle = user.JobTitle ?? string.Empty,
-                    Role = user.Role
+                    User = new UserDto
+                    {
+                        Id = user.Id,
+                        UserId = user.Id,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber ?? string.Empty,
+                        JobTitle = user.JobTitle ?? string.Empty,
+                        Role = user.Role
+                    }
                 };
             }
             catch (InvalidOperationException)
@@ -167,32 +176,5 @@ namespace OfficeCalendar.Api.Services
                 return false;
             }
         }
-    }
-
-    // DTOs
-    public class LoginRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class RegisterRequest
-    {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class AuthResponse
-    {
-        public string Token { get; set; } = string.Empty;
-        public int UserId { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty; 
-        public string JobTitle { get; set; } = string.Empty;  
-        public string Role { get; set; } = string.Empty;
-    }
+    }       
 }
