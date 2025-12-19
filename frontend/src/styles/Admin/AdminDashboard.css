@@ -1,0 +1,277 @@
+/* src/styles/Admin/AdminDashboard.css */
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTAINER - Zoals je andere pages
+   ═══════════════════════════════════════════════════════════════ */
+   .admin-container {
+    padding: 2rem;
+    max-width: 1200px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER - Titel + Button
+   ═══════════════════════════════════════════════════════════════ */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS ROW - 3 simpele cards zoals in je design
+   ═══════════════════════════════════════════════════════════════ */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #718096;
+    margin: 0 0 0.5rem 0;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   USERS CARD - Net zoals Team sectie in je design
+   ═══════════════════════════════════════════════════════════════ */
+.users-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    width: 250px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #7dd3c0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   USERS LIST - Scrollable zoals Team sectie
+   ═══════════════════════════════════════════════════════════════ */
+.users-list {
+    /* Max hoogte met scroll - net zoals Team sectie */
+    max-height: 500px;
+    overflow-y: auto;
+    /* Scroll styling */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+/* Webkit scroll styling (Chrome/Safari) */
+.users-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.users-list::-webkit-scrollbar-track {
+    background: #f7fafc;
+    border-radius: 4px;
+}
+
+.users-list::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+}
+
+.users-list::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   USER ITEM - Zoals in Team sectie
+   ═══════════════════════════════════════════════════════════════ */
+.user-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #f7fafc;
+    transition: background-color 0.2s;
+}
+
+.user-item:last-child {
+    border-bottom: none;
+}
+
+.user-item:hover {
+    background-color: #f7fafc;
+}
+
+/* Avatar - cirkel met initialen zoals in je Team sectie */
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #7dd3c0; /* Je teal accent kleur */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+/* User info - naam, email, functie */
+.user-info {
+    flex: 1;
+    min-width: 0; /* Voor text truncate */
+}
+
+.user-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.95rem;
+}
+
+.user-email {
+    font-size: 0.875rem;
+    color: #718096;
+    margin: 0.125rem 0;
+}
+
+.user-job {
+    font-size: 0.875rem;
+    color: #a0aec0;
+    margin: 0;
+}
+
+/* Role badge - zoals in je design */
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.role-badge.admin {
+    background-color: #d8b4fe; /* Lila zoals in je design */
+    color: #6b21a8;
+}
+
+.role-badge.user {
+    background-color: #7dd3c0; /* Teal zoals in je design */
+    color: #0f766e;
+}
+
+/* Action buttons */
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NO USERS / LOADING / ERROR
+   ═══════════════════════════════════════════════════════════════ */
+.no-users {
+    text-align: center;
+    color: #a0aec0;
+    padding: 2rem;
+    margin: 0;
+}
+
+.admin-loading {
+    text-align: center;
+    padding: 3rem;
+    color: #718096;
+}
+
+.error-message {
+    background: #fed7d7;
+    color: #c53030;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .user-actions button {
+        flex: 1;
+    }
+}

@@ -19,6 +19,7 @@ import Calendar from './components/common/Calendar/Calendar.tsx';
 import EventOverzicht from './components/common/Event/Events.tsx';
 import EventDetails from './components/common/Event/EventDetail.tsx';
 import Tasks from './components/common/Task/Tasks.tsx';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,9 @@ const router = createBrowserRouter([
                     { path: 'team', element: <div>Team - Coming soon</div> },     // ← Voeg deze toe
                     { path: 'profile', element: <Profile /> },
                     { path: 'eventform', element: <EventForm /> },
+
+                    { path: 'admin', element: <AdminDashboard /> },
+                    { path: 'admin/users/new', element: <RegisterPage adminMode={true} /> },
                 ],
             },
         ],

@@ -2,6 +2,7 @@ const API_URL = "http://localhost:5017/api";
 
 export interface UserDto {
     id: number;
+    userId: number,
     email: string;
     firstName: string;
     lastName: string;

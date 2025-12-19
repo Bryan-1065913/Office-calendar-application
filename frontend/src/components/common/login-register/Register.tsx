@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { useAuth } from '../../../authentication/AuthContext';
+import { adminService } from '../../../services/adminService';
 
 // interface for admin mode
 interface RegisterPageProps {
     adminMode?: boolean;
-    onSucces?: () => void;
+    onSuccess?: () => void;
 }
 
-const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
+const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
     const navigate = useNavigate();
-    const { register, user } = useAuth();
+    const { register, user, token } = useAuth();
 
     // Form state
     const [formData, setFormData] = useState({
@@ -60,33 +61,47 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
         setLoading(true);
 
         try {
-            // Register call
-            const response = await register({
-                email: formData.email,
-                password: formData.password,
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                phoneNumber: formData.phoneNumber,
-                jobTitle: formData.jobTitle,
-                role: formData.role,
-                companyId,
-                departmentId,
-                workplaceId
-            });
+            if (adminMode && token) {
+                // Admin creates user through adminService
+                await adminService.createUser(token, {
+                    email: formData.email,
+                    password: formData.password,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    phoneNumber: formData.phoneNumber,
+                    jobTitle: formData.jobTitle,
+                    role: formData.role,
+                    companyId,
+                    departmentId,
+                    workplaceId
+                });
 
-            console.log('Registratie succesvol!', response);
+                console.log('User aangemaakt door admin');
 
-            // redirect updated with admin checks
-            if (adminMode && onSucces) {
-                onSucces();
-            } else if (adminMode) {
-                navigate('/admin');
+                if (onSuccess) {
+                    onSuccess();
+                } else {
+                    navigate('/admin');
+                }
             } else {
+                // Normale registratie
+                await register({
+                    email: formData.email,
+                    password: formData.password,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    phoneNumber: formData.phoneNumber,
+                    jobTitle: formData.jobTitle,
+                    role: formData.role,
+                    companyId,
+                    departmentId,
+                    workplaceId
+                });
+
+                console.log('Registratie succesvol!');
                 navigate('/');
             }
 
-            // Redirect naar dashboard
-            // navigate('/');
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -99,7 +114,7 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
         }
     };
 
-    // if its not in adminmode then show norrmal registerpage
+    // if its not in adminmode then show normal registerpage
     if (!adminMode) {
         return (
             <div>
@@ -365,7 +380,7 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
                     </div>
                 </div>
 
-                {/* 👇 ROLE SELECTIE - ALLEEN ZICHTBAAR VOOR ADMINS */}
+                {/* Role section */}
                 {showRoleField && (
                     <div className="mb-3">
                         <label htmlFor="role" className="form-label">
@@ -379,16 +394,16 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="user">Gebruiker</option>
-                            <option value="admin">Administrator</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
                         </select>
                         <small className="text-muted d-block mt-1">
-                            Administrators hebben volledige toegang tot het systeem
+                            Admins have full acces
                         </small>
                     </div>
                 )}
 
-                {/* Wachtwoorden in 2 kolommen */}
+                {/* passwords in 2 columns */}
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label htmlFor="password" className="form-label">
@@ -408,7 +423,7 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
 
                     <div className="col-md-6 mb-3">
                         <label htmlFor="confirmPassword" className="form-label">
-                            Bevestig Wachtwoord <span className="text-danger">*</span>
+                            Confirm password <span className="text-danger">*</span>
                         </label>
                         <input
                             type="password"
@@ -431,7 +446,7 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
                     >
                         {loading ? (
                             <>
-                                <span className='spinner-borderr spinner-border-sm me-2'></span>
+                                <span className='spinner-border spinner-border-sm me-2'></span>
                                 ...Loading
                             </>
                         ) : (
@@ -440,7 +455,7 @@ const RegisterPage = ({ adminMode = false, onSucces }: RegisterPageProps) => {
                     </button>
                     <button
                         type='button'
-                        className='btn btn-outline-secondery'
+                        className='btn btn-outline-secondary'
                         onClick={() => navigate('/admin')}
                     >
                         Cancel

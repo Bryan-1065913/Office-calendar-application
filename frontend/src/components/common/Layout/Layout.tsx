@@ -109,6 +109,10 @@ const Layout = () => {
                         <Nav.Link as={NavLink} to="/tasks"><TasksList className="nav-icon tasks-list" /> Tasks</Nav.Link>
                         <Nav.Link as={NavLink} to="/team"><Users className="nav-icon users" /> Team</Nav.Link>
                         <Nav.Link as={NavLink} to="/profile"><User className="nav-icon user" />Profile</Nav.Link>
+                        {/* Admin link  */}
+                        {user?.role === 'admin' && (
+                        <Nav.Link as={NavLink} to="/admin"><User className="nav-icon user" />⚙️ Admin</Nav.Link>
+                        )}
                     </Nav>
                 </aside>
 
