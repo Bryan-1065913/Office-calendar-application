@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useFetch } from "../../../hooks/useFetchGet";
 import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
 import EventCardRender from "./EventCard";
+import EventForm from "../EventForm/EventForm";
 import Chevron from "../../../assets/icons/chevron.svg?react";
 import '../../../assets/fonts/sen.css';
 
@@ -41,6 +42,7 @@ const isUpcoming = (iso: string) => parseDate(iso) >= new Date(new Date().setHou
 
 const Events = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [showEventForm, setShowEventForm] = useState(false);
 
     const { data: events } = useFetch<Event[]>({ url: `${API_BASE_URL}/events` });
     const { data2: users } = useFetchSecond<User[]>({ url: `${API_BASE_URL}/users` });
@@ -69,43 +71,129 @@ const Events = () => {
 
     return (
         <div className="events-wrapper">
-            <div className="events-card">
-
-                <h1 className="events-title">Upcoming Events</h1>
-
-                <div className="month-nav">
-                    <button onClick={prevMonth} className="arrow-btn">
-                        <Chevron className="chevron chevron-left" />
-                    </button>
-                    <span className="month-label">{MONTHS[month]} {year}</span>
-                    <button onClick={nextMonth} className="arrow-btn">
-                        <Chevron className="chevron chevron-right" />
-                    </button>
+            {showEventForm ? (
+                <div className="events-card">
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "20px",
+                        }}
+                    >
+                        <h1 className="events-title" style={{ margin: 0 }}>
+                            Create New Event
+                        </h1>
+                        <button
+                            onClick={() => setShowEventForm(false)}
+                            className="close-form-btn"
+                            style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "32px",
+                                cursor: "pointer",
+                                color: "var(--gunmetal)",
+                                fontWeight: "bold",
+                                padding: "0 10px",
+                            }}
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <EventForm
+                        embedded={true}
+                        onSuccess={() => {
+                            setShowEventForm(false);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        }}
+                        onCancel={() => setShowEventForm(false)}
+                    />
                 </div>
+            ) : (
+                <div className="events-card">
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "20px",
+                        }}
+                    >
+                        <h1 className="events-title" style={{ margin: 0 }}>
+                            Upcoming Events
+                        </h1>
+                        <button
+                            onClick={() => setShowEventForm(true)}
+                            className="add-event-btn"
+                            style={{
+                                background: "var(--tiffany)",
+                                border: "none",
+                                borderRadius: "50%",
+                                width: "50px",
+                                height: "50px",
+                                fontSize: "32px",
+                                cursor: "pointer",
+                                color: "white",
+                                fontWeight: "bold",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                                transition: "transform 0.2s, box-shadow 0.2s",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = "scale(1.1)";
+                                e.currentTarget.style.boxShadow =
+                                    "0 4px 8px rgba(0,0,0,0.3)";
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = "scale(1)";
+                                e.currentTarget.style.boxShadow =
+                                    "0 2px 4px rgba(0,0,0,0.2)";
+                            }}
+                        >
+                            +
+                        </button>
+                    </div>
 
-                <div className="events-list">
-                    {filteredEvents.length === 0 ? (
-                        <div className="no-events-wrapper">
-                            <p className="no-events">No events this month</p>
-                        </div>
-                    ) : (
-                        filteredEvents.map(e => (
-                            <EventCardRender
-                                key={e.id}
-                                id={e.id}
-                                title={e.title}
-                                StartsAt={e.startsAt}
-                                EndsAt={e.endsAt}
-                                StartsAtMonth={MONTHS[month]}
-                                StartsAtYear={year}
-                                CreatedBy={e.createdBy}
-                                users={users ?? []}
-                                room={e.room}
-                            />
-                        ))
-                    )}
+                    <div className="month-nav">
+                        <button onClick={prevMonth} className="arrow-btn">
+                            <Chevron className="chevron chevron-left" />
+                        </button>
+                        <span className="month-label">
+                            {MONTHS[month]} {year}
+                        </span>
+                        <button onClick={nextMonth} className="arrow-btn">
+                            <Chevron className="chevron chevron-right" />
+                        </button>
+                    </div>
+
+                    <div className="events-list">
+                        {filteredEvents.length === 0 ? (
+                            <div className="no-events-wrapper">
+                                <p className="no-events">No events this month</p>
+                            </div>
+                        ) : (
+                            filteredEvents.map((e) => (
+                                <EventCardRender
+                                    key={e.id}
+                                    id={e.id}
+                                    title={e.title}
+                                    StartsAt={e.startsAt}
+                                    EndsAt={e.endsAt}
+                                    StartsAtMonth={MONTHS[month]}
+                                    StartsAtYear={year}
+                                    CreatedBy={e.createdBy}
+                                    users={users ?? []}
+                                    room={e.room}
+                                />
+                            ))
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
