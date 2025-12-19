@@ -16,6 +16,7 @@ import { useAuth } from "../../../authentication/AuthContext";
 import Aanwezigen from '../Attendees/Attendees';
 import Reviews from '../Reviews/Reviews';
 import '../../../assets/fonts/sen.css';
+import  Popup from '../../pop-up/Join-Delete-Pop-Up'
 
 interface Room {
     name: string;
@@ -177,88 +178,92 @@ const Event = () => {
     ];
     // the function Returns JSX
     return (
-        <div className="main-background">
-            {/*event can be called cause it is just one event*/}
-            <div key={event.id} className="main-card-event">
-                <header className="event-title">
-                    <h2 className="event-title-content">{event.title}</h2>
-                </header>
-                <section className="event-all-content">
-                    <p className="event-date-content"><img src="/src/assets/icons/calendar.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[0].split("-")[2]}  {monthNames[Number(event.startsAt.split("T")[0].split("-")[1]) - 1]}  {event.startsAt.split("T")[0].split("-")[0]} </p>
-                    <p className="event-time-content"><img src="/src/assets/icons/clock.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[1].split(":")[0]}:{event.startsAt.split("T")[1].split(":")[1]} - {event.endsAt.split("T")[1].split(":")[0]}:{event.endsAt.split("T")[1].split(":")[1]}</p>
-                    <p className="event-location-content"><img src="/src/assets/icons/location.svg" alt="Logo" width="33.6" height="36" /> {event.room ? event.room.name : "Locatie onbekend"}</p>
-                </section>
-                <p className="event-description">{event.description}</p>
-                { user.userId !== event.createdBy && ( 
-                    <div className="user-button">
-                        <button className="edit-button" onClick={() => {setButtonEvent(true);}}>{!eventUserId ? "Join" : "Decline"}</button>
+        <>
+            <div className="main-background">
+                {/*event can be called cause it is just one event*/}
+                <div key={event.id} className="main-card-event">
+                    <header className="event-title">
+                        <h2 className="event-title-content">{event.title}</h2>
+                    </header>
+                    <section className="event-all-content">
+                        <p className="event-date-content"><img src="/src/assets/icons/calendar.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[0].split("-")[2]}  {monthNames[Number(event.startsAt.split("T")[0].split("-")[1]) - 1]}  {event.startsAt.split("T")[0].split("-")[0]} </p>
+                        <p className="event-time-content"><img src="/src/assets/icons/clock.svg" alt="Logo" width="33.6" height="36" /> {event.startsAt.split("T")[1].split(":")[0]}:{event.startsAt.split("T")[1].split(":")[1]} - {event.endsAt.split("T")[1].split(":")[0]}:{event.endsAt.split("T")[1].split(":")[1]}</p>
+                        <p className="event-location-content"><img src="/src/assets/icons/location.svg" alt="Logo" width="33.6" height="36" /> {event.room ? event.room.name : "Locatie onbekend"}</p>
+                    </section>
+                    <p className="event-description">{event.description}</p>
+                    { user.userId !== event.createdBy && ( 
+                        <div className="user-button">
+                            <button className="edit-button" onClick={() => {setButtonEvent(true);}}>{!eventUserId ? "Join" : "Decline"}</button>
+                        </div>
+                    )}
+                    <section className="attendees-content">
+                        <p className="attendees">Attendees</p>
+                        <div className="attendees-overzicht">
+                            <Aanwezigen eventUsers={eventUsers} />  
+                        </div>
+                    </section>
+                    <section>
+                        <div>
+                            <Reviews id={event.id}/>
+                        </div>
+                    </section>
+                </div>
+                {/* only admins can enter here which is a panel on the left of all users that enrolled*/}
+                {/* { user != null && user.role === "admin" &&(
+                <div className="main-users">
+                    <div className="admin-panel-users">
+                        <table>
+                            <thead>
+                                <th className="th-id">ID</th>
+                                <th className="th-name">NAME</th>
+                            </thead>
+                            {eventUsers.map(({ id, lastName}) => (
+
+                                <tbody className="paneel-Card-users">
+                                    <tr>
+                                        <td className="user-id">{id}</td>
+                                        <td className="user-name">{lastName}</td>
+                                    </tr>
+                                </tbody>
+                            ))}
+                        </table>
                     </div>
-                )}
-                <section className="attendees-content">
-                    <p className="attendees">Attendees</p>
-                    <div className="attendees-overzicht">
-                        <Aanwezigen eventUsers={eventUsers} />  
-                    </div>
-                </section>
-                <section>
-                    <div>
-                        <Reviews id={event.id}/>
-                    </div>
-                </section>
+                </div>
+                )} */}
             </div>
             {buttonEvent &&(
-                <div className="pop-up">
-                    {!eventUserId && (
-                        <p className="Description">do you really want to Join the event: {event.title}</p>
-                    )}
-                    {eventUserId && (
-                        <p className="Description"> do you really want to Leave the event: {event.title}</p>
-                    )}    
-                    <div className="middleware">
-                        {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
-                        {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
-                        { user != null && user.role === "user" && !eventUserId && (
-                            <form className="form-join-event" onSubmit={(e) => e.preventDefault()}>
-                                <button type="submit" className="button-join" onClick={() => {
-                                    joinButtonHandler(); setButtonEvent(false);}}>Join</button>
-                                <button type="submit" className="button-cancel" onClick={() => {
-                                    joinButtonHandler(); setButtonEvent(false);}}>Cancel</button>
-                            </form>
+                <Popup>
+                    <div className="pop-up">
+                        {!eventUserId && (
+                            <p className="Description">do you really want to Join the event: {event.title}</p>
                         )}
-                        { user != null && user.role === "user" && eventUserId && (
-                            <form className="form-decline-event" >
-                                <button type="submit" className="button-decline" onClick={() => {
-                                    declineButtonHandler(); setButtonEvent(false)}}>Decline</button>
-                                <button type="submit" className="button-cancel" onClick={() => {
-                                    setButtonEvent(false)}}>Cancel</button>
-                            </form>
-                        )}
+                        {eventUserId && (
+                            <p className="Description"> do you really want to Leave the event: {event.title}</p>
+                        )}    
+                        <div className="middleware">
+                            {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
+                            {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
+                            { user != null && user.role === "user" && !eventUserId && (
+                                <form className="form-join-event" onSubmit={(e) => e.preventDefault()}>
+                                    <button type="submit" className="button-join" onClick={() => {
+                                        joinButtonHandler(); setButtonEvent(false);}}>Join</button>
+                                    <button type="submit" className="button-cancel" onClick={() => {
+                                        joinButtonHandler(); setButtonEvent(false);}}>Cancel</button>
+                                </form>
+                            )}
+                            { user != null && user.role === "user" && eventUserId && (
+                                <form className="form-decline-event" >
+                                    <button type="submit" className="button-decline" onClick={() => {
+                                        declineButtonHandler(); setButtonEvent(false)}}>Decline</button>
+                                    <button type="submit" className="button-cancel" onClick={() => {
+                                        setButtonEvent(false)}}>Cancel</button>
+                                </form>
+                            )}
+                        </div>
                     </div>
-                </div>
+                </Popup>
             )}
-            {/* only admins can enter here which is a panel on the left of all users that enrolled*/}
-            {/* { user != null && user.role === "admin" &&(
-            <div className="main-users">
-                <div className="admin-panel-users">
-                    <table>
-                        <thead>
-                            <th className="th-id">ID</th>
-                            <th className="th-name">NAME</th>
-                        </thead>
-                        {eventUsers.map(({ id, lastName}) => (
-
-                            <tbody className="paneel-Card-users">
-                                <tr>
-                                    <td className="user-id">{id}</td>
-                                    <td className="user-name">{lastName}</td>
-                                </tr>
-                            </tbody>
-                        ))}
-                    </table>
-                </div>
-            </div>
-            )} */}
-        </div>
+        </>
     );
 };
 

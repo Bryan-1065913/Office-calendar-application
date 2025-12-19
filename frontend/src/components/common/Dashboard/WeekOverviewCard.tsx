@@ -26,9 +26,9 @@ const WeekOverviewCard = () => {
 
     useEffect(() => {
         console.log('useEffect triggered - user:', user);
-        console.log('user?.userId:', user?.userId);
+        console.log('user?.userId:', user?.id);
 
-        if (user?.userId) {
+        if (user?.id) {
             console.log('Calling loadWeekData');
             loadWeekData(weekOffset);
         } else {
@@ -40,7 +40,7 @@ const WeekOverviewCard = () => {
     }, [weekOffset, user]);
 
     const loadWeekData = async (offset: number) => {
-        if (!user?.userId) return;
+        if (!user?.id) return;
 
         setIsLoading(true);
         setError(null);
@@ -53,10 +53,10 @@ const WeekOverviewCard = () => {
             console.log('=== API CALL DEBUG ===');
             console.log('Monday:', monday);
             console.log('StartDate:', startDateStr);
-            console.log('UserId:', user.userId);
+            console.log('UserId:', user.id);
             console.log('Week days:', weekDays.map(d => d.date.toISOString().split('T')[0]));
 
-            const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.userId);
+            const statuses = await workStatusService.getWeekWorkStatus(startDateStr, user.id);
 
             console.log('API Response:', statuses);
             console.log('Response length:', statuses?.length);

@@ -39,6 +39,7 @@ namespace OfficeCalendar.Api.Controllers
                 return NotFound("User not found");
             }
 
+
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
                 return NotFound("User not found");
@@ -117,7 +118,8 @@ namespace OfficeCalendar.Api.Controllers
         {
             return new UserDto
             {
-                Id = user.Id,       
+                Id = user.Id,      
+                UserId = user.Id, 
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
