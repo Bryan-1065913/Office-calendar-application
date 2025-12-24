@@ -67,6 +67,30 @@ export const workStatusService = {
     },
 
     /* -------------------------
+     * DAY OVERVIEW (ALL USERS)
+     * ------------------------- */
+    getDayWorkStatus: async (date: string): Promise<WorkStatus[]> => {
+        try {
+            console.log("🔵 [DAY] API CALL");
+            console.log("➡️ date:", date);
+
+            const response = await api.get(`/workstatus/day`, {
+                params: { date }
+            });
+
+            console.log("🟢 [DAY] API RESPONSE:", response.data);
+            return response.data;
+        } catch (error: any) {
+            console.error("🔴 [DAY] API ERROR:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                message: error.message
+            });
+            throw error;
+        }
+    },
+
+    /* -------------------------
      * CRUD
      * ------------------------- */
     createWorkStatus: async (request: CreateWorkStatusRequest): Promise<WorkStatus> => {

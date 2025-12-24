@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=server;Port=port;Database=name;Uid=user;Pwd=password"
-  }
-}

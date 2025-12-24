@@ -1,0 +1,126 @@
+.event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: "Sen", sans-serif;
+}
+
+.event-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.event-form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gunmetal);
+}
+
+.event-form-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--platinum);
+    background: var(--white);
+    font-size: 14px;
+    outline: none;
+}
+
+.event-form-input:focus {
+    border-color: var(--tiffany);
+    box-shadow: 0 0 0 2px var(--tiffany);
+}
+
+.event-form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.event-form-row-inline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.event-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.event-form-location-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.event-form-location-input {
+    padding-right: 40px;
+}
+
+.event-form-location-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.event-form-location-chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    /* base icon points left, rotate 90deg to point down */
+    transform: translateY(-50%) rotate(90deg);
+    width: 18px;
+    height: 18px;
+    color: var(--gunmetal);
+    transition: transform 0.2s ease;
+}
+
+.event-form-location-chevron-open {
+    /* when open, point up */
+    transform: translateY(-50%) rotate(-90deg);
+}
+
+.event-form-location-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 6px;
+    background: var(--white);
+    border-radius: var(--small-border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.event-form-location-option {
+    width: 100%;
+    padding: 10px 16px;
+    text-align: left;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: "Sen", sans-serif;
+    font-size: 14px;
+    color: var(--gunmetal);
+}
+
+.event-form-location-option:hover {
+    background: var(--platinum);
+}
+
+.event-form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.event-form-btn-cancel {
+    padding-inline: 28px;
+}
+
+.event-form-btn-save {
+    padding-inline: 32px;
+}
+
+
