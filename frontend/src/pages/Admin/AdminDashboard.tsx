@@ -4,6 +4,8 @@ import { useAuth } from '../../authentication/AuthContext';
 import { adminService } from '../../services/adminService';
 import type { User } from '../../services/adminService';
 import { useNavigate } from 'react-router';
+import AdminUserList from '../../components/common/Admin/AdminUsersList';
+import AdminEventsList from '../../components/common/Admin/AdminEventList';
 import Button from '../../components/common/UI/Buttons';
 import '../../styles/Admin/AdminDashboard.css';
 
@@ -12,6 +14,7 @@ const AdminDashboard = () => {
     const { token, user } = useAuth();
     const navigate = useNavigate();
     const [users, setUsers] = useState<User[]>([]);
+    const [events, setEvents] = useState<any[]>([]);
     const [stats, setStats] = useState({
         total: 0, // total users
         admins: 0, // total admins
@@ -48,6 +51,10 @@ const AdminDashboard = () => {
             // save users in state
             setUsers(usersData);
 
+            // load eventsData 
+            const eventsData = await adminService.getAllEvents(token);
+            setEvents(eventsData);
+
         } catch (err: any) {
             // if there is an error save it
             setError(err.message);
@@ -56,6 +63,24 @@ const AdminDashboard = () => {
             setLoading(false);
         }
     };
+    
+    const handleDeleteEvent = async (id: number) => {
+        // check token
+        if (!token) return;
+        
+        // extra to make sure you want to delete
+        if (!window.confirm('Are you sure you want to delete this event?')) {
+            return;
+        }
+
+        // try catch where u delete event or show error
+        try {
+            await adminService.deleteEvent(token, id);
+            await loadData();
+        } catch (err: any) {
+            setError(err.message);
+        }
+    }
 
     const handleDelete = async (id: number) => {
         // check if we have a token
@@ -111,7 +136,7 @@ const AdminDashboard = () => {
                     + New user
                 </button>
             </div>
-            {/* Stats Cards - Simpel zoals in je design */}
+            {/* Stats Cards */}
             <div className="stats-row">
                 <div className="stat-card">
                     <p className="stat-label">Total Users</p>
@@ -127,7 +152,7 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
-            {/* Users Card - Net zoals Team sectie in je design */}
+            {/* Users Card  */}
             <div className="users-card">
                 <div className="card-header">
                     <h2>All Users</h2>
@@ -139,51 +164,21 @@ const AdminDashboard = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-
-                {/* Scrollable users list */}
-                <div className="users-list">
-                    {filteredUsers.length === 0 ? (
-                        <p className="no-users">No users found</p>
-                    ) : (
-                        filteredUsers.map(u => (
-                            <div key={u.id} className="user-item">
-                                {/* Avatar met initialen */}
-                                <div className="user-avatar">
-                                    {u.firstName[0]}{u.lastName[0]}
-                                </div>
-
-                                {/* User info */}
-                                <div className="user-info">
-                                    <div className="user-name-row">
-                                        <span className="user-name">{u.fullName}</span>
-                                        <span className={`role-badge ${u.role}`}>
-                                            {u.role}
-                                        </span>
-                                    </div>
-                                    <p className="user-email">{u.email}</p>
-                                    <p className="user-job">{u.jobTitle || '-'}</p>
-                                </div>
-
-                                {/* Action buttons */}
-                                <div className="user-actions">
-                                    <Button
-                                        variant="secondary"
-                                        onClick={() => navigate(`/admin/users/${u.id}/edit`)}
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        variant="danger"
-                                        onClick={() => handleDelete(u.id)}
-                                        disabled={u.id === user?.id}
-                                    >
-                                        Delete
-                                    </Button>
-                                </div>
-                            </div>
-                        ))
-                    )}
+                {/* Users List Component */}
+                <AdminUserList
+                    users={filteredUsers}
+                    currentUserId={user?.id}
+                    onDelete={handleDelete}
+                />
+                
+                {/* Events list */}
+                <div className="mt-2">
+                    <AdminEventsList 
+                        events={events}
+                        onDelete={handleDeleteEvent}
+                    />
                 </div>
+
             </div>
         </div>
     )
