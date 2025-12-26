@@ -80,8 +80,8 @@ export const adminService = {
     async getUserById(token: string, id: number): Promise<User> {
         const response = await fetch(`${API_URL}/admin/users/${id}`, {
             method: "GET",
-            headers: { 
-                Authorization: `Bearer ${token}` 
+            headers: {
+                Authorization: `Bearer ${token}`
             },
         });
 
@@ -135,8 +135,8 @@ export const adminService = {
     async deleteUser(token: string, id: number): Promise<void> {
         const response = await fetch(`${API_URL}/admin/users/${id}`, {
             method: "DELETE",
-            headers: { 
-                Authorization: `Bearer ${token}` 
+            headers: {
+                Authorization: `Bearer ${token}`
             },
         });
 
@@ -151,8 +151,8 @@ export const adminService = {
     async getAdminStats(token: string): Promise<AdminStats> {
         const response = await fetch(`${API_URL}/admin/stats`, {
             method: "GET",
-            headers: { 
-                Authorization: `Bearer ${token}` 
+            headers: {
+                Authorization: `Bearer ${token}`
             },
         });
 
@@ -164,4 +164,35 @@ export const adminService = {
         return response.json();
     },
 
+    // get all events 
+    async getAllEvents(token: string): Promise<any[]> {
+        const response = await fetch(`${API_URL}/events`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => null);
+            throw new Error(error?.message || "Failed to fetch events");
+        }
+
+        return response.json();
+    },
+
+    // delete an event
+    async deleteEvent(token: string, id: number): Promise<void> {
+        const response = await fetch(`${API_URL}/events/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => null);
+            throw new Error(error?.message || "Failed to delete event");
+        }
+    },
 };
