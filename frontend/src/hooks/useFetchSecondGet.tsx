@@ -12,6 +12,19 @@ export function useFetchSecond<T>({url}: UseFetchProps) {
             setIsLoading(true);
             try {
                 const response = await fetch(url);
+                
+                // Check if response is ok before parsing JSON
+                if (!response.ok) {
+                    const errorText = await response.text().catch(() => 'Unknown error');
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+                
+                // Check if response has content
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Response is not JSON');
+                }
+                
                 const responseData = await response.json();
                 setData(responseData);
             } catch (error2) {
