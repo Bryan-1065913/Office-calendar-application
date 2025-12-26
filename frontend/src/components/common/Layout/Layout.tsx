@@ -111,7 +111,7 @@ const Layout = () => {
                         <Nav.Link as={NavLink} to="/profile"><User className="nav-icon user" />Profile</Nav.Link>
                         {/* Admin link  */}
                         {user?.role === 'admin' && (
-                        <Nav.Link as={NavLink} to="/admin"><User className="nav-icon user" />⚙️ Admin</Nav.Link>
+                        <Nav.Link as={NavLink} to="/admin"><User className="nav-icon users" />Admin</Nav.Link>
                         )}
                     </Nav>
                 </aside>
