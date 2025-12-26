@@ -239,39 +239,48 @@
     margin: 1rem 0;
 }
 
+
 /* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE
+   STATS AND EVENTS ROW - Side by side layout
    ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-    .admin-container {
-        padding: 1rem;
-    }
+   .stats-events-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
 
-    .admin-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
 
-    .stats-row {
-        grid-template-columns: 1fr;
-    }
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
 
-    .search-input {
-        width: 100%;
-    }
+/* Events Card Wrapper */
+.events-card-wrapper {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
 
-    .user-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .user-actions {
-        width: 100%;
-        justify-content: stretch;
-    }
-
-    .user-actions button {
-        flex: 1;
-    }
+/* ═══════════════════════════════════════════════════════════════
+   USERS CARD - Apart blok met mooiere randen
+   ═══════════════════════════════════════════════════════════════ */
+.users-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
 }
