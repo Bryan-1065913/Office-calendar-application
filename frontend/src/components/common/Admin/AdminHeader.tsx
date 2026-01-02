@@ -8,7 +8,7 @@ const AdminHeader = () => {
     return (
         <div className="d-flex justify-content-between align-items-center mb-4">
             <h1 className="mb-0">User Management</h1>
-            <Button onClick={() => navigate('/admin/users/new')}>
+            <Button variant='primary' onClick={() => navigate('/admin/users/new')}>
                 + Add User
             </Button>
         </div>

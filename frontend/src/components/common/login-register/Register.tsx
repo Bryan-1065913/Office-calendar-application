@@ -475,9 +475,10 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                 </div>
 
                 <div className="d-flex gap-2">
-                    <button
+                    <Button
+                        variant="primary"
                         type="submit"
-                        className='btn btn-primary'
+                        disabled={loading}
                     >
                         {loading ? (
                             <>
@@ -487,14 +488,14 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                         ) : (
                             'Create user'
                         )}
-                    </button>
-                    <button
-                        type='button'
-                        className='btn btn-outline-secondary'
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        type="button"
                         onClick={() => navigate('/admin')}
                     >
                         Cancel
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

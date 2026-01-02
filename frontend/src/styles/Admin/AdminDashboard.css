@@ -1,7 +1,7 @@
 /* src/styles/Admin/AdminDashboard.css */
 
 /* ═══════════════════════════════════════════════════════════════
-   CONTAINER - Zoals je andere pages
+   CONTAINER
    ═══════════════════════════════════════════════════════════════ */
    .admin-container {
     padding: 2rem;
@@ -26,7 +26,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   STATS ROW - 3 simpele cards zoals in je design
+   STATS ROW 
    ═══════════════════════════════════════════════════════════════ */
 .stats-row {
     display: grid;
@@ -92,10 +92,9 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   USERS LIST - Scrollable zoals Team sectie
+   USERS LIST 
    ═══════════════════════════════════════════════════════════════ */
 .users-list {
-    /* Max hoogte met scroll - net zoals Team sectie */
     max-height: 500px;
     overflow-y: auto;
     /* Scroll styling */
@@ -142,12 +141,12 @@
     background-color: #f7fafc;
 }
 
-/* Avatar - cirkel met initialen zoals in je Team sectie */
+/* Avatar - */
 .user-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #7dd3c0; /* Je teal accent kleur */
+    background: #7dd3c0; 
     color: white;
     display: flex;
     align-items: center;
@@ -160,7 +159,7 @@
 /* User info - naam, email, functie */
 .user-info {
     flex: 1;
-    min-width: 0; /* Voor text truncate */
+    min-width: 0; 
 }
 
 .user-name-row {
@@ -199,12 +198,12 @@
 }
 
 .role-badge.admin {
-    background-color: #d8b4fe; /* Lila zoals in je design */
+    background-color: #d8b4fe; 
     color: #6b21a8;
 }
 
 .role-badge.user {
-    background-color: #7dd3c0; /* Teal zoals in je design */
+    background-color: #7dd3c0; 
     color: #0f766e;
 }
 
@@ -280,6 +279,21 @@
     background: white;
     border-radius: 16px;
     padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ADD USER ADMIN FORM
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Admin form styling - witte achtergrond en centered */
+.admin-register-form {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #e2e8f0;
 }

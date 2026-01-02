@@ -63,11 +63,11 @@ const AdminDashboard = () => {
             setLoading(false);
         }
     };
-    
+
     const handleDeleteEvent = async (id: number) => {
         // check token
         if (!token) return;
-        
+
         // extra to make sure you want to delete
         if (!window.confirm('Are you sure you want to delete this event?')) {
             return;
@@ -129,12 +129,12 @@ const AdminDashboard = () => {
         <div className="admin-dashboard">
             {/* Header */}
             <div className="d-flex justify-content-between align-items-center mb-4 admin-header">
-                <button
-                    className='btn btn-primary'
+                <Button
+                    variant="primary"
                     onClick={() => navigate('/admin/users/new')}
                 >
                     + New user
-                </button>
+                </Button>
             </div>
             {/* Stats Cards */}
             <div className="stats-row">
@@ -173,14 +173,14 @@ const AdminDashboard = () => {
 
             </div>
 
-            
+
             {/* Events list */}
             <div className="mt-2">
-                    <AdminEventsList 
-                        events={events}
-                        onDelete={handleDeleteEvent}
-                    />
-                </div>
+                <AdminEventsList
+                    events={events}
+                    onDelete={handleDeleteEvent}
+                />
+            </div>
         </div>
     )
 }

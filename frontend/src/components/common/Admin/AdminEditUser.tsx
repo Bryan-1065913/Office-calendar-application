@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../authentication/AuthContext';
 import Button from '../UI/Buttons';
 import { adminService, type User, type UpdateUserPayload } from '../../../../../frontend/src/services/adminService';
+import '../../../styles/Admin/AdminDashboard.css';
 
 const AdminEditUser = () => {
     const navigate = useNavigate();
@@ -102,9 +103,9 @@ const AdminEditUser = () => {
         <div className="admin-register-form">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2>Edit user</h2>
-                <button className='btn btn-secondary' onClick={() => navigate('/admin')}>
+                <Button variant="secondary" onClick={() => navigate('/admin')}>
                     ← Back
-                </button>
+                </Button>
             </div>
 
             {error && (
@@ -240,9 +241,9 @@ const AdminEditUser = () => {
                 </div>
 
                 <div className="d-flex gap-2">
-                    <button
+                    <Button
+                        variant="primary"
                         type="submit"
-                        className='btn btn-primary'
                         disabled={saving}
                     >
                         {saving ? (
@@ -253,14 +254,14 @@ const AdminEditUser = () => {
                         ) : (
                             'Save changes'
                         )}
-                    </button>
-                    <button
-                        type='button'
-                        className='btn btn-outline-secondary'
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        type="button"
                         onClick={() => navigate('/admin')}
                     >
                         Cancel
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
