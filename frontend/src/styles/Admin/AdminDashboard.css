@@ -8,6 +8,10 @@
     max-width: 1200px;
 }
 
+.admin-dashboard {
+    padding: 0;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    HEADER - Titel + Button
    ═══════════════════════════════════════════════════════════════ */
@@ -95,7 +99,7 @@
    USERS LIST 
    ═══════════════════════════════════════════════════════════════ */
 .users-list {
-    max-height: 500px;
+    max-height: 350px;
     overflow-y: auto;
     /* Scroll styling */
     scrollbar-width: thin;
