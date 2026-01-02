@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Button from '../UI/Buttons';
 import { useAuth } from '../../../authentication/AuthContext';
 import { adminService } from '../../../services/adminService';
 
@@ -24,6 +25,7 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
         lastName: '',
         phoneNumber: '',
         jobTitle: '',
+        location: '',
         role: 'user',
     });
     const [companyId] = useState<number | null>(null);
@@ -70,6 +72,7 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                     lastName: formData.lastName,
                     phoneNumber: formData.phoneNumber,
                     jobTitle: formData.jobTitle,
+                    location: formData.location,
                     role: formData.role,
                     companyId,
                     departmentId,
@@ -92,6 +95,7 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                     lastName: formData.lastName,
                     phoneNumber: formData.phoneNumber,
                     jobTitle: formData.jobTitle,
+                    location: formData.location,
                     role: formData.role,
                     companyId,
                     departmentId,
@@ -216,6 +220,21 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                                         </div>
 
                                         <div className="mb-3">
+                                            <label htmlFor="location" className="form-label">
+                                                Location
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="location"
+                                                name="location"
+                                                placeholder="Example: Amsterdam"
+                                                value={formData.location}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+
+                                        <div className="mb-3">
                                             <label htmlFor="password" className="form-label">
                                                 Password
                                             </label>
@@ -247,10 +266,11 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                                             />
                                         </div>
 
-                                        <button
+                                        <Button
+                                            variant="primary"
                                             type="submit"
-                                            className="btn btn-primary w-100"
                                             disabled={loading}
+                                            className="w-100"
                                         >
                                             {loading ? (
                                                 <>
@@ -258,9 +278,9 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                                                     Loading...
                                                 </>
                                             ) : (
-                                                'Registreren'
+                                                'Registers'
                                             )}
-                                        </button>
+                                        </Button>
 
                                         <div className="text-center mt-3">
                                             <small className="text-muted">
@@ -283,9 +303,9 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
             {/* Back btn */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2>Create a new user</h2>
-                <button className='btn btn-secondary' onClick={() => navigate('/admin')}>
+                <Button variant="secondary" onClick={() => navigate('/admin')}>
                     ← Back
-                </button>
+                </Button>
             </div>
 
             {/* Error message popup */}
@@ -329,7 +349,7 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                     </div>
                 </div>
 
-                {/* Email - volle breedte */}
+                {/* Email  */}
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">
                         Email <span className="text-danger">*</span>
@@ -345,7 +365,7 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                     />
                 </div>
 
-                {/* Telefoon + Functie in 2 kolommen */}
+                {/* telephone + funcion */}
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label htmlFor="phoneNumber" className="form-label">
@@ -378,6 +398,22 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                             required
                         />
                     </div>
+                </div>
+
+                {/* Location */}
+                <div className="mb-3">
+                    <label htmlFor="location" className="form-label">
+                        Location
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="location"
+                        name="location"
+                        placeholder="Example: Amsterdam"
+                        value={formData.location}
+                        onChange={handleChange}
+                    />
                 </div>
 
                 {/* Role section */}
@@ -442,7 +478,6 @@ const RegisterPage = ({ adminMode = false, onSuccess }: RegisterPageProps) => {
                     <button
                         type="submit"
                         className='btn btn-primary'
-
                     >
                         {loading ? (
                             <>

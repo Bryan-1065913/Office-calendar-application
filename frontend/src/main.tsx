@@ -21,6 +21,7 @@ import EventDetails from './components/common/Event/EventDetail.tsx';
 import Tasks from './components/common/Task/Tasks.tsx';
 import Team from './components/common/Team/Team.tsx';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import AdminEditUser from './components/common/Admin/AdminEditUser.tsx';
 
 const router = createBrowserRouter([
     {
@@ -39,9 +40,11 @@ const router = createBrowserRouter([
                     { path: 'team', element: <Team /> },
                     { path: 'profile', element: <Profile /> },
                     { path: 'eventform', element: <EventForm /> },
-
+                    
+                    // Admin routes
                     { path: 'admin', element: <AdminDashboard /> },
                     { path: 'admin/users/new', element: <RegisterPage adminMode={true} /> },
+                    { path: 'admin/users/:id/edit', element: <AdminEditUser /> },
                 ],
             },
         ],

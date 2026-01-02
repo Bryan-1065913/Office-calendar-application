@@ -24,19 +24,6 @@ const UsersList = ({ users, currentUserId, onDelete }: UsersListProps) => {
     return (
         <div className="card">
             <div className="card-body">
-                {/* Header */}
-                <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                    <h5 className="mb-0">All Users</h5>
-                    <input
-                        type="text"
-                        className="form-control"
-                        style={{ maxWidth: '250px' }}
-                        placeholder="Search users..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-
                 {/* Users List */}
                 <div className="users-scroll">
                     {filteredUsers.length === 0 ? (

@@ -170,16 +170,17 @@ const AdminDashboard = () => {
                     currentUserId={user?.id}
                     onDelete={handleDelete}
                 />
-                
-                {/* Events list */}
-                <div className="mt-2">
+
+            </div>
+
+            
+            {/* Events list */}
+            <div className="mt-2">
                     <AdminEventsList 
                         events={events}
                         onDelete={handleDeleteEvent}
                     />
                 </div>
-
-            </div>
         </div>
     )
 }
