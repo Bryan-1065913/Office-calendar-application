@@ -9,6 +9,7 @@ using OfficeCalendar.Api.Data;
 using OfficeCalendar.Api.Repositories;
 using OfficeCalendar.Api.Services;
 using Dapper;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +38,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+        RoleClaimType = "role",
+        NameClaimType = "userId"
     };
 });
 

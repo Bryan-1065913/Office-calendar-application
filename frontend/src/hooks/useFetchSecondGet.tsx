@@ -1,44 +1,58 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../authentication/AuthContext';
 
 type UseFetchProps = {
     url: string;
 }
-export function useFetchSecond<T>({url}: UseFetchProps) {
+
+export function useFetchSecond<T>({ url }: UseFetchProps) {
+    const { token } = useAuth();
     const [data2, setData] = useState<T>();
     const [isLoading2, setIsLoading] = useState(false);
     const [error2, setError] = useState("");
+
     useEffect(() => {
+        if (!token) return; // wacht tot token beschikbaar is
+
         async function getData() {
             setIsLoading(true);
             try {
-                const response = await fetch(url);
-                
-                // Check if response is ok before parsing JSON
+                const responsetwo = await fetch(`${url}/me`, {
+                    headers: {
+                        "Content-Type": "application/json", // voeg toe
+                        "Accept": "application/json",       // voeg toe
+                        "Authorization": `Bearer ${token}`, // JWT header
+                    },
+                });
+                console.log(responsetwo);
+                const response = await fetch(url, {
+                    headers: {
+                        "Content-Type": "application/json", // voeg toe
+                        "Accept": "application/json",       // voeg toe
+                        "Authorization": `Bearer ${token}`, // JWT header
+                    },
+                });
+
                 if (!response.ok) {
-                    const errorText = await response.text().catch(() => 'Unknown error');
-                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                    const text = await response.text().catch(() => 'Unknown error');
+                    throw new Error(`HTTP ${response.status}: ${text}`);
                 }
-                
-                // Check if response has content
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    throw new Error('Response is not JSON');
-                }
-                
+
                 const responseData = await response.json();
                 setData(responseData);
-            } catch (error2) {
-                if (error2 instanceof Error) {
-                    setError(error2.message);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
                 } else {
-                    setError("something went wrong");
+                    setError("Something went wrong");
                 }
             } finally {
                 setIsLoading(false);
             }
         }
+
         getData();
-    }, [url])
-    
-    return {data2, isLoading2, error2};
+    }, [url, token]); // 🔑 token toevoegen als dependency
+
+    return { data2, isLoading2, error2 };
 }
