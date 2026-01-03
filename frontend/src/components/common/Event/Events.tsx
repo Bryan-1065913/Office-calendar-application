@@ -6,7 +6,9 @@ import { useFetchSecond } from "../../../hooks/useFetchSecondGet";
 import EventCardRender from "./EventCard";
 import EventForm from "../EventForm/EventForm";
 import Chevron from "../../../assets/icons/chevron.svg?react";
+import { useAuth } from "../../../authentication/AuthContext";
 import '../../../assets/fonts/sen.css';
+import NotFound from "../NotFound/NotFound";
 
 // Room interface toevoegen
 interface Room {
@@ -41,6 +43,11 @@ const parseDate = (iso: string) => new Date(iso.split("T")[0]);
 const isUpcoming = (iso: string) => parseDate(iso) >= new Date(new Date().setHours(0,0,0,0));
 
 const Events = () => {
+    const { user } = useAuth();
+    if(!user)
+    {
+        return <NotFound/>
+    }
     const [currentDate, setCurrentDate] = useState(new Date());
     const [showEventForm, setShowEventForm] = useState(false);
 
@@ -71,7 +78,7 @@ const Events = () => {
 
     return (
         <div className="events-wrapper">
-            {showEventForm ? (
+            {showEventForm && user.role === "admin" ? (
                 <div className="events-card">
                     <div
                         style={{
@@ -100,8 +107,9 @@ const Events = () => {
                             ×
                         </button>
                     </div>
+
                     <EventForm
-                        embedded={true}
+                        embedded
                         onSuccess={() => {
                             setShowEventForm(false);
                             setTimeout(() => {
@@ -113,50 +121,53 @@ const Events = () => {
                 </div>
             ) : (
                 <div className="events-card">
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginBottom: "20px",
-                        }}
-                    >
-                        <h1 className="events-title" style={{ margin: 0 }}>
-                            Upcoming Events
-                        </h1>
-                        <button
-                            onClick={() => setShowEventForm(true)}
-                            className="add-event-btn"
+                    {user.role === "admin" && (
+                        <div
                             style={{
-                                background: "var(--tiffany)",
-                                border: "none",
-                                borderRadius: "50%",
-                                width: "50px",
-                                height: "50px",
-                                fontSize: "32px",
-                                cursor: "pointer",
-                                color: "white",
-                                fontWeight: "bold",
                                 display: "flex",
+                                justifyContent: "space-between",
                                 alignItems: "center",
-                                justifyContent: "center",
-                                boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                                transition: "transform 0.2s, box-shadow 0.2s",
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = "scale(1.1)";
-                                e.currentTarget.style.boxShadow =
-                                    "0 4px 8px rgba(0,0,0,0.3)";
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = "scale(1)";
-                                e.currentTarget.style.boxShadow =
-                                    "0 2px 4px rgba(0,0,0,0.2)";
+                                marginBottom: "20px",
                             }}
                         >
-                            +
-                        </button>
-                    </div>
+                            <h1 className="events-title" style={{ margin: 0 }}>
+                                Upcoming Events
+                            </h1>
+
+                            <button
+                                onClick={() => setShowEventForm(true)}
+                                className="add-event-btn"
+                                style={{
+                                    background: "var(--tiffany)",
+                                    border: "none",
+                                    borderRadius: "50%",
+                                    width: "50px",
+                                    height: "50px",
+                                    fontSize: "32px",
+                                    cursor: "pointer",
+                                    color: "white",
+                                    fontWeight: "bold",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                                    transition: "transform 0.2s, box-shadow 0.2s",
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = "scale(1.1)";
+                                    e.currentTarget.style.boxShadow =
+                                        "0 4px 8px rgba(0,0,0,0.3)";
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = "scale(1)";
+                                    e.currentTarget.style.boxShadow =
+                                        "0 2px 4px rgba(0,0,0,0.2)";
+                                }}
+                            >
+                                +
+                            </button>
+                        </div>
+                    )}
 
                     <div className="month-nav">
                         <button onClick={prevMonth} className="arrow-btn">
