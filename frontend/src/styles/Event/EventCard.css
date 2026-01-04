@@ -1,0 +1,56 @@
+/* ============================================
+   Event Card Wrapper
+   ============================================ */
+.event-card-wrapper {
+    width: 80%;
+    max-width: 620px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 22px;
+    display: flex;
+    gap: 22px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .2s ease;
+}
+
+/* ============================================
+   Image Placeholder
+   ============================================ */
+.event-card-image {
+    width: 100px;
+    height: 100px;
+    background: #d3d3d3;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   Content
+   ============================================ */
+.event-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.event-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gunmetal);
+}
+
+.event-date,
+.event-time,
+.event-location {
+    margin: 0;
+    font-size: 16px;
+    color: var(--gunmetal);
+}
+
+.event-creator {
+    margin-top: 6px;
+    opacity: .65;
+}

@@ -1,0 +1,20 @@
+.greeting-wrapper {
+    margin-bottom: 20px;
+}
+
+.greeting-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gunmetal);
+    margin: 0;
+}
+
+.greeting-name {
+    color: var(--tiffany);
+}
+
+.greeting-subtext {
+    font-size: 16px;
+    color: var(--gunmetal);
+    margin-top: 5px;
+}

@@ -1,0 +1,17 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "Host=localhost;Port=5432;Database=office_calendar;Username=semjansen;Password=;Include Error Detail=true;"
+    },
+    "JwtSettings": {
+        "SecretKey": "Xk9$mP2#vL8qR5@nT3wY6zC4hJ7fD1gS0bN9aE",
+        "Issuer": "OfficeCalendarApi",
+        "Audience": "OfficeCalendarClient"
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    },
+    "AllowedHosts": "*"
+}

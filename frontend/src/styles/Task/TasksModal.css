@@ -1,0 +1,95 @@
+/* src/styles/Task/TaskModal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gunmetal);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+}
+
+.modal-close-icon {
+    cursor: pointer;
+    color: var(--gunmetal);
+    width: 24px;
+    transition: ease-in-out 0.3s;
+}
+
+.modal-close-icon:hover {
+    color: var(--tiffany);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gunmetal);
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--tiffany);
+}
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

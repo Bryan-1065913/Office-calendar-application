@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+backend/OfficeCalendar.Api/appsettings.json
+backend/OfficeCalendar.Api/appsettings.json
+MobyPark/
