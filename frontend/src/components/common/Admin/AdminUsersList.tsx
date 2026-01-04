@@ -1,8 +1,8 @@
 // src/components/common/Admin/UsersList.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { User } from '../../../services/adminService';
-import Button from '../UI/Buttons'; 
+import type { User } from '../../../services/adminService';
+import Button from '../UI/Buttons';
 import '../../../styles/Admin/UsersList.css';
 
 interface UsersListProps {
@@ -13,7 +13,7 @@ interface UsersListProps {
 
 const UsersList = ({ users, currentUserId, onDelete }: UsersListProps) => {
     const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm] = useState('');
 
     const filteredUsers = users.filter(u =>
         u.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -22,7 +22,7 @@ const UsersList = ({ users, currentUserId, onDelete }: UsersListProps) => {
     );
 
     return (
-        <div className="card">
+        <div className="users-card">
             <div className="card-body">
                 {/* Users List */}
                 <div className="users-scroll">

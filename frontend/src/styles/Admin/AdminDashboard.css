@@ -1,20 +1,10 @@
 /* src/styles/Admin/AdminDashboard.css */
-
-/* ═══════════════════════════════════════════════════════════════
-   CONTAINER
-   ═══════════════════════════════════════════════════════════════ */
-   .admin-container {
-    padding: 2rem;
-    max-width: 1200px;
-}
-
 .admin-dashboard {
     padding: 0;
+    max-width: 1286px;
+    width: -webkit-fill-available;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   HEADER - Titel + Button
-   ═══════════════════════════════════════════════════════════════ */
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -29,9 +19,6 @@
     margin: 0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   STATS ROW 
-   ═══════════════════════════════════════════════════════════════ */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -44,6 +31,8 @@
     padding: 1.5rem;
     border-radius: 16px;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
 }
 
 .stat-label {
@@ -59,13 +48,20 @@
     margin: 0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   USERS CARD - Net zoals Team sectie in je design
-   ═══════════════════════════════════════════════════════════════ */
-.users-card {
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.users-card,
+.events-card {
     background: white;
     border-radius: 16px;
     padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    width: -webkit-fill-available;
 }
 
 .card-header {
@@ -73,6 +69,8 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .card-header h2 {
@@ -82,12 +80,19 @@
     margin: 0;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .search-input {
     padding: 0.5rem 1rem;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 0.875rem;
-    width: 250px;
+    width: 180px;
+    transition: border-color 0.2s;
 }
 
 .search-input:focus {
@@ -95,18 +100,13 @@
     border-color: #7dd3c0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   USERS LIST 
-   ═══════════════════════════════════════════════════════════════ */
 .users-list {
     max-height: 350px;
     overflow-y: auto;
-    /* Scroll styling */
     scrollbar-width: thin;
     scrollbar-color: #cbd5e0 #f7fafc;
 }
 
-/* Webkit scroll styling (Chrome/Safari) */
 .users-list::-webkit-scrollbar {
     width: 8px;
 }
@@ -125,9 +125,6 @@
     background: #a0aec0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   USER ITEM - Zoals in Team sectie
-   ═══════════════════════════════════════════════════════════════ */
 .user-item {
     display: flex;
     align-items: center;
@@ -145,12 +142,11 @@
     background-color: #f7fafc;
 }
 
-/* Avatar - */
 .user-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #7dd3c0; 
+    background: #7dd3c0;
     color: white;
     display: flex;
     align-items: center;
@@ -160,10 +156,9 @@
     flex-shrink: 0;
 }
 
-/* User info - naam, email, functie */
 .user-info {
     flex: 1;
-    min-width: 0; 
+    min-width: 0;
 }
 
 .user-name-row {
@@ -191,7 +186,6 @@
     margin: 0;
 }
 
-/* Role badge - zoals in je design */
 .role-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -202,25 +196,21 @@
 }
 
 .role-badge.admin {
-    background-color: #d8b4fe; 
+    background-color: #d8b4fe;
     color: #6b21a8;
 }
 
 .role-badge.user {
-    background-color: #7dd3c0; 
+    background-color: #7dd3c0;
     color: #0f766e;
 }
 
-/* Action buttons */
 .user-actions {
     display: flex;
     gap: 0.5rem;
     flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   NO USERS / LOADING / ERROR
-   ═══════════════════════════════════════════════════════════════ */
 .no-users {
     text-align: center;
     color: #a0aec0;
@@ -242,56 +232,6 @@
     margin: 1rem 0;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   STATS AND EVENTS ROW - Side by side layout
-   ═══════════════════════════════════════════════════════════════ */
-   .stats-events-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.stat-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;[zz]
-}
-
-/* Events Card Wrapper */
-.events-card-wrapper {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   USERS CARD - Apart blok met mooiere randen
-   ═══════════════════════════════════════════════════════════════ */
-.users-card {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ADD USER ADMIN FORM
-   ═══════════════════════════════════════════════════════════════ */
-
-/* Admin form styling - witte achtergrond en centered */
 .admin-register-form {
     background: white;
     border-radius: 16px;
@@ -300,4 +240,38 @@
     margin: 0 auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem;
+    }
+
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .stat-number {
+        font-size: 1.75rem;
+    }
 }

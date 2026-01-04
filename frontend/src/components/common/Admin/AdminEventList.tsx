@@ -22,7 +22,7 @@ interface AdminEventsListProps {
 }
 
 const AdminEventsList = ({ events, onDelete }: AdminEventsListProps) => {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm] = useState('');
 
     // Filter events op search
     const filteredEvents = events.filter(e =>
@@ -49,19 +49,7 @@ const AdminEventsList = ({ events, onDelete }: AdminEventsListProps) => {
     };
 
     return (
-        <div className="users-card">
-            {/* Card Header */}
-            <div className="card-header">
-                <h2>All Events</h2>
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search events..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </div>
-
+        <div className="events-card">
             {/* event list */}
             <div className="users-list">
                 {filteredEvents.length === 0 ? (
