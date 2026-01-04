@@ -1,112 +1,135 @@
-# Opstarten
+# Office Calendar Application
 
-> Kijk of je Node.js gedownload hebt, test dit met het volgende: 
+A modern calendar application for office management with functionalities for events, room bookings, tasks, and team management.
 
-> node -v ||
-> npm -v 
+> **School Project** - This project was developed as part of a school assignment.
 
-Dit kan je gewoon in je terminal invoeren.
-Heb je het niet gedownload volg dan dit:
+## 🌐 Live Application
 
-# Node.js installeren
+The application is live and available at: **www.office-calendar.nl**
 
-Ga naar de officiële website
-https://nodejs.org/
+## 🔐 Login Credentials
 
-Kies de juiste versie
+To access the application with admin rights:
 
-Je ziet meestal twee opties:
+- **Email:** `1065913@hr.nl`
+- **Password:** `mYgrij-jutto8-vyfpid`
 
-LTS (Long Term Support) → aanbevolen voor de meeste gebruikers
+> **Note:** This user has admin rights and has access to all functionalities of the application.
 
-Current → nieuwste versie, kan iets experimenteler zijn
+## 📋 Requirements
 
-Kies LTS en download voor jouw besturingssysteem (Windows/macOS/Linux).
+### Frontend
+- Node.js (LTS version recommended)
+- npm or yarn
 
-Installeer Node.js
+### Backend
+- .NET 9.0 SDK
+- PostgreSQL database (or MySQL, depending on configuration)
 
-Open het gedownloade bestand en volg de installatie-instructies.
+## 🚀 Local Setup
 
-Zorg dat “Add to PATH” aangevinkt is (dit staat meestal standaard aan).
+### Frontend
 
-Controleer of Node.js werkt
-Open een terminal of command prompt en typ:
-
-> Als je de repo gecloned hebt, run dan het command: 
-* npm install
-* npm run dev
-
-
-
-
-
-
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Navigate to the frontend directory:
+```bash
+cd frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies:
+```bash
+npm install
 ```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The frontend is now available at `http://localhost:5173` (or another port as indicated in the terminal).
+
+### Backend
+
+1. Navigate to the backend directory:
+```bash
+cd backend/OfficeCalendar.Api
+```
+
+2. Make sure the database is configured in `appsettings.json`
+
+3. Start the API:
+```bash
+dotnet run
+```
+
+The API is now available at `http://localhost:5000` (or as configured in `launchSettings.json`).
+
+## 🛠️ Technology Stack
+
+### Frontend
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Bootstrap & React Bootstrap
+- Axios
+
+### Backend
+- .NET 9.0
+- ASP.NET Core Web API
+- Entity Framework Core
+- PostgreSQL/MySQL
+- JWT Authentication
+- Dapper
+- BCrypt.Net
+
+## 📊 Database Schema (ERD)
+
+The Entity Relationship Diagram (ERD) of the database:
+
+![ERD Diagram](docs/ERD.png)
+
+## 📁 Project Structure
+
+```
+Office-calender-application/
+├── frontend/          # React frontend application
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── pages/         # Page components
+│   │   ├── services/      # API services
+│   │   └── styles/        # CSS stylesheets
+│   └── package.json
+│
+└── backend/           # .NET backend API
+    └── OfficeCalendar.Api/
+        ├── Controllers/    # API controllers
+        ├── Models/         # Data models
+        ├── Services/       # Business logic
+        ├── Repositories/   # Data access layer
+        └── Infrastructure/ # Database queries
+```
+
+## 🔧 Features
+
+- **Event Management:** Create, edit and manage events
+- **Room Bookings:** Reserve and manage office spaces
+- **Task Management:** Create and track tasks
+- **Team Management:** Manage users, departments and companies
+- **Admin Dashboard:** Full administrative control
+- **Profile Management:** User profiles and settings
+- **Reviews:** Review and feedback system
+- **Attendance Tracking:** Track attendance at events
+
+## 📚 School Project Information
+
+This project was developed as part of a school assignment. It demonstrates the following skills:
+- Full-stack development (React + .NET)
+- Database design and implementation
+- RESTful API development
+- Authentication and authorization
+- Modern frontend development with React and TypeScript
+
+## 📝 License
+
+This project was developed for educational purposes as part of a school assignment.
