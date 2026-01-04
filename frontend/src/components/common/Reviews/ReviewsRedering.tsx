@@ -16,15 +16,13 @@ interface PropsReview {
     updated_at?: string;
 }
 
-const RevieuwsRender = ({
+const ReviewsRender = ({
                             id,
                             firstName,
                             lastName,
                             userId,
-                            event_id,
                             text,
                             created_at,
-                            updated_at 
     }: PropsReview) => {
     const {user} = useAuth();
     const MONTHS = [
@@ -72,4 +70,4 @@ const RevieuwsRender = ({
         </>
     );
 }
-export default RevieuwsRender;
+export default ReviewsRender;

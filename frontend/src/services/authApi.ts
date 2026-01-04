@@ -2,14 +2,17 @@ const API_URL = "http://localhost:5017/api";
 
 export interface UserDto {
     id: number;
-    userId: number,
+    userId: number;
     email: string;
     firstName: string;
     lastName: string;
     fullName: string;
+    location: string;
     phoneNumber: string;
     jobTitle: string;
     role: string;
+    createdAt: string;
+    updatedAt?: string;
 }
 
 export interface AuthResponse {
@@ -25,6 +28,7 @@ export interface RegisterPayload {
     phoneNumber: string;
     jobTitle: string;
     role: string;
+    location: string;
     companyId: number | null;
     departmentId: number | null;
     workplaceId: number | null;
@@ -71,35 +75,31 @@ export const authApi = {
         return response.json();
     },
 
-    // fetch full profile with token
     async getProfile(token: string): Promise<UserDto> {
         const response = await fetch(`${API_URL}/profile`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        
-        if (!response.ok) 
-        {
+
+        if (!response.ok) {
             throw new Error("Failed to fetch profile");
         }
-        return response.json();            
+        return response.json();
     },
 
-    // update profile with bearer token
     async updateProfile(token: string, payload: UpdateProfilePayload): Promise<UserDto> {
         const response = await fetch(`${API_URL}/profile`, {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(payload),
         });
 
-        if (!response.ok)
-        {
+        if (!response.ok) {
             const error = await response.json().catch(() => null);
             throw new Error(error?.message || "Failed to update profile");
         }
         return response.json();
     },
-};  
+};

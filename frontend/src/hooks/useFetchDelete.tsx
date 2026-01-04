@@ -1,5 +1,5 @@
 // useState useEffect hooks
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 
 
 type UseFetchProps = {

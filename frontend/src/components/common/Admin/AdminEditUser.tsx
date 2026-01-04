@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../../authentication/AuthContext';
 import Button from '../UI/Buttons';
-import { adminService, type User, type UpdateUserPayload } from '../../../../../frontend/src/services/adminService';
+import { adminService, type UpdateUserPayload } from '../../../../../frontend/src/services/adminService';
 import '../../../styles/Admin/AdminDashboard.css';
 
 const AdminEditUser = () => {

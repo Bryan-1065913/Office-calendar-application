@@ -23,7 +23,7 @@ interface Event {
     startsAt: string;
     endsAt: string;
     createdBy: number;
-    room?: Room; // <--- Room toegevoegd aan interface (optioneel met ?)
+    room?: Room;
 }
 
 interface User {
@@ -40,7 +40,6 @@ const MONTHS = [
 ];
 
 const parseDate = (iso: string) => new Date(iso.split("T")[0]);
-const isUpcoming = (iso: string) => parseDate(iso) >= new Date(new Date().setHours(0,0,0,0));
 
 const Events = () => {
     const { user } = useAuth();
@@ -120,7 +119,7 @@ const Events = () => {
                     />
                 </div>
             ) : (
-                <div className="events-card">
+                <div className="events-card-overview">
                     {user.role === "admin" && (
                         <div
                             style={{

@@ -6,7 +6,7 @@
     margin: auto;
 }
 
-.events-card {
+.events-card-overview {
     background: white;
     border-radius: var(--border-radius);
     padding: 50px;

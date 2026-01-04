@@ -13,12 +13,11 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // check if ur authenticated, if yes then send to dashboard
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/', { replace: true });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,74 +40,77 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <Header />
-      <div className="container py-5 mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-6 col-lg-5">
-            <div className="card shadow">
-              <div className="card-body p-4">
-                <h1 className="card-title text-center mb-4">Login</h1>
+      <div>
+        <Header />
+        <div className="container py-5 mt-5">
+          <div className="row justify-content-center">
+            <div className="col-md-6 col-lg-5">
+              <div className="card shadow">
+                <div className="card-body p-4">
+                  <h1 className="card-title text-center mb-4">Login</h1>
 
-                {error && (
-                  <div className="alert alert-danger" role="alert">
-                    {error}
-                  </div>
-                )}
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={isLoading}
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading}
-                  />
-                </div>
-
-                <Button
-                  variant="primary"
-                  onClick={handleLogin}
-                  disabled={isLoading}
-                  className="w-100"
-                  type="submit"
-                >
-                  {isLoading ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                      Loading...
-                    </>
-                  ) : (
-                    'Login'
+                  {error && (
+                      <div className="alert alert-danger" role="alert">
+                        {error}
+                      </div>
                   )}
-                </Button>
+
+                  <form onSubmit={handleLogin}>
+                    <div className="mb-3">
+                      <label htmlFor="email" className="form-label">
+                        Email
+                      </label>
+                      <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          placeholder="name@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          disabled={isLoading}
+                          required
+                      />
+                    </div>
+
+                    <div className="mb-4">
+                      <label htmlFor="password" className="form-label">
+                        Password
+                      </label>
+                      <input
+                          type="password"
+                          className="form-control"
+                          id="password"
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          disabled={isLoading}
+                          required
+                      />
+                    </div>
+
+                    <Button
+                        variant="primary"
+                        disabled={isLoading}
+                        className="w-100"
+                        type="submit"
+                    >
+                      {isLoading ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Loading...
+                          </>
+                      ) : (
+                          'Login'
+                      )}
+                    </Button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
   );
 };
 

@@ -45,16 +45,6 @@ const Reviews = (props: propsReview) => {
         return <NotFound/>
     }
 
-    const titleInput = (input: string) => {
-        // Hier kun je extra logica toevoegen als dat nodig is
-        input.split(".")[0];
-        if(input.length > 10) 
-        {
-            return input.charAt(0).toUpperCase() + input.slice(1);
-        }
-        return input;
-    }
-
     const saveText = async (e: React.MouseEvent) => {
         if(textLength > 500 || textLength < 150) {
             e.preventDefault();

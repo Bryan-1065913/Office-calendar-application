@@ -1,19 +1,18 @@
-// src/App.tsx
-import Layout from '../../components/common/Layout/Layout.tsx';
-import Hero from '../../components/common/Hero/Hero.tsx';
-import EventsDetail from '../../components/common/Event/EventDetail.tsx';
+// src/pages/Events/EventDetail.tsx (of waar deze file staat)
+import Hero from '../../components/common/Hero/Hero';
+import EventsDetail from '../../components/common/Event/EventDetail';
 
 function EventDetail() {
     return (
-            <Layout>
-                <Hero
-                    title="Office Calendar"
-                    subtitle="Plan your workweek and events in one place."
-                    backgroundImage="/src/assets/images/hero-background.png"
-                    height="500px"
-                />
-                <EventsDetail />
-            </Layout>
+        <>
+            <Hero
+                title="Office Calendar"
+                subtitle="Plan your workweek and events in one place."
+                backgroundImage="/src/assets/images/hero-background.png"
+                height="500px"
+            />
+            <EventsDetail />
+        </>
     );
 }
 

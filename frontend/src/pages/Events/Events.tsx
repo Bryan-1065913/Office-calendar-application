@@ -5,7 +5,7 @@ import GreetingMessage from "../../components/common/Dashboard/GreetingMessage.t
 function events() {
     return (
         <div>
-            <GreetingMessage meetings={3} events={2} tasks={5} />
+            <GreetingMessage/>
         </div>
     );
 }
