@@ -1,7 +1,44 @@
-root {
+:root {
     --gunmetal: #263D42;
     --violet: #8E6C88;
     --tiffany: #63C7B2;
     --nonphoto: #80CED7;
     --platinum: #CCDBDC;
+    --white: #FFFFFF;
+    --dark-gunmetal: #1E3034;
+
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    --border-radius: 26px;
+    --small-border-radius: 10px;
+}
+
+body {
+    font-family: 'Sen', sans-serif;
+}
+
+/* Navigatie buttons */
+.chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--tiffany);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.chevron-left {
+    transform: rotate(0deg);
+}
+
+.chevron-right {
+    transform: rotate(180deg);
+}
+
+.chevron-left:hover {
+    transform: rotate(0deg) scale(1.2);
+    color: var(--gunmetal);
+}
+
+.chevron-right:hover {
+    transform: rotate(180deg) scale(1.2);
+    color: var(--gunmetal);
 }

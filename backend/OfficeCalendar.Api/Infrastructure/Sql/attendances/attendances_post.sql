@@ -1,0 +1,1 @@
+INSERT INTO attendances (id, user_id, day, check_time, place, note, created_at) VALUES (@id, @user_id,@day, @check_time, @place, @note, @created_at)

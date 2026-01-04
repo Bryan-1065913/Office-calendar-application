@@ -1,0 +1,60 @@
+/* ===== Base button styling ===== */
+.oc-btn {
+    font-family: 'Sen', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--shadow);
+}
+
+/* ===== Primary (filled) ===== */
+.oc-btn-primary {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+    transition: all 0.2s ease;
+}
+
+.oc-btn-primary:hover {
+    background: var(--gunmetal);
+    color: var(--tiffany);
+}
+
+/* ===== Secondary (outline) ===== */
+.oc-btn-secondary {
+    background: transparent;
+    border: 2px solid var(--tiffany);
+    color: var(--tiffany);
+    box-shadow: var(--shadow);
+    transition: all 0.2s ease;
+}
+
+.oc-btn-secondary:hover {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+}
+
+/* ===== Filter dropdown ===== */
+.oc-btn-filter {
+    background: var(--tiffany);
+    color: var(--gunmetal);
+    padding: 10px 18px;
+}
+
+.oc-btn-filter .oc-btn-icon {
+    width: 16px;
+    height: 16px;
+    stroke: var(--gunmetal);
+    transition: transform .2s ease;
+}
+
+.oc-btn-filter:hover .oc-btn-icon {
+    transform: rotate(180deg);
+}

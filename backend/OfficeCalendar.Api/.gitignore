@@ -1,0 +1,28 @@
+# Build results
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE
+.vs/
+.idea/
+.vscode/
+
+# Mac
+.DS_Store
+
+# Sensitive config files
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+/appsettings.json
+
+# SSH tunnel script (bevat mogelijk server info)
+start-db-tunnel.sh

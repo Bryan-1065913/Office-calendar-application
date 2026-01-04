@@ -1,0 +1,121 @@
+.tasks-overview-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tasks-overview-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    /* NIEUW: De lijst moet scrollen en de ruimte vullen */
+    overflow-y: auto;
+    flex-grow: 1; /* Vult de overgebleven ruimte onder de titel */
+    min-height: 0; /* Belangrijk voor Firefox flex containers */
+
+    /* Optioneel: extra ruimte tussen tekst en scrollbar */
+    padding-right: 10px;
+
+    /* Firefox Scrollbar styling hierheen verplaatst */
+    scrollbar-width: thin;
+    scrollbar-color: var(--tiffany) #f1f1f1;
+}
+
+/* Webkit scrollbar styles nu gekoppeld aan de LIJST i.p.v. de kaart */
+.tasks-overview-list::-webkit-scrollbar {
+    width: 6px; /* Iets dunner oogt vaak mooier binnenin */
+}
+
+.tasks-overview-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb {
+    background: var(--tiffany);
+    border-radius: 10px;
+}
+
+.tasks-overview-list::-webkit-scrollbar-thumb:hover {
+    background: var(--gunmetal);
+}
+
+.tasks-overview-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--gunmetal);
+}
+
+.task-overview-row {
+    padding: 12px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.task-overview-row:last-child {
+    border-bottom: none;
+}
+
+.task-overview-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+}
+
+.task-overview-item input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Custom checkbox */
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.task-overview-item input:checked + .checkbox-custom {
+    background: var(--tiffany);
+    border-color: var(--tiffany);
+}
+
+.task-overview-item input:checked + .checkbox-custom::after {
+    content: "✓";
+    font-size: 13px;
+    color: var(--white);
+}
+
+/* Tekst */
+.task-overview-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gunmetal);
+}
+
+.task-overview-text.completed {
+    text-decoration: line-through;
+    color: var(--platinum);
+}
+
+.no-tasks-overview {
+    text-align: center;
+    color: var(--gunmetal);
+    padding: 20px 0;
+    font-size: 14px;
+}

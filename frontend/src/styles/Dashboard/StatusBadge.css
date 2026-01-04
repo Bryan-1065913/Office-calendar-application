@@ -1,0 +1,14 @@
+.status-badge {
+    font-weight: 700;
+    font-size: 16px;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    display: inline-block;
+    color: var(--gunmetal);
+}
+
+.status-badge.off    { background-color: var(--platinum); }
+.status-badge.sick   { background-color: var(--violet); }
+.status-badge.home   { background-color: var(--tiffany); }
+.status-badge.leave  { background-color: var(--nonphoto); }
+.status-badge.office { background-color: var(--tiffany); }

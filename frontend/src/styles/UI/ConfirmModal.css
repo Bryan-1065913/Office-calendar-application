@@ -1,0 +1,42 @@
+/* src/styles/UI/ConfirmModal.css */
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+.confirm-content {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 400px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.confirm-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gunmetal);
+    margin: 0 0 12px 0;
+}
+
+.confirm-message {
+    font-size: 15px;
+    color: var(--gunmetal);
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}

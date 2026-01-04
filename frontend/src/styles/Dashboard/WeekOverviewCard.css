@@ -1,0 +1,72 @@
+/* src/components/common/Dashboard/WeekOverviewCard.css */
+
+/* Card styling */
+.week-overview-card {
+    border-radius: var(--border-radius);
+    padding: 10px;
+    color: var(--gunmetal);
+    box-shadow: var(--shadow);
+}
+
+/* Header styling */
+.week-overview-header {
+    /* Gebruik Bootstrap classes voor spacing */
+}
+
+/* Week label styling */
+.week-label {
+    font-size: 14px;
+}
+
+/* Title styling */
+.week-title {
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.week-title:hover {
+    opacity: 0.8;
+}
+
+.week-days-grid {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.day-item {
+    box-shadow: var(--shadow);
+    border-radius: 14px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Day name styling */
+.day-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Day number styling */
+.day-number {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Status badge styling */
+.status-badge {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Week days grid */
+.week-days-grid {
+    /* Bootstrap classes row, row-cols-5, text-center, g-2 worden al gebruikt */
+}
+
+/* Day badges container */
+.day-badges {
+    /* Bootstrap classes d-flex, gap-1, justify-content-center, flex-wrap worden al gebruikt */
+}
