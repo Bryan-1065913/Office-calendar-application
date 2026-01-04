@@ -1,4 +1,5 @@
 // Controllers/UsersController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfficeCalendar.Api.Models;
 using OfficeCalendar.Api.Repositories;
@@ -17,6 +18,7 @@ namespace OfficeCalendar.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<User>>> GetAll()
         {
             var users = await _repository.GetAllAsync();

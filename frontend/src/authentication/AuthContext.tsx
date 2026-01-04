@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const updateProfile = async (profileData: UpdateProfilePayload) => {
-        const storedToken = localStorage.getItemn('token');
+        const storedToken = localStorage.getItem('token');
 
         if (!storedToken) {
             throw new Error('Not authenticated, log in to continue');

@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
                     <img src="/src/assets/images/logo.png" alt="Logo" />
                 </div>
 
-                <p className="mb-0">© 2025 Office Calendar App All rights reserved</p>
+                <p className="mb-0">© 2026 Office Calendar App All rights reserved</p>
 
                 <p className="mb-0">Privacy Policy</p>
             </div>

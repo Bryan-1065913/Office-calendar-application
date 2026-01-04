@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Button from '../UI/Buttons';
 import { useAuth } from '../../../authentication/AuthContext';
 
 const LoginPage = () => {
@@ -85,10 +86,12 @@ const LoginPage = () => {
                   />
                 </div>
 
-                <button
+                <Button
+                  variant="primary"
                   onClick={handleLogin}
-                  className="btn btn-primary w-100"
                   disabled={isLoading}
+                  className="w-100"
+                  type="submit"
                 >
                   {isLoading ? (
                     <>
@@ -98,7 +101,7 @@ const LoginPage = () => {
                   ) : (
                     'Login'
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
