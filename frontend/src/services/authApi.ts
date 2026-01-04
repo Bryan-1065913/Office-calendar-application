@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5017/api";
+const API_URL = import.meta.env.VITE_API_BASE || "/api";
 
 export interface UserDto {
     id: number;
