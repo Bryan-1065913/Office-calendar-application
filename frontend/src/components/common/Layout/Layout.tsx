@@ -15,6 +15,7 @@ import Calendar from "../../../assets/icons/calendar.svg?react";
 import TasksList from "../../../assets/icons/list.svg?react";
 import Users from "../../../assets/icons/users.svg?react";
 import User from "../../../assets/icons/user.svg?react";
+import UserGear from "../../../assets/icons/user-gear.svg?react";
 
 type PlanningWithIds = {
     [key: string]: {
@@ -111,7 +112,7 @@ const Layout = () => {
                         <Nav.Link as={NavLink} to="/profile"><User className="nav-icon user" />Profile</Nav.Link>
                         {/* Admin link  */}
                         {user?.role === 'admin' && (
-                        <Nav.Link as={NavLink} to="/admin"><User className="nav-icon users" />Admin</Nav.Link>
+                        <Nav.Link as={NavLink} to="/admin"><UserGear className="nav-icon users" />Admin</Nav.Link>
                         )}
                     </Nav>
                 </aside>
