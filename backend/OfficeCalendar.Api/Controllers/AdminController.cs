@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using OfficeCalendar.Api.Data;
 using OfficeCalendar.Api.Models;
+using System.Security.Claims;
 
 namespace OfficeCalendar.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "admin")] // ✅ Alleen admins mogen deze endpoints gebruiken
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +20,61 @@ namespace OfficeCalendar.Api.Controllers
             _context = context;
         }
 
+        // Helper method om te controleren of de gebruiker admin is
+        private bool IsAdmin()
+        {
+            var roleClaim = User.FindFirst("role");
+            var roleClaimType = User.FindFirst(ClaimTypes.Role);
+            
+            var role = roleClaim?.Value ?? roleClaimType?.Value;
+            return role?.ToLower() == "admin";
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // DEBUG ENDPOINT - /api/admin/debug
+        // ═══════════════════════════════════════════════════════════════
+        [HttpGet("debug")]
+        [AllowAnonymous]
+        public ActionResult<object> GetDebugInfo()
+        {
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return Ok(new { message = "Not authenticated - no token provided or invalid token" });
+            }
+
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            var roleClaim = User.FindFirst("role");
+            var roleClaimType = User.FindFirst(ClaimTypes.Role);
+            var roles = User.IsInRole("admin");
+            var identity = User.Identity;
+            
+            var role = roleClaim?.Value ?? roleClaimType?.Value;
+            var isAdmin = role?.ToLower() == "admin";
+            
+            return Ok(new
+            {
+                isAuthenticated = User.Identity?.IsAuthenticated ?? false,
+                name = User.Identity?.Name,
+                roleClaim = roleClaim?.Value,
+                roleClaimType = roleClaimType?.Value,
+                roles = User.Claims.Where(c => c.Type == "role" || c.Type == ClaimTypes.Role).Select(c => c.Value).ToList(),
+                isInRoleAdmin = roles,
+                isAdminCheck = isAdmin,
+                allClaims = claims
+            });
+        }
+
         // ═══════════════════════════════════════════════════════════════
         // GET ALL USERS - /api/admin/users
         // ═══════════════════════════════════════════════════════════════
         [HttpGet("users")]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             var users = await _context.Users.ToListAsync();
             
             var userDtos = users.Select(u => new UserDto
@@ -51,6 +101,11 @@ namespace OfficeCalendar.Api.Controllers
         [HttpGet("users/{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             var user = await _context.Users.FindAsync(id);
             
             if (user == null)
@@ -80,6 +135,11 @@ namespace OfficeCalendar.Api.Controllers
         [HttpPost("users")]
         public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDto dto)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             // Check if email already exists
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email.ToLower() == dto.Email.ToLower());
@@ -138,6 +198,11 @@ namespace OfficeCalendar.Api.Controllers
         [HttpPut("users/{id}")]
         public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDto dto)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             var user = await _context.Users.FindAsync(id);
             
             if (user == null)
@@ -194,6 +259,11 @@ namespace OfficeCalendar.Api.Controllers
         [HttpDelete("users/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             var user = await _context.Users.FindAsync(id);
             
             if (user == null)
@@ -213,6 +283,11 @@ namespace OfficeCalendar.Api.Controllers
         [HttpGet("stats")]
         public async Task<ActionResult<AdminStatsDto>> GetStats()
         {
+            if (!IsAdmin())
+            {
+                return Forbid();
+            }
+
             var allUsers = await _context.Users.ToListAsync();
 
             var stats = new AdminStatsDto
@@ -267,7 +342,7 @@ namespace OfficeCalendar.Api.Controllers
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public string? Password { get; set; } // Optioneel - alleen als wachtwoord wijzigt
+        public string? Password { get; set; }
         public string? PhoneNumber { get; set; }
         public string? JobTitle { get; set; }
         public string? Location { get; set; }
