@@ -81,9 +81,9 @@ const Event = () => {
 
     // we are using 2 custom hooks cause we cant use the same one twice
     // because of you would overwrite data, isloading and error
-    const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
-    const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `http://localhost:5017/api/EventParticipations` });
-    const { data3, isLoading3, error3 } = useFetchThird<User[]>({ url: `http://localhost:5017/api/users` });
+    const { data, isLoading, error } = useFetch<Evenement[]>({ url: "/api/events" });
+    const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `/api/EventParticipations` });
+    const { data3, isLoading3, error3 } = useFetchThird<User[]>({ url: `/api/users` });
     // sets the Evenement array
     useEffect(() => {
         if (data) {
@@ -128,7 +128,7 @@ const Event = () => {
     const joinButtonHandler = async () => {
         try
         {
-            const response = await fetch("http://localhost:5017/api/EventParticipations/", {
+            const response = await fetch("/api/EventParticipations/", {
                 method: 'POST',
                 headers : {
                      'content-type' : 'application/json',
@@ -154,7 +154,7 @@ const Event = () => {
     const declineButtonHandler = async () => {
         try
         {
-            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
+            const response = await fetch(`/api/EventParticipations/${user.id}/${event.id}`, {
                 method: 'DELETE',
                 headers : {
                      'content-type' : 'application/json',

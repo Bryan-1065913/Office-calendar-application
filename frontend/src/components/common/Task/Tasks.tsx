@@ -24,7 +24,7 @@ const Tasks = () => {
     const [activeTab, setActiveTab] = useState<TaskStatus>("today");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
-    const { data, isLoading, error } = useFetch<Task[]>({ url: "http://localhost:5017/api/tasks" });
+    const { data, isLoading, error } = useFetch<Task[]>({ url: "/api/tasks" });
 
     useEffect(() => {
         if (data) {
@@ -45,7 +45,7 @@ const Tasks = () => {
         );
 
         try {
-            const response = await fetch(`http://localhost:5017/api/tasks/${id}`, {
+            const response = await fetch(`/api/tasks/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -99,7 +99,7 @@ const Tasks = () => {
         if (editingTask) {
             // Edit existing task
             try {
-                const response = await fetch(`http://localhost:5017/api/tasks/${editingTask.id}`, {
+                const response = await fetch(`/api/tasks/${editingTask.id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -112,7 +112,7 @@ const Tasks = () => {
                 });
 
                 if (response.ok) {
-                    const fetchResponse = await fetch('http://localhost:5017/api/tasks');
+                    const fetchResponse = await fetch('/api/tasks');
                     if (fetchResponse.ok) {
                         const updatedTasks = await fetchResponse.json();
                         setTasks(updatedTasks);
@@ -127,7 +127,7 @@ const Tasks = () => {
         } else {
             // Create new task
             try {
-                const response = await fetch('http://localhost:5017/api/tasks', {
+                const response = await fetch('/api/tasks', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -139,7 +139,7 @@ const Tasks = () => {
                 });
 
                 if (response.ok) {
-                    const fetchResponse = await fetch('http://localhost:5017/api/tasks');
+                    const fetchResponse = await fetch('/api/tasks');
                     if (fetchResponse.ok) {
                         const updatedTasks = await fetchResponse.json();
                         setTasks(updatedTasks);
@@ -158,12 +158,12 @@ const Tasks = () => {
         if (!editingTask) return;
 
         try {
-            const response = await fetch(`http://localhost:5017/api/tasks/${editingTask.id}`, {
+            const response = await fetch(`/api/tasks/${editingTask.id}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
-                const fetchResponse = await fetch('http://localhost:5017/api/tasks');
+                const fetchResponse = await fetch('/api/tasks');
                 if (fetchResponse.ok) {
                     const updatedTasks = await fetchResponse.json();
                     setTasks(updatedTasks);

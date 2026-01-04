@@ -23,7 +23,7 @@ const Warning_Delete = () => {
   const [id, setId] = useState<number>();
   const [triggerDelete, setTriggerDelete] = useState(false);
   const { data, isLoading, error } = useFetchDelete<Evenement>({
-        url: triggerDelete && id ? `http://localhost:5017/api/events/${id}` : "",
+        url: triggerDelete && id ? `/api/events/${id}` : "",
   });
   useEffect(() => {
     if(message){

@@ -14,7 +14,7 @@ interface Task {
 
 const TasksOverviewCard = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
-    const { data, isLoading, error } = useFetch<Task[]>({ url: "http://localhost:5017/api/tasks" });
+    const { data, isLoading, error } = useFetch<Task[]>({ url: "/api/tasks" });
 
     useEffect(() => {
         if (data && Array.isArray(data)) {
@@ -47,7 +47,7 @@ const TasksOverviewCard = () => {
         );
 
         try {
-            const response = await fetch(`http://localhost:5017/api/tasks/${id}`, {
+            const response = await fetch(`/api/tasks/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

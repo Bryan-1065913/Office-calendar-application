@@ -18,7 +18,7 @@ interface User {
 }
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_API || "http://localhost:5017/api";
+  import.meta.env.VITE_API_BASE || "/api";
 
 function formatDate(date: Date) {
   return date.toISOString().split("T")[0];

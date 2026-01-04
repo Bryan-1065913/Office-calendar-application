@@ -36,7 +36,7 @@ const ReviewsRender = ({
     const Delete = async () => {
         if(user?.userId == userId)
         {
-            const response = await fetch(`http://localhost:5017/api/Review/${id}`, {
+            const response = await fetch(`/api/Review/${id}`, {
                 method: 'DELETE',
                 headers : {
                     'content-type' : 'application/json',

@@ -32,7 +32,7 @@ interface User {
     lastName: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_API || "http://localhost:5017/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE || "/api";
 
 const MONTHS = [
     "January","February","March","April","May","June",

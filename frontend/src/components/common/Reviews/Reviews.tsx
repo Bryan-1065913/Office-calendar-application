@@ -28,7 +28,7 @@ interface User {
     lastName: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_API || "http://localhost:5017/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE || "/api";
 
 const Reviews = (props: propsReview) => {
     const {user} = useAuth();
@@ -51,7 +51,7 @@ const Reviews = (props: propsReview) => {
             return;
         }
         e.preventDefault();
-        const response = await fetch("http://localhost:5017/api/Review", {
+        const response = await fetch("/api/Review", {
             method: 'POST',
             headers : {
                     'content-type' : 'application/json',

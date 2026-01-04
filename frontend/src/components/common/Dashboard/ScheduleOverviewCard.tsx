@@ -41,8 +41,8 @@ const ScheduleOverviewCard = () => {
     const { user } = useAuth();
     const [eventParticipations, setEventParticipations] = useState<EventParticipation[]>([]);
     const [evenementen, setEvenementen] = useState<Evenement[]>([]);
-    const { data, isLoading, error } = useFetch<Evenement[]>({ url: "http://localhost:5017/api/events" });
-    const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `http://localhost:5017/api/EventParticipations` });
+    const { data, isLoading, error } = useFetch<Evenement[]>({ url: "/api/events" });
+    const { data2, isLoading2, error2 } = useFetchSecond<EventParticipation[]>({ url: `/api/EventParticipations` });
 
     useEffect(() => {
         if (data) {
