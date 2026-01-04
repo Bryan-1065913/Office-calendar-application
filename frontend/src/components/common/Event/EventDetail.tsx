@@ -123,7 +123,7 @@ const Event = () => {
     }
     const EventParticipation = eventParticipations.filter(ep => ep.eventId === event.id && ep.status == "joined");
     const eventUsers = users.filter(u =>  EventParticipation.some( ep => ep.userId === u.id ));
-    const eventUserId = eventParticipations.some( ep => ep.userId === user.userId && event.id === ep.eventId && ep.status == "joined");
+    const eventUserId = eventParticipations.some( ep => ep.userId === user.id && event.id === ep.eventId && ep.status == "joined");
     
     const joinButtonHandler = async () => {
         try
@@ -136,7 +136,7 @@ const Event = () => {
 
                 },
                 body: JSON.stringify({
-                    userId: user.userId, // hardcoded for now
+                    userId: user.id, // hardcoded for now
                     eventId:  event.id,
                     status: "joined"
                 }),
@@ -154,7 +154,7 @@ const Event = () => {
     const declineButtonHandler = async () => {
         try
         {
-            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.userId}/${event.id}`, {
+            const response = await fetch(`http://localhost:5017/api/EventParticipations/${user.id}/${event.id}`, {
                 method: 'DELETE',
                 headers : {
                      'content-type' : 'application/json',
@@ -191,7 +191,7 @@ const Event = () => {
                         <p className="event-location-content"><img src="/src/assets/icons/location.svg" alt="Logo" width="33.6" height="36" /> {event.room ? event.room.name : "Locatie onbekend"}</p>
                     </section>
                     <p className="event-description">{event.description}</p>
-                    { user.userId !== event.createdBy && ( 
+                    { user.id !== event.createdBy && ( 
                         <div className="user-button">
                             <button className="edit-button" onClick={() => {setButtonEvent(true);}}>{!eventUserId ? "Join" : "Decline"}</button>
                         </div>
@@ -234,13 +234,13 @@ const Event = () => {
             {buttonEvent &&(
                 <Popup>
                     <div className="pop-up">
-                        {!eventUserId && (
-                            <p className="Description">do you really want to Join the event: {event.title}</p>
-                        )}
-                        {eventUserId && (
-                            <p className="Description"> do you really want to Leave the event: {event.title}</p>
-                        )}    
                         <div className="middleware">
+                            {!eventUserId && (
+                                <p className="Description">do you really want to Join the event: {event.title}</p>
+                            )}
+                            {eventUserId && (
+                                <p className="Description"> do you really want to Leave the event: {event.title}</p>
+                            )}    
                             {/* user != null && user.role === "user" && eventUsers.some(u => u.id !== user.id */}
                             {/* this is a JSX snippet and what it does is if gebruikers hardcoded for now returns a button to join the event*/}
                             { user != null && user.role === "user" && !eventUserId && (
