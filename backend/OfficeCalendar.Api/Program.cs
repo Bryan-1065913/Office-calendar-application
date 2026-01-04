@@ -22,7 +22,7 @@ DefaultTypeMap.MatchNamesWithUnderscores = true;
 // ===== JWT configuration =====
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"] ?? "Xk9$mP2#vL8qR5@nT3wY6zC4hJ7fD1gS0bN9aE";
-var key = Encoding.ASCII.GetBytes(secretKey);
+var key = Encoding.UTF8.GetBytes(secretKey);
 
 builder.Services.AddAuthentication(options => 
 {
@@ -42,9 +42,41 @@ builder.Services.AddAuthentication(options =>
         RoleClaimType = "role",
         NameClaimType = "userId"
     };
+    
+    // Zorg ervoor dat de role claims correct worden gemapped
+    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+    {
+        OnTokenValidated = context =>
+        {
+            // Map de role claim naar de ClaimsIdentity
+            var roleClaim = context.Principal?.FindFirst("role");
+            if (roleClaim != null)
+            {
+                var identity = context.Principal?.Identity as ClaimsIdentity;
+                if (identity != null && !identity.HasClaim(ClaimTypes.Role, roleClaim.Value))
+                {
+                    // Voeg de role toe aan de identity als Role claim type
+                    identity.AddClaim(new Claim(ClaimTypes.Role, roleClaim.Value));
+                }
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Configureer de role claim type expliciet voor alle policies
+    options.FallbackPolicy = null;
+    
+    // Zorg ervoor dat role-based authorization werkt met custom role claims
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+    
+    // Configureer de default role claim type
+    options.DefaultPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
 
 // ===== DbContext (voor EF Core) =====
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
